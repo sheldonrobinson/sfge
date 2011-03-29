@@ -1,4 +1,5 @@
 #include "sfge/graphics/light.hpp"
+#include "sfge/math/convex_hull.hpp"
 #include "sfge/math/point.hpp"
 #include "sfge/math/vector_utilities.hpp"
 
@@ -16,7 +17,12 @@ namespace sfge
 	typedef vector<Edge2f> EdgeList;
 
 	typedef Point<float, float> Pointf;
-	typedef vector<Pointf> PointList;
+	typedef vector<Pointf> PointfList;
+
+	typedef Point<float, int> PointInt;
+	typedef vector<PointInt> PointIntList;
+
+	typedef ConvexHull<PointInt> ConvexHullT;
 
 	Light::Light()
 		: mRadius(0.f), mShadowOutline(0, 0, 0, 0), mShadowFill(0, 0, 0, 255)
@@ -78,7 +84,7 @@ namespace sfge
 
 		EdgeList edges;
 		edges.reserve(ptsCount);
-		PointList points;
+		PointfList points;
 		points.reserve(ptsCount);
 
 #pragma region Generate occluder edges & store points
@@ -100,7 +106,7 @@ namespace sfge
 
 #pragma region Check that occluder is at least partially within light radius
 		int pointsWithinLightRad = 0;
-		for (PointList::const_iterator it = points.begin(); it != points.end(); ++it)
+		for (PointfList::const_iterator it = points.begin(); it != points.end(); ++it)
 		{
 			pointsWithinLightRad += static_cast<int>(it->mUserVal < sqrRadius);
 
@@ -145,64 +151,38 @@ namespace sfge
 #pragma endregion
 
 #pragma region Generate occluding edge
-		PointList occludingPoints;
+		static const int NullPointTag	= 0;
+		static const int HullPointTag	= 1;
+		static const int LightPointTag	= 2;
+
+		ConvexHullT hull;
+
+		PointIntList occludingPoints;
 		for_each(edges.begin(), edges.end(),
 			[&] (Edge2f &e)
 			{
 				if (e.mClosePolygon)
 					swap(e.v1, e.v2);
 
-				occludingPoints.push_back(Pointf(e.v1, 0.5f));
-				occludingPoints.push_back(Pointf(e.v2, 0.5f));
+				hull.addPoint(PointInt(e.v1, HullPointTag));
+				hull.addPoint(PointInt(e.v2, HullPointTag));
 			} );
 
 		// Add the light point to the points, in order to get the points that'll generate the occluding edge
-		occludingPoints.push_back(Pointf(occLocalLPos, 1.f));
-
-#pragma region Generate silhouette using Monotone chain
-		
-#pragma region Sort points based on angle from first point
-		auto pointSorter = [&] (const Pointf &p1, const Pointf &p2) -> bool
-							{ return p1.mPos.x < p2.mPos.x || (p1.mPos.x == p2.mPos.x && p1.mPos.y < p2.mPos.y) ; };
-		sort(occludingPoints.begin(), occludingPoints.end(), pointSorter);
-		occludingPoints.erase(unique(occludingPoints.begin(), occludingPoints.end()), occludingPoints.end());
-#pragma endregion
-
-		PointList hull(2 * occludingPoints.size());
-		int k = 0;
-
-#pragma region Build lower hull
-		for (int i = 0; i != occludingPoints.size(); i++)
-		{
-			while (k >= 2 && cross(hull[k - 2].mPos, hull[k - 1].mPos, occludingPoints[i].mPos) <= 0)
-				k--;
-			hull[k++] = occludingPoints[i];
-		}
-#pragma endregion
-
-#pragma region Build upper hull
-		for (int i = occludingPoints.size() - 2, t = k + 1; i >= 0; i--)
-		{
-			while (k >= t && cross(hull[k - 2].mPos, hull[k - 1].mPos, occludingPoints[i].mPos) <= 0)
-				k--;
-			hull[k++] = occludingPoints[i];
-		}
-#pragma endregion
-
-		hull.erase(remove_if(hull.begin(), hull.end(), [] (const Pointf &p) { return p.mUserVal < 0.1f; } ) - 1, hull.end());
-		hull.shrink_to_fit();
-
-#pragma endregion
+		hull.addPoint(PointInt(occLocalLPos, LightPointTag));
+		hull.build(PointInt(Vector2f(), NullPointTag));
+		hull.clean( [] (const PointInt &p) { return p.mUserVal == NullPointTag; } );
+		const ConvexHullT::HullPoints &hullPoints = hull.get();
 
 		// And now that we have the convex hull, simply extract the points enclosing the light point.
-		PointList::const_iterator lightPosIt = find_if(hull.begin(), hull.end(),
-														[] (const Pointf &p) { return p.mUserVal > 0.9f; } );
-		mIsInside = lightPosIt == hull.end();
+		PointIntList::const_iterator lightPosIt = find_if(hullPoints.begin(), hullPoints.end(),
+														[] (const PointInt &p) { return p.mUserVal == LightPointTag; } );
+		mIsInside = lightPosIt == hullPoints.end();
 		if (mIsInside)
 			return false;
 
-		PointList::const_iterator firstIt	= hull.begin();
-		PointList::const_iterator lastIt	= hull.end() - 1;
+		PointIntList::const_iterator firstIt	= hullPoints.begin();
+		PointIntList::const_iterator lastIt		= hullPoints.end() - 1;
 
 		const Vector2f &v1 = lightPosIt == firstIt	? (*lastIt).mPos	: (*(lightPosIt - 1)).mPos;
 		const Vector2f &v2 = lightPosIt == lastIt	? (*firstIt).mPos	: (*(lightPosIt + 1)).mPos;

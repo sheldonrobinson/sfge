@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="include\sfge\graphics\light.hpp" />
     <ClInclude Include="include\sfge\graphics\sfml_types.hpp" />
+    <ClInclude Include="include\sfge\math\convex_hull.hpp" />
     <ClInclude Include="include\sfge\math\edge.hpp" />
     <ClInclude Include="include\sfge\math\numerics.hpp" />
     <ClInclude Include="include\sfge\math\point.hpp" />
@@ -22,6 +23,7 @@
     <ClCompile Include="src\graphics\light.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="include\sfge\math\convex_hull.inl" />
     <None Include="include\sfge\math\edge.inl" />
     <None Include="include\sfge\math\numerics.inl" />
     <None Include="include\sfge\math\point.inl" />
