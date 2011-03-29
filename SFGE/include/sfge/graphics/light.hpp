@@ -6,7 +6,7 @@
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "sfge/graphics/sfml_types.hpp"
+#include "sfge/graphics/sfml_shape_ext.hpp"
 #include "sfge/math/edge.hpp"
 
 namespace sfge

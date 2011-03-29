@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sfge\graphics\light.hpp" />
-    <ClInclude Include="include\sfge\graphics\sfml_types.hpp" />
+    <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp" />
     <ClInclude Include="include\sfge\math\convex_hull.hpp" />
     <ClInclude Include="include\sfge\math\edge.hpp" />
     <ClInclude Include="include\sfge\math\numerics.hpp" />

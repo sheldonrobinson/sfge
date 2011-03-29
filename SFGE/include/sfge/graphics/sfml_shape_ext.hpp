@@ -1,5 +1,5 @@
-#ifndef SFGE_GRAPHICS_SFML_TYPES_HPP
-#define SFGE_GRAPHICS_SFML_TYPES_HPP
+#ifndef SFGE_GRAPHICS_SFML_SHAPE_EXT_HPP
+#define SFGE_GRAPHICS_SFML_SHAPE_EXT_HPP
 
 #include <memory>
 #include <vector>
