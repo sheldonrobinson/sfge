@@ -38,7 +38,9 @@ void ConvexHull<PointT>::build(const PointT &defaultPoint)
 		mHullPoints[k++] = mInitialPoints[i];
 	}
 }
-template <typename PointT> template <typename Pred>
+
+template <typename PointT>
+template <typename Pred>
 void ConvexHull<PointT>::clean(Pred cleaner)
 {
 	mHullPoints.erase(remove_if(mHullPoints.begin(), mHullPoints.end(), cleaner) - 1, mHullPoints.end());
