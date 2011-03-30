@@ -14,7 +14,7 @@ namespace sfge
 	public:
 		Attribute(detail::AttributeHolderPtr holder);
 
-		bool isValid() const;
+		bool IsValid() const;
 
 	private:
 		detail::AttributeHolderPtr	mHolder;

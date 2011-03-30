@@ -21,7 +21,7 @@ namespace sfge
 			static const AttributeHolderPtr	InvalidHolderPtr;
 
 		public:
-			AttributeHolder(TypeRegistry::TypeId typeId = TypeRegistry::InvalidType);
+			AttributeHolder(const TypeRegistry::TypeInfo &typeInfo = TypeRegistry::InvalidType);
 			~AttributeHolder();
 
 			TypeRegistry::TypeId	GetTypeId() const;
@@ -38,7 +38,7 @@ namespace sfge
 			struct ValueHolder;
 
 		private:
-			TypeRegistry::TypeId	mTypeId;
+			TypeRegistry::TypeInfo	mTypeInfo;
 			ValueT					mValue;
 		};
 

@@ -39,7 +39,6 @@
     <ClCompile Include="src\behaviours\render_behaviour.cpp" />
     <ClCompile Include="src\graphics\graphic_system.cpp" />
     <ClCompile Include="src\graphics\light.cpp" />
-    <ClCompile Include="src\infrastructure\attribute.cpp" />
     <ClCompile Include="src\infrastructure\behaviour.cpp" />
     <ClCompile Include="src\infrastructure\detail\attribute_holder.cpp" />
     <ClCompile Include="src\infrastructure\game.cpp" />

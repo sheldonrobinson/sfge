@@ -19,19 +19,19 @@ GameObjectPtr GameObject::Create()
 
 GameObject::GameObject()
 {
-	const TypeRegistry::TypeId vec2fId	= TypeRegistry::GetTypeIdFor("sf::Vector2f");
-	RegisterAttribute(AK_GO_POSITION, vec2fId);
+	const TypeRegistry::TypeInfo &vec2fInfo	= TypeRegistry::GetTypeInfoFor("sf::Vector2f");
+	RegisterAttribute(AK_GO_POSITION, vec2fInfo);
 }
 
 GameObject::~GameObject()
 {
 }
 
-void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeId typeId)
+void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo)
 {
 	assert(mAttributes.find(attributeKey) == mAttributes.end() && "Attribute key already registered!");
 
-	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(typeId));
+	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(typeInfo));
 	mAttributes.insert(make_pair(attributeKey, posHolder));
 }
 

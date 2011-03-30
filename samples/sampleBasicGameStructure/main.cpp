@@ -24,16 +24,16 @@ public:
 						newY	= mInput.GetMouseY();
 		const bool mouseMoved	= newX != mMouseX || newY != mMouseY;
 
-		if (newX != mMouseX)
-			mMouseX = newX;
+		if (!mouseMoved)
+			return;
 
-		if (newY != mMouseY)
-			mMouseY = newY;
+		mMouseX = newX;
+		mMouseY = newY;
 
-		if (mouseMoved)
-			cout << "{" << mMouseX << ", " << mMouseY << "}" << endl;
+		cout << "{" << mMouseX << ", " << mMouseY << "}" << endl;
 
 		Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
+		assert(pos.IsValid());
 	}
 
 private:

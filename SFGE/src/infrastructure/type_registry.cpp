@@ -2,34 +2,38 @@
 
 #include <cassert>
 
+#include <SFML/System/Vector2.hpp>
+
 using namespace std;
 
 namespace sfge
 {
 	
+const TypeRegistry::TypeInfo		TypeRegistry::InvalidType(TypeRegistry::InvalidTypeId, 0);
+
 TypeRegistry::TypeId				TypeRegistry::mNextId = 0;
 TypeRegistry::TypeRegistryHolder	TypeRegistry::mContent;
 
 void TypeRegistry::Init()
 {
-	RegisterType("sf::Vector2f");
+	RegisterType("sf::Vector2f", sizeof(sf::Vector2f));
 }
 
-TypeRegistry::TypeId TypeRegistry::RegisterType(const TypeName &typeName)
+void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType)
 {
 	TypeRegistryHolder::const_iterator it = mContent.find(typeName);
 	if (it != mContent.end())
 	{
 		assert("Type already registered!" && it == mContent.end());
-		return InvalidType;
+		return;
 	}
 
-	TypeId tId = mNextId;
-	mContent.insert(make_pair(typeName, mNextId++));
-	return tId;
+	const TypeId tId		= mNextId;
+	const TypeInfo tInfo	= make_pair(tId, sizeType);
+	mContent.insert(make_pair(typeName, tInfo));
 }
 
-TypeRegistry::TypeId TypeRegistry::GetTypeIdFor(const TypeName &typeName)
+const TypeRegistry::TypeInfo& TypeRegistry::GetTypeInfoFor(const TypeName &typeName)
 {
 	TypeRegistryHolder::const_iterator it = mContent.find(typeName);
 	if (it == mContent.end())

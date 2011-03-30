@@ -5,7 +5,7 @@ Attribute<T>::Attribute(detail::AttributeHolderPtr holder)
 }
 
 template <typename T>
-bool Attribute<T>::isValid() const
+bool Attribute<T>::IsValid() const
 {
-	return mHolder && mHolder->GetTypeId() != TypeRegistry::InvalidType;
+	return mHolder && mHolder->GetTypeId() != TypeRegistry::InvalidTypeId;
 }
