@@ -11,8 +11,12 @@ namespace sfge
 	{
 	public:
 		virtual ~Behaviour();
+		
+		//! We're just providing a shortcut to GameObject's method
+		template <typename T>
+		Attribute<T>	GetAttribute(size_t attributeKey)		{ return mOwner->GetAttribute<T>(attributeKey); }
 
-		virtual void OnUpdate(float dt)		{ ; }
+		virtual void	OnUpdate(float dt)						{ ; }
 
 	protected:
 		Behaviour(GameObjectPtr owner);

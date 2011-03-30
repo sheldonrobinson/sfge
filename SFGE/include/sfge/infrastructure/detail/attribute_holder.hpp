@@ -5,6 +5,7 @@
 
 #include <memory>
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 
 namespace sfge
@@ -17,14 +18,20 @@ namespace sfge
 			typedef void*	ValueT;
 
 		public:
+			static const AttributeHolderPtr	InvalidHolderPtr;
+
+		public:
 			AttributeHolder(TypeRegistry::TypeId typeId = TypeRegistry::InvalidType);
 			~AttributeHolder();
 
-			template <typename T>
-			void setValue(T v);
+			TypeRegistry::TypeId	GetTypeId() const;
 
 			template <typename T>
-			T getValue();
+			void setValue(const T &v);
+
+			template <typename T>
+			const T& getValue() const;
+
 
 		private:
 			template <typename T, bool isGreaterThanSizeOfPointer>

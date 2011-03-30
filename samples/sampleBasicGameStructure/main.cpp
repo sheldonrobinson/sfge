@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/infrastructure/game_object.hpp>
 #include <sfge/graphics/graphic_system.hpp>
@@ -31,6 +32,8 @@ public:
 
 		if (mouseMoved)
 			cout << "{" << mMouseX << ", " << mMouseY << "}" << endl;
+
+		Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
 	}
 
 private:

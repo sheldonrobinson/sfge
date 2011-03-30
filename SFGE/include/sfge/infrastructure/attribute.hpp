@@ -3,27 +3,24 @@
 
 #include <memory>
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/infrastructure/detail/attribute_holder.hpp"
+
 namespace sfge
 {
-	template <typename T>
-	class Attribute;
-
-	template <typename T>
-	typedef std::shared_ptr< Attribute<T> >	AttributePtr;
-
 	template <typename T>
 	class Attribute
 	{
 	public:
-		static AttributePtr Create();
-		~Attribute();
+		Attribute(detail::AttributeHolderPtr holder);
 
-	public:
-		T	mValue;
+		bool isValid() const;
 
 	private:
-		Attribute();
+		detail::AttributeHolderPtr	mHolder;
 	};
+
+#include "attribute.inl"
 }
 
 #endif

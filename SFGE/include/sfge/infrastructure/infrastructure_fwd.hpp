@@ -10,6 +10,9 @@ namespace sfge
 	
 	class Behaviour;
 	typedef std::shared_ptr<Behaviour>			BehaviourPtr;
+
+	template <typename T>
+	class Attribute;
 	
 	namespace detail
 	{

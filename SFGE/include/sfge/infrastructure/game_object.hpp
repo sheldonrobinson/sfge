@@ -1,11 +1,14 @@
 #ifndef SFGE_INFRASTRUCTURE_GAME_OBJECT_HPP
 #define SFGE_INFRASTRUCTURE_GAME_OBJECT_HPP
 
-#include <memory>
+#include <cassert>
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/infrastructure/attribute.hpp"
+#include "sfge/infrastructure/detail/attribute_holder.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 
 namespace sfge
@@ -21,7 +24,10 @@ namespace sfge
 		void AddBehaviour(BehaviourPtr b);
 
 		// Attribute management
-		size_t RegisterAttribute(const TypeRegistry::TypeId typeId);
+		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeId typeId);
+		
+		template <typename T>
+		Attribute<T>	GetAttribute(size_t attributeKey);
 
 		// Runtime
 		void Update(float dt);
@@ -37,8 +43,9 @@ namespace sfge
 		Behaviours	mBehaviours;
 
 		Attributes	mAttributes;
-		size_t		POSITION_ATTRIBUTE;
 	};
+
+#include "game_object.inl"
 }
 
 #endif

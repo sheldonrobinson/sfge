@@ -1,11 +1,11 @@
 template <typename T>
-void AttributeHolder::setValue(T v)
+void AttributeHolder::setValue(const T &v)
 {
 	mValue = ValueHolder<T, sizeof(T) > sizeof(T*)>::toStorage(v);
 }
 
 template <typename T>
-T AttributeHolder::getValue()
+const T& AttributeHolder::getValue() const
 {
 	return ValueHolder<T, sizeof(T) > sizeof(T*)>::fromStorage(mValue);
 }

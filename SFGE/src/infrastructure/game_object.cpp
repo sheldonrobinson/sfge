@@ -1,7 +1,7 @@
 #include "sfge/infrastructure/game_object.hpp"
 
-#include "sfge/infrastructure/detail/attribute_holder.hpp"
 #include "sfge/infrastructure/behaviour.hpp"
+#include "sfge/infrastructure/builtin_attributes.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -19,22 +19,20 @@ GameObjectPtr GameObject::Create()
 
 GameObject::GameObject()
 {
-	const TypeRegistry::TypeId vec2fId = TypeRegistry::GetTypeIdFor("sf::Vector2f");
-	POSITION_ATTRIBUTE = RegisterAttribute(vec2fId);
+	const TypeRegistry::TypeId vec2fId	= TypeRegistry::GetTypeIdFor("sf::Vector2f");
+	RegisterAttribute(AK_GO_POSITION, vec2fId);
 }
 
 GameObject::~GameObject()
 {
 }
 
-size_t GameObject::RegisterAttribute(const TypeRegistry::TypeId typeId)
+void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeId typeId)
 {
-	const size_t attributeId = mAttributes.size();
+	assert(mAttributes.find(attributeKey) == mAttributes.end() && "Attribute key already registered!");
 
 	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(typeId));
-	mAttributes.insert(make_pair(attributeId, posHolder));
-
-	return attributeId;
+	mAttributes.insert(make_pair(attributeKey, posHolder));
 }
 
 void GameObject::AddBehaviour(BehaviourPtr b)
