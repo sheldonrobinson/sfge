@@ -1,5 +1,10 @@
 #include "sfge/behaviours/render_behaviour.hpp"
 #include "sfge/graphics/graphic_system.hpp"
+#include "sfge/infrastructure/attribute.hpp"
+#include "sfge/infrastructure/builtin_attributes.hpp"
+#include "sfge/infrastructure/game_object.hpp"
+
+#include <cassert>
 
 #include <SFML/Graphics/Shape.hpp>
 
@@ -14,8 +19,11 @@ RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
 
 void RenderBehaviour::OnUpdate(float dt)
 {
-	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
+	Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
+	assert(pos.IsValid());
+	mDrawable->SetPosition(pos);
 
+	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 	currTarget.Draw(*mDrawable);
 }
 

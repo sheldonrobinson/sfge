@@ -12,6 +12,7 @@ const T& AttributeHolder::GetValue() const
 	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
 }
 
+// Store manipulator for types bigger than a pointer.
 template <typename T>
 struct AttributeHolder::ValueHolder<T, true>
 {
@@ -19,12 +20,13 @@ struct AttributeHolder::ValueHolder<T, true>
 	{
 		*reinterpret_cast<T*>(store) = t;
 	}
-	static T Load(void *v)
+	static const T& Load(void *store)
 	{
-		return *t;
+		return *(reinterpret_cast<T*>(store));
 	}
 };
 
+// Store manipulator for types smaller than or equat to the pointer's size.
 template <typename T>
 struct AttributeHolder::ValueHolder<T, false>
 {
@@ -32,8 +34,8 @@ struct AttributeHolder::ValueHolder<T, false>
 	{
 		store = reinterpret_cast<void*>(t);
 	}
-	static T Load(void *v)
+	static const T& Load(void *store)
 	{
-		return reinterpret_cast<T>(v);
+		return reinterpret_cast<T>(store);
 	}
 };

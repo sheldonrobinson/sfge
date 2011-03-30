@@ -19,5 +19,5 @@ void Attribute<T>::operator=(const T &v)
 template <typename T>
 Attribute<T>::operator T() const
 {
-	return mHolder->GetValue();
+	return mHolder->GetValue<T>();
 }

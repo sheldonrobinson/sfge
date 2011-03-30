@@ -25,7 +25,7 @@ namespace sfge
 			AttributeHolder(const TypeRegistry::TypeInfo &typeInfo = TypeRegistry::InvalidType);
 			~AttributeHolder();
 
-			TypeRegistry::TypeId	GetTypeId() const;
+			TypeRegistry::TypeId GetTypeId() const;
 
 			template <typename T>
 			void SetValue(const T &v);
@@ -35,6 +35,7 @@ namespace sfge
 
 
 		private:
+			//! Used to manipulate the value holder depending on size.
 			template <typename T, bool isGreaterThanSizeOfPointer>
 			struct ValueHolder;
 
