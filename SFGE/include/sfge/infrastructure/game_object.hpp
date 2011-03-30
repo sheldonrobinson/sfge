@@ -15,7 +15,7 @@ namespace sfge
 
 		~GameObject();
 
-		void OnUpdate(float dt);
+		void Update(float dt);
 
 	private:
 		GameObject();

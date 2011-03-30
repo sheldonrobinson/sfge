@@ -18,7 +18,7 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::OnUpdate(float dt)
+void GameObject::Update(float dt)
 {
 }
 
