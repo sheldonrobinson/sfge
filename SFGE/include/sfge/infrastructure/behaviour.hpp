@@ -5,9 +5,6 @@
 
 namespace sfge
 {
-	class Behaviour;
-	typedef std::shared_ptr<Behaviour>	BehaviourPtr;
-
 	class Behaviour
 	{
 	public:

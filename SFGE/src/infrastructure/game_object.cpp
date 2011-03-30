@@ -1,5 +1,5 @@
 #include "sfge/infrastructure/game_object.hpp"
-#include "sfge/infrastructure/behaviours.hpp"
+#include "sfge/infrastructure/behaviour.hpp"
 
 namespace sfge
 {

@@ -4,13 +4,10 @@
 #include <memory>
 #include <vector>
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
+
 namespace sfge
 {
-	class BehaviourPtr;
-
-	class GameObject;
-	typedef std::shared_ptr<GameObject>	GameObjectPtr;
-
 	class GameObject
 	{
 	public:
