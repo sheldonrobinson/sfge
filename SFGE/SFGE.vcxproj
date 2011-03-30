@@ -13,8 +13,10 @@
   <ItemGroup>
     <ClInclude Include="include\sfge\graphics\light.hpp" />
     <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp" />
+    <ClInclude Include="include\sfge\math\circle.hpp" />
     <ClInclude Include="include\sfge\math\convex_hull.hpp" />
     <ClInclude Include="include\sfge\math\edge.hpp" />
+    <ClInclude Include="include\sfge\math\intersections.hpp" />
     <ClInclude Include="include\sfge\math\numerics.hpp" />
     <ClInclude Include="include\sfge\math\point.hpp" />
     <ClInclude Include="include\sfge\math\vector_utilities.hpp" />
@@ -23,8 +25,10 @@
     <ClCompile Include="src\graphics\light.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="include\sfge\graphics\sfml_shape_ext.inl" />
     <None Include="include\sfge\math\convex_hull.inl" />
     <None Include="include\sfge\math\edge.inl" />
+    <None Include="include\sfge\math\intersections.inl" />
     <None Include="include\sfge\math\numerics.inl" />
     <None Include="include\sfge\math\point.inl" />
     <None Include="include\sfge\math\vector_utilities.inl" />

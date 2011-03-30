@@ -5,8 +5,7 @@ inline bool operator<(const sf::Vector2f &v1, const sf::Vector2f &v2)
 
 inline bool operator==(const sf::Vector2f &v1, const sf::Vector2f &v2)
 {
-	return	(v1.x > v2.x - epsilon<float>() && v1.x < v2.x + epsilon<float>()) &&
-			(v1.y > v2.y - epsilon<float>() && v1.y < v2.y + epsilon<float>());
+	return	realEqual(v1.x, v2.x) && realEqual(v1.y, v2.y);
 }
 
 template <typename T>

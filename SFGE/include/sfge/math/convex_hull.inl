@@ -14,7 +14,7 @@ void ConvexHull<PointT>::build(const PointT &defaultPoint)
 {
 	// Sort points based on angle from first point
 	auto pointSorter = [&] (const PointT &p1, const PointT &p2) -> bool
-						{ return p1.mPos.x < p2.mPos.x || (p1.mPos.x == p2.mPos.x && p1.mPos.y < p2.mPos.y) ; };
+						{ return p1.mPos.x < p2.mPos.x || (realEqual(p1.mPos.x, p2.mPos.x) && p1.mPos.y < p2.mPos.y) ; };
 	sort(mInitialPoints.begin(), mInitialPoints.end(), pointSorter);
 	mInitialPoints.erase(unique(mInitialPoints.begin(), mInitialPoints.end()), mInitialPoints.end());
 

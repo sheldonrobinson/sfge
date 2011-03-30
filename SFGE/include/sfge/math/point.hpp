@@ -28,7 +28,6 @@ namespace sfge
 
 		Point()												{ ; }
 		explicit Point(const vector_type &pos) : mPos(pos)	{ ; }
-		Point(const vector_type &pos) : mPos(pos)			{ ; }
 
 		vector_type		mPos;
 	};

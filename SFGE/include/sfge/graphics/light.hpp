@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "sfge/graphics/sfml_shape_ext.hpp"
+#include "sfge/math/circle.hpp"
 #include "sfge/math/edge.hpp"
 
 namespace sfge
@@ -17,12 +18,26 @@ namespace sfge
 		Light();
 		Light(const sf::Vector2f &pos, float rad);
 
-		void DebugDraw(sf::RenderTarget &target) const;
+		void addOccluders(const Shapes &occluders);
 
 		void reset();
 
-		void addOccluders(const Shapes &occluders);
+		void setPosition(sf::Vector2f &pos)			{ mLightDesc.mPos = pos; }
+		void setRadius(float radius)				{ mLightDesc.mRadius = radius; }
 
+		sf::Vector2f&	getPosition()				{ return mLightDesc.mPos; }
+		float&			getRadius()					{ return mLightDesc.mRadius; }
+
+		const sf::Vector2f&	getPosition() const		{ return mLightDesc.mPos; }
+		float				getRadius()	const		{ return mLightDesc.mRadius; }
+
+		void DrawShadows(sf::RenderTarget &target) const;
+		void DebugDraw(sf::RenderTarget &target) const;
+
+		sf::Color		mShadowOutline;
+		sf::Color		mShadowFill;
+
+	private:
 		/* Return false if occluder hasn't been added because of distance
 		 * or if light has been detected to be within an occluder.
 		 * NB: the function may return true if the occluder hasn't been
@@ -30,23 +45,17 @@ namespace sfge
 		 */
 		bool addOccluder(const sf::Shape &occluder);
 
-		void DrawShadows(sf::RenderTarget &target) const;
-
-		sf::Vector2f	mPos;
-		float			mRadius;
-
-		sf::Color		mShadowOutline;
-		sf::Color		mShadowFill;
-
-	private:
+		//! Generate the shadow from what has been defined as the occluding line for an occluder.
 		void generateShadowFromLine(Edge2f &e);
 
 	private:
 		typedef Shapes	Shadows;
 
 	private:
-		Shadows		mShadows;
-		bool		mIsInside;
+		Circle<float>	mLightDesc;
+
+		Shadows			mShadows;
+		bool			mIsInside;
 	};
 }
 
