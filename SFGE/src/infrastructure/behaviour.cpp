@@ -3,7 +3,8 @@
 namespace sfge
 {
 
-Behaviour::Behaviour()
+Behaviour::Behaviour(GameObjectPtr owner)
+	: mOwner(owner)
 {
 }
 

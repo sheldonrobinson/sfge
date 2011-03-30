@@ -38,6 +38,7 @@ namespace sfge
 		void Create(const InitParams &params);
 		bool IsMainWindowOpened();
 
+		const sf::Input& GetInput();
 		sf::RenderTarget& GetCurrentRenderTarget();
 
 		void UpdateEvents();

@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
+
 namespace sfge
 {
 	class Behaviour
@@ -13,6 +15,12 @@ namespace sfge
 		virtual void OnUpdate(float dt)		{ ; }
 
 	protected:
+		Behaviour(GameObjectPtr owner);
+
+	protected:
+		GameObjectPtr	mOwner;
+
+	private:
 		Behaviour();
 	};
 }

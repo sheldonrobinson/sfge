@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\sfge\behaviours\input_behaviour.hpp" />
     <ClInclude Include="include\sfge\behaviours\render_behaviour.hpp" />
     <ClInclude Include="include\sfge\graphics\graphic_system.hpp" />
     <ClInclude Include="include\sfge\graphics\light.hpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="include\sfge\utilities\singleton.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\behaviours\input_behaviour.cpp" />
     <ClCompile Include="src\behaviours\render_behaviour.cpp" />
     <ClCompile Include="src\graphics\graphic_system.cpp" />
     <ClCompile Include="src\graphics\light.cpp" />

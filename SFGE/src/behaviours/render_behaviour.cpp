@@ -6,8 +6,8 @@
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour()
-	: mDrawable(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta)))
+RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
+	: Behaviour(owner), mDrawable(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta)))
 {
 	mDrawable->SetPosition(400, 300);
 }

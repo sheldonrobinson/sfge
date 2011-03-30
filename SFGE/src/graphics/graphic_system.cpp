@@ -31,6 +31,11 @@ void GraphicSystem::Init()
  {
 	 return mRenderWindow.IsOpened();
  }
+
+ const sf::Input& GraphicSystem::GetInput()
+ {
+	 return mRenderWindow.GetInput();
+ }
  
  sf::RenderTarget& GraphicSystem::GetCurrentRenderTarget()
  {

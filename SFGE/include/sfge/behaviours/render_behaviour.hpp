@@ -9,7 +9,7 @@ namespace sfge
 	class RenderBehaviour : public Behaviour
 	{
 	public:
-		RenderBehaviour();
+		RenderBehaviour(GameObjectPtr owner);
 
 		virtual void OnUpdate(float dt);
 
