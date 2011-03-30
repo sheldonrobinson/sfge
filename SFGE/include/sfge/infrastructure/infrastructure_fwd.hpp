@@ -6,10 +6,16 @@
 namespace sfge
 {
 	class GameObject;
-	typedef std::shared_ptr<GameObject>	GameObjectPtr;
+	typedef std::shared_ptr<GameObject>			GameObjectPtr;
 	
 	class Behaviour;
-	typedef std::shared_ptr<Behaviour>	BehaviourPtr;
+	typedef std::shared_ptr<Behaviour>			BehaviourPtr;
+	
+	namespace detail
+	{
+		class AttributeHolder;
+		typedef std::shared_ptr<AttributeHolder>	AttributeHolderPtr;
+	}
 }
 
 #endif

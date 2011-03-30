@@ -1,5 +1,6 @@
 #include "sfge/infrastructure/game.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/type_registry.hpp"
 
 #include "sfge/graphics/graphic_system.hpp"
 
@@ -40,6 +41,7 @@ void Game::Run()
 
 void Game::Init()
 {
+	TypeRegistry::Init();
 	GraphicSystem::Init();
 
 	OnEndSystemInit();
