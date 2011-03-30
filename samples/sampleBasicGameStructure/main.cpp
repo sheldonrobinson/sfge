@@ -8,13 +8,14 @@
 #include <sfge/behaviours/input_behaviour.hpp>
 
 using namespace std;
+using namespace sf;
 using namespace sfge;
 
 class ControllerBehaviour : public InputBehaviour
 {
 public:
 	ControllerBehaviour(GameObjectPtr owner)
-		: InputBehaviour(owner), mMouseX(0), mMouseY(0)
+		: InputBehaviour(owner)
 	{
 	}
 
@@ -22,23 +23,12 @@ public:
 	{
 		unsigned int	newX	= mInput.GetMouseX(),
 						newY	= mInput.GetMouseY();
-		const bool mouseMoved	= newX != mMouseX || newY != mMouseY;
 
-		if (!mouseMoved)
-			return;
-
-		mMouseX = newX;
-		mMouseY = newY;
-
-		cout << "{" << mMouseX << ", " << mMouseY << "}" << endl;
-
-		Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
+		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_GO_POSITION);
 		assert(pos.IsValid());
-		pos = sf::Vector2f(static_cast<float>(mMouseX), static_cast<float>(mMouseY));
+		(*pos).x = static_cast<float>(newX);
+		(*pos).y = static_cast<float>(newY);
 	}
-
-private:
-	unsigned int mMouseX, mMouseY;
 };
 
 class SampleGame : public Game

@@ -33,6 +33,9 @@ namespace sfge
 			template <typename T>
 			const T& GetValue() const;
 
+			template <typename T>
+			T& GetValue();
+
 
 		private:
 			//! Used to manipulate the value holder depending on size.

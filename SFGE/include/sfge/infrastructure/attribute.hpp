@@ -15,9 +15,20 @@ namespace sfge
 		Attribute(detail::AttributeHolderPtr holder);
 
 		bool IsValid() const;
+		
+		const T& Get() const;
+		T& Get();
 
+		// Indirection operators
+		T& operator*();
+		const T& operator*() const;
+		T& operator->();
+		const T& operator->() const;
+
+		// Assignement operators
 		void operator=(const T &v);
 
+		// Cast operators
 		operator T() const;
 
 	private:

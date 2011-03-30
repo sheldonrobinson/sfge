@@ -11,6 +11,42 @@ bool Attribute<T>::IsValid() const
 }
 
 template <typename T>
+const T& Attribute<T>::Get() const
+{
+	return mHolder->GetValue<T>();
+}
+
+template <typename T>
+T& Attribute<T>::Get()
+{
+	return mHolder->GetValue<T>();
+}
+
+template <typename T>
+T& Attribute<T>::operator*()
+{
+	return Get();
+}
+
+template <typename T>
+const T& Attribute<T>::operator*() const
+{
+	return Get();
+}
+
+template <typename T>
+T& Attribute<T>::operator->()
+{
+	return Get();
+}
+
+template <typename T>
+const T& Attribute<T>::operator->() const
+{
+	return Get();
+}
+
+template <typename T>
 void Attribute<T>::operator=(const T &v)
 {
 	mHolder->SetValue(v);
