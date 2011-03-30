@@ -18,6 +18,9 @@ namespace sfge
 	inline float cross(const sf::Vector2<T> &v1, const sf::Vector2<T> &v2, const sf::Vector2<T> &v3);
 
 	template <typename T>
+	inline float cross(const sf::Vector2<T> &v1, const sf::Vector2<T> &v2);
+
+	template <typename T>
 	inline float sqrLength(const sf::Vector2<T> &v);
 
 	template <typename T>
