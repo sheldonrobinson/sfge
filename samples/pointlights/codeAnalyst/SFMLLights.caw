@@ -1,0 +1,221 @@
+FileVersion=6
+[GENERAL]
+Name=Session
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+LastProfile=Time-based profile
+LaunchHistory="F:\src\SFGE\bin\samplePointlights.exe"
+LaunchHistory=
+WorkDirHistory=F:\src\SFGE
+WorkDirHistory=
+ProcessFilter=
+EnvironmentalVariables=
+
+[TBP]
+
+Name=Session
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=0
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session.tbp
+Cpus=8
+Interval=1
+
+Name=Session 1
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=0
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 1.tbp
+Cpus=8
+Interval=1
+
+Name=Session 2
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=0
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 2.tbp
+Cpus=8
+Interval=1
+
+Name=Session 3
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=0
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 3.tbp
+Cpus=8
+Interval=1
+
+Name=Session 4
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 4.tbp
+Cpus=8
+Interval=1
+
+Name=Session 5
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 5.tbp
+Cpus=8
+Interval=1
+
+Name=Session 6
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 6.tbp
+Cpus=8
+Interval=1
+
+Name=Session 7
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 7.tbp
+Cpus=8
+Interval=1
+
+Name=Session 8
+Notes=
+Launch="F:\src\SFGE\bin\samplePointlights.exe"
+WorkDir=F:\src\SFGE
+StopOnApp=1
+BreakAfter=1
+Duration=20
+StartPaused=0
+StartImmediately=0
+CSS=1
+CssInterval=10
+StartDelay=0
+CssUnwind=10
+Affinity=255
+SaveRaw=0
+ApplyProcFilter= 0
+ProfileFile=Session 8.tbp
+Cpus=8
+Interval=1
+
+[End]
+
+[EBP]
+
+[End]
+
+[Thread]
+
+[End]
+
+[IBS]
+
+[End]

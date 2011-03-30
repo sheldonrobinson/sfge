@@ -36,15 +36,6 @@ Light::Light(const sf::Vector2f &pos, float rad)
 {
 }
 
-void Light::DebugDraw(RenderTarget &target) const
-{
-	if (mIsInside)
-		return;
-
-	target.Draw(shapeFromCircle(mLightDesc, Color(150, 150, 30, 64)));
-	target.Draw(Shape::Circle(mLightDesc.mPos, 3, Color::Yellow));
-}
-
 void Light::reset()
 {
 	swap(mShadows, Shadows());
@@ -197,6 +188,15 @@ void Light::DrawShadows(RenderTarget &target) const
 	for_each(mShadows.begin(), mShadows.end(), [&] (const ShapePtr &shadow) { target.Draw(*shadow); } );
 }
 
+void Light::DebugDraw(RenderTarget &target) const
+{
+	if (mIsInside)
+		return;
+
+	target.Draw(shapeFromCircle(mLightDesc, Color(150, 150, 30, 64)));
+	target.Draw(Shape::Circle(mLightDesc.mPos, 3, Color::Yellow));
+}
+
 void Light::generateShadowFromLine(Edge2f &e)
 {
 	const Vector2f	scaledPos		= mLightDesc.mPos;
@@ -243,9 +243,10 @@ void Light::generateShadowFromLine(Edge2f &e)
 	for (size_t i = 0; i != endPoints.size(); i++)
 	{
 		Vector2f diff			= endPoints[i] - scaledPos;
-		const float extrudeLen	= scaledRadius - length(diff) + 1.f;
+		const float diffLength	= length(diff);
+		const float extrudeLen	= scaledRadius - diffLength + 1.f;
 
-		normalize(diff);
+		diff /= diffLength;
 		endPoints[i] += diff * extrudeLen;
 	}
 

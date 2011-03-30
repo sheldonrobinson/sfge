@@ -111,6 +111,10 @@ ipch
 # Mac OS X garbage
 .DS_Store
 
+# CodeAnalyst garbage
+*.imd
+*.tbp.dir
+
 # Ryzom server garbage
 aes_alias_name.cfg
 aes_nagios_report.txt
