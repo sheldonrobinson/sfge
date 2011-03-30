@@ -14,6 +14,7 @@
     <ClInclude Include="include\sfge\behaviours\render_behaviour.hpp" />
     <ClInclude Include="include\sfge\graphics\graphic_system.hpp" />
     <ClInclude Include="include\sfge\graphics\light.hpp" />
+    <ClInclude Include="include\sfge\graphics\sfml_drawable_ext.hpp" />
     <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp" />
     <ClInclude Include="include\sfge\infrastructure\attribute.hpp" />
     <ClInclude Include="include\sfge\infrastructure\behaviour.hpp" />

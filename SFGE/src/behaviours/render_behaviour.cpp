@@ -6,12 +6,17 @@
 namespace sfge
 {
 
+RenderBehaviour::RenderBehaviour()
+	: mDrawable(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta)))
+{
+	mDrawable->SetPosition(400, 300);
+}
+
 void RenderBehaviour::OnUpdate(float dt)
 {
 	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 
-	sf::Shape s(sf::Shape::Circle(400, 300, 50, sf::Color::Magenta));
-	currTarget.Draw(s);
+	currTarget.Draw(*mDrawable);
 }
 
 }
