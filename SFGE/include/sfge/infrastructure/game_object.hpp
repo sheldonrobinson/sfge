@@ -15,6 +15,8 @@ namespace sfge
 
 		~GameObject();
 
+		void AddBehaviour(BehaviourPtr b);
+
 		void Update(float dt);
 
 	private:

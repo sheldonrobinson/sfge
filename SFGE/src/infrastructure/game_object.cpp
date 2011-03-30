@@ -1,6 +1,10 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/behaviour.hpp"
 
+#include <algorithm>
+
+using namespace std;
+
 namespace sfge
 {
 
@@ -18,9 +22,14 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::Update(float dt)
+void GameObject::AddBehaviour(BehaviourPtr b)
 {
+	mBehaviours.push_back(b);
 }
 
+void GameObject::Update(float dt)
+{
+	for_each(mBehaviours.begin(), mBehaviours.end(), [&] (BehaviourPtr b) { b->OnUpdate(dt); } );
+}
 
 }

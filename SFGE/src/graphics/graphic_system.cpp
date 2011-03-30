@@ -32,6 +32,11 @@ void GraphicSystem::Init()
 	 return mRenderWindow.IsOpened();
  }
  
+ sf::RenderTarget& GraphicSystem::GetCurrentRenderTarget()
+ {
+	 return mRenderWindow;
+ }
+ 
  void GraphicSystem::UpdateEvents()
  {
 	sf::Event evt;

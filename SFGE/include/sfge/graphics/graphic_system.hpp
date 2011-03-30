@@ -1,6 +1,7 @@
 #ifndef SFGE_GRAPHICS_GRAPHIC_SYSTEM_HPP
 #define SFGE_GRAPHICS_GRAPHIC_SYSTEM_HPP
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "sfge/utilities/singleton.hpp"
@@ -36,6 +37,8 @@ namespace sfge
 
 		void Create(const InitParams &params);
 		bool IsMainWindowOpened();
+
+		sf::RenderTarget& GetCurrentRenderTarget();
 
 		void UpdateEvents();
 		void Display();

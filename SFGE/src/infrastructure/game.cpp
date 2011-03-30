@@ -3,6 +3,11 @@
 
 #include "sfge/graphics/graphic_system.hpp"
 
+#include <algorithm>
+#include <SFML/System/Clock.hpp>
+
+using namespace std;
+
 namespace sfge
 {
 
@@ -19,9 +24,14 @@ void Game::Run()
 {
 	Init();
 
+	sf::Clock clock;
+
 	while(!mQuitFlag && GraphicSystem::getSingleton().IsMainWindowOpened())
 	{
 		GraphicSystem::getSingleton().UpdateEvents();
+
+		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectPtr go) { go->Update(clock.GetElapsedTime()); } );
+
 		GraphicSystem::getSingleton().Display();
 	}
 
