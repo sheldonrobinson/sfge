@@ -11,6 +11,7 @@ namespace sfge
 		typedef sf::Vector2<VectorStorageT> vector_type;
 
 		Point()														{ ; }
+		explicit Point(const vector_type &pos) : mPos(pos)			{ ; }
 		Point(const vector_type &pos, UserValT userVal)
 			: mPos(pos), mUserVal(userVal)
 		{
@@ -25,8 +26,9 @@ namespace sfge
 	{
 		typedef sf::Vector2<VectorStorageT> vector_type;
 
-		Point()										{ ; }
-		Point(const vector_type &pos) : mPos(pos)	{ ; }
+		Point()												{ ; }
+		explicit Point(const vector_type &pos) : mPos(pos)	{ ; }
+		Point(const vector_type &pos) : mPos(pos)			{ ; }
 
 		vector_type		mPos;
 	};
