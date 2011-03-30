@@ -1,10 +1,7 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <iostream>
 #include <iterator>
-#include <memory>
-#include <vector>
 
 #include <boost/array.hpp>
 #include <boost/static_assert.hpp>
