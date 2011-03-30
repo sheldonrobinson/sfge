@@ -34,6 +34,7 @@ public:
 
 		Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
 		assert(pos.IsValid());
+		pos = sf::Vector2f(static_cast<float>(mMouseX), static_cast<float>(mMouseY));
 	}
 
 private:

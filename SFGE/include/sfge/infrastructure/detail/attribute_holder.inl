@@ -1,23 +1,25 @@
 template <typename T>
-void AttributeHolder::setValue(const T &v)
+void AttributeHolder::SetValue(const T &v)
 {
-	mValue = ValueHolder<T, sizeof(T) > sizeof(T*)>::toStorage(v);
+	assert(sizeof(T) == mTypeInfo.second);
+	ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Store(mValue, v);
 }
 
 template <typename T>
-const T& AttributeHolder::getValue() const
+const T& AttributeHolder::GetValue() const
 {
-	return ValueHolder<T, sizeof(T) > sizeof(T*)>::fromStorage(mValue);
+	assert(sizeof(T) == mTypeInfo.second);
+	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
 }
 
 template <typename T>
 struct AttributeHolder::ValueHolder<T, true>
 {
-	static void* toStorage(const T &t)
+	static void Store(void *store, const T &t)
 	{
-		return &t;
+		*reinterpret_cast<T*>(store) = t;
 	}
-	static T fromStorage(void *v)
+	static T Load(void *v)
 	{
 		return *t;
 	}
@@ -26,11 +28,11 @@ struct AttributeHolder::ValueHolder<T, true>
 template <typename T>
 struct AttributeHolder::ValueHolder<T, false>
 {
-	static void* toStorage(const T &t)
+	static void Store(void *store, const T &t)
 	{
-		return reinterpret_cast<void*>(t);
+		store = reinterpret_cast<void*>(t);
 	}
-	static T fromStorage(void *v)
+	static T Load(void *v)
 	{
 		return reinterpret_cast<T>(v);
 	}

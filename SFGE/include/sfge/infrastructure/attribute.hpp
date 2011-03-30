@@ -16,6 +16,10 @@ namespace sfge
 
 		bool IsValid() const;
 
+		void operator=(const T &v);
+
+		operator T() const;
+
 	private:
 		detail::AttributeHolderPtr	mHolder;
 	};

@@ -1,9 +1,10 @@
 #ifndef SFGE_INFRASTRUCTURE_ATTRIBUTE_HOLDER_HPP
 #define SFGE_INFRASTRUCTURE_ATTRIBUTE_HOLDER_HPP
 
-#include <SFML/Config.hpp>
-
+#include <cassert>
 #include <memory>
+
+#include <SFML/Config.hpp>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
@@ -27,10 +28,10 @@ namespace sfge
 			TypeRegistry::TypeId	GetTypeId() const;
 
 			template <typename T>
-			void setValue(const T &v);
+			void SetValue(const T &v);
 
 			template <typename T>
-			const T& getValue() const;
+			const T& GetValue() const;
 
 
 		private:
