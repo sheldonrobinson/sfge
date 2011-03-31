@@ -10,8 +10,11 @@ namespace sfge
 	{
 	public:
 		RenderBehaviour(GameObjectPtr owner);
+		RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable = DrawablePtr());
 
 		virtual void OnUpdate(float dt);
+
+		void SetDrawable(DrawablePtr drawable);
 
 	private:
 		DrawablePtr		mDrawable;

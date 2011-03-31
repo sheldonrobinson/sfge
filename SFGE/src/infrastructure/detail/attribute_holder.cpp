@@ -10,15 +10,15 @@ namespace detail
 const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
 
 AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo)
-	: mTypeInfo(typeInfo), mValue(0)
+	: mTypeInfo(typeInfo)
 {
 	if (mTypeInfo.mSize > sizeof(void*))
-		mValue = malloc(mTypeInfo.mSize);
+		mData.mValuePtr = malloc(mTypeInfo.mSize);
 }
 
 AttributeHolder::~AttributeHolder()
 {
-	free(mValue);
+	free(mData.mValuePtr);
 }
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const

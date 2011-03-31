@@ -47,6 +47,8 @@ void GraphicSystem::Init()
 	sf::Event evt;
 	while (mRenderWindow.GetEvent(evt))
 	{
+		if (evt.Type == sf::Event::Closed)
+			mRenderWindow.Close();
 	}
  }
 

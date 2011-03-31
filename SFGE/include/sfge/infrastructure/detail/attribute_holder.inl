@@ -9,35 +9,35 @@ template <typename T>
 void AttributeHolder::SetValue(const T &v)
 {
 	CheckTypes<T>();
-	ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Store(mValue, v);
+	ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Store(mData, v);
 }
 
 template <typename T>
 const T& AttributeHolder::GetValue() const
 {
 	CheckTypes<T>();
-	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
+	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mData);
 }
 
 template <typename T>
 T& AttributeHolder::GetValue()
 {
 	CheckTypes<T>();
-	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
+	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mData);
 }
 
 // Store manipulator for types bigger than a pointer.
 template <typename T>
 struct AttributeHolder::ValueHolder<T, true>
 {
-	static void Store(void *store, const T &t)
+	static void Store(Data &data, const T &t)
 	{
-		*reinterpret_cast<T*>(store) = t;
+		*reinterpret_cast<T*>(data.mValuePtr) = t;
 	}
 
-	static T& Load(void *store)
+	static T& Load(Data &data)
 	{
-		return *(reinterpret_cast<T*>(store));
+		return *(reinterpret_cast<T*>(data.mValuePtr));
 	}
 };
 
@@ -45,13 +45,13 @@ struct AttributeHolder::ValueHolder<T, true>
 template <typename T>
 struct AttributeHolder::ValueHolder<T, false>
 {
-	static void Store(void *store, const T &t)
+	static void Store(Data &data, const T &t)
 	{
-		store = reinterpret_cast<void*>(t);
+		data.mValue = *reinterpret_cast<const unsigned int*>(&t);
 	}
 
-	static T& Load(void *store)
+	static T& Load(Data &data)
 	{
-		return reinterpret_cast<T>(store);
+		return *reinterpret_cast<T*>(&data.mValue);
 	}
 };

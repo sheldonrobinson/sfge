@@ -6,14 +6,14 @@
 
 #include <cassert>
 
-#include <SFML/Graphics/Shape.hpp>
-
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
-	: Behaviour(owner), mDrawable(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta)))
+RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
+	: Behaviour(owner), mDrawable(drawable)
 {
+	const TypeRegistry::TypeInfo &colorInfo	= TypeRegistry::GetTypeInfoFor("sf::Color");
+	RegisterAttribute(AK_RB_COLOR, colorInfo);
 }
 
 void RenderBehaviour::OnUpdate(float dt)
@@ -22,8 +22,17 @@ void RenderBehaviour::OnUpdate(float dt)
 	assert(pos.IsValid());
 	mDrawable->SetPosition(pos);
 
+	Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_RB_COLOR);
+	assert(col.IsValid());
+	mDrawable->SetColor(col);
+
 	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 	currTarget.Draw(*mDrawable);
+}
+
+void RenderBehaviour::SetDrawable(DrawablePtr drawable)
+{
+	mDrawable = drawable;
 }
 
 }

@@ -18,9 +18,6 @@ namespace sfge
 		class AttributeHolder
 		{
 		public:
-			typedef void*	ValueT;
-
-		public:
 			static const AttributeHolderPtr	InvalidHolderPtr;
 
 		public:
@@ -49,7 +46,11 @@ namespace sfge
 
 		private:
 			TypeRegistry::TypeInfo	mTypeInfo;
-			ValueT					mValue;
+			union Data
+			{
+				void*			mValuePtr;
+				unsigned int	mValue;
+			} mData;
 		};
 
 #include "attribute_holder.inl"
