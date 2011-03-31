@@ -1,4 +1,5 @@
 #include "sfge/infrastructure/type_registry.hpp"
+#include "sfge/infrastructure/type_registration.hpp"
 
 #include <cassert>
 
@@ -14,11 +15,6 @@ const TypeRegistry::TypeInfo		TypeRegistry::InvalidType(TypeRegistry::InvalidTyp
 TypeRegistry::TypeId				TypeRegistry::mNextId = 0;
 TypeRegistry::TypeRegistryHolder	TypeRegistry::mContent;
 
-void TypeRegistry::Init()
-{
-	RegisterType("sf::Vector2f", sizeof(sf::Vector2f));
-}
-
 void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType)
 {
 	TypeRegistryHolder::const_iterator it = mContent.find(typeName);
@@ -28,8 +24,8 @@ void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType)
 		return;
 	}
 
-	const TypeId tId		= mNextId;
-	const TypeInfo tInfo	= make_pair(tId, sizeType);
+	const TypeId tId = mNextId++;
+	const TypeInfo tInfo(tId, sizeType);
 	mContent.insert(make_pair(typeName, tInfo));
 }
 

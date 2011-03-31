@@ -19,6 +19,8 @@
     <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp" />
     <ClInclude Include="include\sfge\infrastructure\attribute.hpp" />
     <ClInclude Include="include\sfge\infrastructure\builtin_attributes.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\type_registration.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\type_registration_impl.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registry.hpp" />
     <ClInclude Include="include\sfge\infrastructure\behaviour.hpp" />
     <ClInclude Include="include\sfge\infrastructure\detail\attribute_holder.hpp" />
@@ -43,6 +45,7 @@
     <ClCompile Include="src\infrastructure\detail\attribute_holder.cpp" />
     <ClCompile Include="src\infrastructure\game.cpp" />
     <ClCompile Include="src\infrastructure\game_object.cpp" />
+    <ClCompile Include="src\infrastructure\type_registration.cpp" />
     <ClCompile Include="src\infrastructure\type_registry.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,10 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

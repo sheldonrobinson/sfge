@@ -50,7 +50,12 @@ void GraphicSystem::Init()
 	}
  }
 
- void GraphicSystem::Display()
+ void GraphicSystem::PreRender()
+ {
+	 mRenderWindow.Clear();
+ }
+
+ void GraphicSystem::PostRender()
  {
 	 mRenderWindow.Display();
  }

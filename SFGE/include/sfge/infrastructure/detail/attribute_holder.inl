@@ -1,21 +1,28 @@
 template <typename T>
+void AttributeHolder::CheckTypes() const
+{
+	const TypeRegistry::TypeId otherTypeId = TypeRegistration<T>::Get();
+	assert(otherTypeId == mTypeInfo.mId);
+}
+
+template <typename T>
 void AttributeHolder::SetValue(const T &v)
 {
-	assert(sizeof(T) == mTypeInfo.second);
+	CheckTypes<T>();
 	ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Store(mValue, v);
 }
 
 template <typename T>
 const T& AttributeHolder::GetValue() const
 {
-	assert(sizeof(T) == mTypeInfo.second);
+	CheckTypes<T>();
 	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
 }
 
 template <typename T>
 T& AttributeHolder::GetValue()
 {
-	assert(sizeof(T) == mTypeInfo.second);
+	CheckTypes<T>();
 	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
 }
 

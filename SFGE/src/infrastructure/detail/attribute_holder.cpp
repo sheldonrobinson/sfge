@@ -12,8 +12,8 @@ const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
 AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo)
 	: mTypeInfo(typeInfo), mValue(0)
 {
-	if (mTypeInfo.second > sizeof(void*))
-		mValue = malloc(mTypeInfo.second);
+	if (mTypeInfo.mSize > sizeof(void*))
+		mValue = malloc(mTypeInfo.mSize);
 }
 
 AttributeHolder::~AttributeHolder()
@@ -23,7 +23,7 @@ AttributeHolder::~AttributeHolder()
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const
 {
-	return mTypeInfo.first;
+	return mTypeInfo.mId;
 }
 
 }

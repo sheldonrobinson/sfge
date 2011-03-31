@@ -8,5 +8,9 @@ Attribute<T> GameObject::GetAttribute(size_t attributeKey)
 		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr);
 	}
 
+	// Check types
+	const TypeRegistry::TypeId otherTypeId = TypeRegistration<T>::Get();
+	assert("Trying to get an attribute using the wrong type!" && otherTypeId == attribIt->second->GetTypeId());
+
 	return Attribute<T>(attribIt->second);
 }

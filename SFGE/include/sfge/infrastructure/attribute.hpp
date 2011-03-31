@@ -1,6 +1,7 @@
 #ifndef SFGE_INFRASTRUCTURE_ATTRIBUTE_HPP
 #define SFGE_INFRASTRUCTURE_ATTRIBUTE_HPP
 
+#include <cassert>
 #include <memory>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"

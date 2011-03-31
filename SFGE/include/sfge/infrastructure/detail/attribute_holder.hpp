@@ -8,6 +8,8 @@
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
+#include "sfge/infrastructure/type_registration.hpp"
+#include "sfge/infrastructure/type_registration_impl.hpp"
 
 namespace sfge
 {
@@ -36,6 +38,9 @@ namespace sfge
 			template <typename T>
 			T& GetValue();
 
+		private:
+			template <typename T>
+			void CheckTypes() const;
 
 		private:
 			//! Used to manipulate the value holder depending on size.

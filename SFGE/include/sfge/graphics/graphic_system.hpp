@@ -42,7 +42,8 @@ namespace sfge
 		sf::RenderTarget& GetCurrentRenderTarget();
 
 		void UpdateEvents();
-		void Display();
+		void PreRender();
+		void PostRender();
 
 	private:
 		GraphicSystem();

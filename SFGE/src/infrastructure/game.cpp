@@ -24,16 +24,19 @@ Game::~Game()
 void Game::Run()
 {
 	Init();
+	
+	GraphicSystem &gfxSys = GraphicSystem::getSingleton();
 
 	sf::Clock clock;
 
 	while(!mQuitFlag && GraphicSystem::getSingleton().IsMainWindowOpened())
 	{
-		GraphicSystem::getSingleton().UpdateEvents();
+		gfxSys.UpdateEvents();
+		gfxSys.PreRender();
 
 		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectPtr go) { go->Update(clock.GetElapsedTime()); } );
 
-		GraphicSystem::getSingleton().Display();
+		gfxSys.PostRender();
 	}
 
 	OnQuit();
@@ -41,7 +44,8 @@ void Game::Run()
 
 void Game::Init()
 {
-	TypeRegistry::Init();
+	sfge::InitTypesStub();
+
 	GraphicSystem::Init();
 
 	OnEndSystemInit();
