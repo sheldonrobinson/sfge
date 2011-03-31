@@ -16,7 +16,7 @@ template <typename T>
 T& AttributeHolder::GetValue()
 {
 	assert(sizeof(T) == mTypeInfo.second);
-	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::LoadMutableRef(mValue);
+	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(T*))>::Load(mValue);
 }
 
 // Store manipulator for types bigger than a pointer.
@@ -28,12 +28,7 @@ struct AttributeHolder::ValueHolder<T, true>
 		*reinterpret_cast<T*>(store) = t;
 	}
 
-	static const T& Load(void *store)
-	{
-		return *(reinterpret_cast<T*>(store));
-	}
-
-	static T& LoadMutableRef(void *store)
+	static T& Load(void *store)
 	{
 		return *(reinterpret_cast<T*>(store));
 	}
@@ -48,12 +43,7 @@ struct AttributeHolder::ValueHolder<T, false>
 		store = reinterpret_cast<void*>(t);
 	}
 
-	static const T& Load(void *store)
-	{
-		return reinterpret_cast<T>(store);
-	}
-
-	static T& LoadMutableRef(void *store)
+	static T& Load(void *store)
 	{
 		return reinterpret_cast<T>(store);
 	}
