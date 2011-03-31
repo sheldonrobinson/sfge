@@ -28,6 +28,8 @@ public:
 		assert(pos.IsValid());
 		pos->x = static_cast<float>(newX);
 		pos->y = static_cast<float>(newY);
+		
+		Attribute<float> fpo = GetAttribute<float>(AK_GO_POSITION);
 	}
 };
 
