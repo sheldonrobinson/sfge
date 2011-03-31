@@ -35,15 +35,15 @@ const T& Attribute<T>::operator*() const
 }
 
 template <typename T>
-T& Attribute<T>::operator->()
+T* Attribute<T>::operator->()
 {
-	return Get();
+	return &Get();
 }
 
 template <typename T>
-const T& Attribute<T>::operator->() const
+const T* const Attribute<T>::operator->() const
 {
-	return Get();
+	return &Get();
 }
 
 template <typename T>

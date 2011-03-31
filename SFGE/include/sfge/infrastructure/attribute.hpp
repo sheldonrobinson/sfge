@@ -22,8 +22,8 @@ namespace sfge
 		// Indirection operators
 		T& operator*();
 		const T& operator*() const;
-		T& operator->();
-		const T& operator->() const;
+		T* operator->();
+		const T* const operator->() const;
 
 		// Assignement operators
 		void operator=(const T &v);

@@ -26,8 +26,8 @@ public:
 
 		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_GO_POSITION);
 		assert(pos.IsValid());
-		(*pos).x = static_cast<float>(newX);
-		(*pos).y = static_cast<float>(newY);
+		pos->x = static_cast<float>(newX);
+		pos->y = static_cast<float>(newY);
 	}
 };
 
