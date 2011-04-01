@@ -20,7 +20,7 @@ namespace sfge
 		
 		//! We're just providing a shortcut to GameObject's method
 		template <typename T>
-		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal)
+		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal = nullptr)
 		{ return mOwner->RegisterAttribute<T>(attributeKey, typeInfo, defaultVal); }
 
 		virtual void	OnUpdate(float dt)						{ ; }

@@ -13,7 +13,7 @@ RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
 	: Behaviour(owner), mDrawable(drawable)
 {
 	const TypeRegistry::TypeInfo &colorInfo	= TypeRegistry::GetTypeInfoFor("sf::Color");
-	RegisterAttribute(AK_RB_COLOR, colorInfo, sf::Color::White);
+	RegisterAttribute(AK_RB_COLOR, colorInfo, &sf::Color::White);
 }
 
 void RenderBehaviour::OnUpdate(float dt)

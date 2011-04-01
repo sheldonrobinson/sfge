@@ -7,7 +7,7 @@ namespace sfge
 namespace detail
 {
 
-const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
+const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(nullptr);
 
 AttributeHolder::AttributeHolder()
 	: mTypeInfo(&TypeRegistry::InvalidType)

@@ -20,7 +20,7 @@ GameObjectPtr GameObject::Create()
 GameObject::GameObject()
 {
 	const TypeRegistry::TypeInfo &vec2fInfo	= TypeRegistry::GetTypeInfoFor("sf::Vector2f");
-	RegisterAttribute(AK_GO_POSITION, vec2fInfo, sf::Vector2f());
+	RegisterAttribute<sf::Vector2f>(AK_GO_POSITION, vec2fInfo);
 }
 
 GameObject::~GameObject()

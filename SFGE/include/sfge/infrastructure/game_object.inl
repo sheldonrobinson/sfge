@@ -1,5 +1,5 @@
 template <typename T>
-void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal)
+void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal)
 {
 	assert(mAttributes.find(attributeKey) == mAttributes.end() && "Attribute key already registered!");
 

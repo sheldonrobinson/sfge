@@ -15,7 +15,7 @@ namespace sfge
 		{
 			InitParams()
 				:	mMode(800, 600), mWindowTitle("SFGE Window"),
-					mStyle(sf::Style::Default), mHandle(0),
+					mStyle(sf::Style::Default), mHandle(nullptr),
 					mFrameRateLimit(60)
 			{
 			}
@@ -52,7 +52,7 @@ namespace sfge
 		sf::RenderWindow	mRenderWindow;
 	};
 
-	GraphicSystem* Singleton<GraphicSystem>::ms_Singleton(0);
+	GraphicSystem* Singleton<GraphicSystem>::ms_Singleton(nullptr);
 }
 
 #endif

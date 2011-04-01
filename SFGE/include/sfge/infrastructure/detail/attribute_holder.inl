@@ -1,5 +1,5 @@
 template <typename T>
-AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal)
+AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal)
 	: mTypeInfo(&typeInfo)
 {
 	// FIXME handle alignment
@@ -9,9 +9,9 @@ AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T
 	if (mTypeInfo->mHasCtorOrDtor)
 	{
 		if (mTypeInfo->IsBiggerThanPointer())
-			new (mData.mValuePtr) T(defaultVal);
+			mTypeInfo->mPlacementCtor(mData.mValuePtr, defaultVal);
 		else
-			new (&mData.mValue) T(defaultVal);
+			mTypeInfo->mPlacementCtor(&mData.mValue, defaultVal);
 	}
 }
 

@@ -24,7 +24,7 @@ namespace sfge
 			AttributeHolder();
 
 			template <typename T>
-			explicit AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal);
+			explicit AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal = nullptr);
 			~AttributeHolder();
 
 			TypeRegistry::TypeId GetTypeId() const;

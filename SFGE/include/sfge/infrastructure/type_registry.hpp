@@ -13,14 +13,14 @@ namespace sfge
 		typedef size_t				TypeId;
 		typedef size_t				TypeSize;
 		typedef std::string			TypeName;
-		typedef void *(*Ctor)(void*);
+		typedef void *(*Ctor)(void*, const void*);	//!< Parameters are Where and an default value to copy from.
 		typedef void  (*Dtor)(void*);
 
 		struct TypeInfo
 		{
 			TypeInfo(TypeId id, TypeSize size, bool hasCtorOrDtor)
 				:	mId(id), mSize(size), mHasCtorOrDtor(hasCtorOrDtor),
-					mCtor(nullptr), mDtor(nullptr)
+					mPlacementCtor(nullptr), mDtor(nullptr)
 			{
 			}
 
@@ -29,7 +29,7 @@ namespace sfge
 			TypeId		mId;
 			TypeSize	mSize;
 			bool		mHasCtorOrDtor;
-			Ctor		mCtor;
+			Ctor		mPlacementCtor;
 			Dtor		mDtor;
 
 		private:
