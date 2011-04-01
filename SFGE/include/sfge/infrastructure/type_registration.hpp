@@ -3,8 +3,6 @@
 
 #include "sfge/infrastructure/type_registry.hpp"
 
-#include <boost/static_assert.hpp>
-
 namespace sfge
 {
 	void InitTypesStub();
@@ -12,10 +10,10 @@ namespace sfge
 	template<typename T>
 	struct TypeRegistration
 	{
-		TypeRegistration() { BOOST_STATIC_ASSERT(0 && "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type."); }
+		TypeRegistration() { static_assert(false, "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type."); }
 		static TypeRegistry::TypeId Get()
 		{
-			BOOST_STATIC_ASSERT(0 && "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type.");
+			static_assert(false, "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type.");
 		}
 	};
 

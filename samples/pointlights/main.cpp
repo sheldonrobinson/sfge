@@ -4,7 +4,6 @@
 #include <iterator>
 
 #include <boost/array.hpp>
-#include <boost/static_assert.hpp>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -27,7 +26,6 @@ namespace DemoSettings
 
 	static const bool	EnableManualLight		= false;
 	static const bool	EnableOnlyManualLight	= false;
-	BOOST_STATIC_ASSERT(!EnableOnlyManualLight || (EnableOnlyManualLight && EnableManualLight));
 
 	// Live tweaking vars
 	static bool	DrawOccluders			= true;
@@ -82,13 +80,13 @@ bool handleEvents(Window &wnd, LightPtr light)
 			break;
 
 		case Event::MouseMoved:
-			if (DemoSettings::EnableManualLight)
+			if (DemoSettings::EnableManualLight || DemoSettings::EnableOnlyManualLight)
 				light->setPosition(Vector2f(static_cast<float>(evt.MouseMove.X),
 									   static_cast<float>(evt.MouseMove.Y)));
 			break;
 
 		case Event::MouseWheelMoved:
-			if (DemoSettings::EnableManualLight)
+			if (DemoSettings::EnableManualLight || DemoSettings::EnableOnlyManualLight)
 				light->getRadius() += evt.MouseWheel.Delta * DemoSettings::WheelFactorToLightRad;
 			break;
 		}
@@ -152,7 +150,7 @@ int main(int argc, char **argv)
 			{ return LightPtr(new Light(center, DemoSettings::DefaultLightsRadius)); } );
 	}
 	
-	if (DemoSettings::EnableManualLight)
+	if (DemoSettings::EnableManualLight || DemoSettings::EnableOnlyManualLight)
 		lights.push_back(LightPtr(new Light(center, DemoSettings::DefaultLightsRadius)));
 	const float autoLightsRadius = DemoSettings::OccludersRange - DemoSettings::DefaultLightsRadius * 0.5f;
 #pragma endregion
