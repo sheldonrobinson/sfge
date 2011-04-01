@@ -31,6 +31,7 @@ namespace sfge
 
 		// Cast operators
 		operator T() const;
+		operator bool() const;
 
 	private:
 		detail::AttributeHolderPtr	mHolder;

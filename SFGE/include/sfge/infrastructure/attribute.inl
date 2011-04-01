@@ -57,3 +57,9 @@ Attribute<T>::operator T() const
 {
 	return mHolder->GetValue<T>();
 }
+
+template <typename T>
+Attribute<T>::operator bool() const
+{
+	return IsValid();
+}
