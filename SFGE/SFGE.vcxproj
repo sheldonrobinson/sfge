@@ -37,7 +37,6 @@
     <ClInclude Include="include\sfge\math\numerics.hpp" />
     <ClInclude Include="include\sfge\math\point.hpp" />
     <ClInclude Include="include\sfge\math\vector_utilities.hpp" />
-    <ClInclude Include="include\sfge\utilities\consthashmacro.h" />
     <ClInclude Include="include\sfge\utilities\delegate.hpp" />
     <ClInclude Include="include\sfge\utilities\detail\delegate_list.hpp" />
     <ClInclude Include="include\sfge\utilities\detail\delegate_template.hpp" />
