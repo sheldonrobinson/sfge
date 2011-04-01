@@ -6,19 +6,22 @@
 
 #include <boost/static_assert.hpp>
 
+#include "sfge/utilities/delegate.hpp"
+
 namespace sfge
 {
 	class TypeRegistry
 	{
 	public:
-		typedef size_t			TypeId;
-		typedef size_t			TypeSize;
-		typedef std::string		TypeName;
+		typedef size_t				TypeId;
+		typedef size_t				TypeSize;
+		typedef std::string			TypeName;
+		typedef delegate<void()>	CtorType;
 
 		struct TypeInfo
 		{
-			TypeInfo(TypeId id, TypeSize size, bool hasCtorOrDtor)
-				:	mId(id), mSize(size), mHasCtorOrDtor(hasCtorOrDtor)
+			TypeInfo(TypeId id, TypeSize size, bool hasCtorOrDtor, const CtorType &ctor = CtorType())
+				:	mId(id), mSize(size), mHasCtorOrDtor(hasCtorOrDtor), mTypeCtor(ctor)
 			{
 			}
 
@@ -27,6 +30,7 @@ namespace sfge
 			TypeId		mId;
 			TypeSize	mSize;
 			bool		mHasCtorOrDtor;
+			CtorType	mTypeCtor;
 
 		private:
 			TypeInfo();
@@ -37,7 +41,7 @@ namespace sfge
 		static const TypeInfo	InvalidType;
 
 	public:
-		static void				RegisterType	(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor);
+		static void				RegisterType	(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor, const CtorType &ctor = CtorType());
 		static const TypeInfo&	GetTypeInfoFor	(const TypeName &typeName);
 
 	private:

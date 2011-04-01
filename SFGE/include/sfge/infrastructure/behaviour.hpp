@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 
 namespace sfge
@@ -18,8 +19,9 @@ namespace sfge
 		Attribute<T>	GetAttribute(size_t attributeKey)		{ return mOwner->GetAttribute<T>(attributeKey); }
 		
 		//! We're just providing a shortcut to GameObject's method
-		void			RegisterAttribute(size_t attributeKey,
-										  const TypeRegistry::TypeInfo &typeInfo);
+		template <typename T>
+		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal)
+		{ return mOwner->RegisterAttribute<T>(attributeKey, typeInfo, defaultVal); }
 
 		virtual void	OnUpdate(float dt)						{ ; }
 

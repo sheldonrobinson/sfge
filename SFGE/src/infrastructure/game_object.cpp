@@ -20,19 +20,11 @@ GameObjectPtr GameObject::Create()
 GameObject::GameObject()
 {
 	const TypeRegistry::TypeInfo &vec2fInfo	= TypeRegistry::GetTypeInfoFor("sf::Vector2f");
-	RegisterAttribute(AK_GO_POSITION, vec2fInfo);
+	RegisterAttribute(AK_GO_POSITION, vec2fInfo, sf::Vector2f());
 }
 
 GameObject::~GameObject()
 {
-}
-
-void GameObject::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo)
-{
-	assert(mAttributes.find(attributeKey) == mAttributes.end() && "Attribute key already registered!");
-
-	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(typeInfo));
-	mAttributes.insert(make_pair(attributeKey, posHolder));
 }
 
 void GameObject::AddBehaviour(BehaviourPtr b)

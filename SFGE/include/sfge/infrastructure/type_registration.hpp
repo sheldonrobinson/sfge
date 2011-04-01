@@ -19,12 +19,27 @@ namespace sfge
 		}
 	};
 
-#define DEFINE_TYPEID_QUERY(Type, HasCtorOrDtor) \
+#define DEFINE_POD_TYPEID(Type) \
 	template<> struct sfge::TypeRegistration<Type> \
 	{ \
 		typedef sfge::TypeRegistration<Type> self_type; \
 		\
-		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), HasCtorOrDtor); } \
+		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), false); } \
+		\
+		static sfge::TypeRegistry::TypeId Get() \
+		{ \
+			return sfge::TypeRegistry::GetTypeInfoFor(#Type).mId; \
+		} \
+		\
+		static self_type tag; \
+	};
+
+#define DEFINE_COMPLEX_TYPEID(Type) \
+	template<> struct sfge::TypeRegistration<Type> \
+	{ \
+		typedef sfge::TypeRegistration<Type> self_type; \
+		\
+		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), true); } \
 		\
 		static sfge::TypeRegistry::TypeId Get() \
 		{ \

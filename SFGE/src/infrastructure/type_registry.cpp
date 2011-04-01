@@ -11,7 +11,6 @@ namespace sfge
 {
 	
 const TypeRegistry::TypeInfo		TypeRegistry::InvalidType(TypeRegistry::InvalidTypeId, 0, false);
-
 TypeRegistry::TypeId				TypeRegistry::mNextId = 0;
 
 TypeRegistry::TypeRegistryHolder&	TypeRegistry::GetTypeRegistryHolder()
@@ -20,7 +19,7 @@ TypeRegistry::TypeRegistryHolder&	TypeRegistry::GetTypeRegistryHolder()
 	return content;
 }
 
-void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor)
+void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor, const CtorType &ctor)
 {
 	TypeRegistryHolder::const_iterator it = GetTypeRegistryHolder().find(typeName);
 	if (it != GetTypeRegistryHolder().end())
@@ -30,7 +29,7 @@ void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool 
 	}
 
 	const TypeId tId = mNextId++;
-	const TypeInfo tInfo(tId, sizeType, hasCtorOrDtor);
+	const TypeInfo tInfo(tId, sizeType, hasCtorOrDtor, ctor);
 	GetTypeRegistryHolder().insert(make_pair(typeName, tInfo));
 }
 

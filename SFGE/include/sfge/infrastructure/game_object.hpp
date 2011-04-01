@@ -24,7 +24,8 @@ namespace sfge
 		void AddBehaviour(BehaviourPtr b);
 
 		// Attribute management
-		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo);
+		template <typename T>
+		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal);
 		
 		template <typename T>
 		Attribute<T>	GetAttribute(size_t attributeKey);

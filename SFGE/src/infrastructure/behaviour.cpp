@@ -13,9 +13,4 @@ Behaviour::~Behaviour()
 {
 }
 
-void Behaviour::RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo)
-{
-	return mOwner->RegisterAttribute(attributeKey, typeInfo);
-}
-
 }

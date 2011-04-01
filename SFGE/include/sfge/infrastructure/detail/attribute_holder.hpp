@@ -21,7 +21,10 @@ namespace sfge
 			static const AttributeHolderPtr	InvalidHolderPtr;
 
 		public:
-			AttributeHolder(const TypeRegistry::TypeInfo &typeInfo = TypeRegistry::InvalidType);
+			AttributeHolder();
+
+			template <typename T>
+			explicit AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal);
 			~AttributeHolder();
 
 			TypeRegistry::TypeId GetTypeId() const;

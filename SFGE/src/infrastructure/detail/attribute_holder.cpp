@@ -9,21 +9,9 @@ namespace detail
 
 const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
 
-AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo)
-	: mTypeInfo(typeInfo)
+AttributeHolder::AttributeHolder()
+	: mTypeInfo(TypeRegistry::InvalidType)
 {
-	// FIXME handle alignment
-	if (mTypeInfo.IsBiggerThanPointer())
-		mData.mValuePtr = malloc(mTypeInfo.mSize);
-
-	// FIXME handle Ctors
-	if (typeInfo.mHasCtorOrDtor)
-	{
-		/*if (typeInfo.IsBiggerThanPointer())
-			new (mData.mValuePtr) T();
-		else
-			ValueHolder<T, false>::Store(mData, T());*/
-	}
 }
 
 AttributeHolder::~AttributeHolder()

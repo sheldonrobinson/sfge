@@ -1,0 +1,3 @@
+SFML
+Boost
+Impossibly Fast Delegate (integrated for easy reuse), see http://www.codeproject.com/KB/cpp/ImpossiblyFastCppDelegate.aspx
