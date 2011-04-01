@@ -5,7 +5,6 @@
 #include <sfge/infrastructure/game_object.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 #include <sfge/behaviours/render_behaviour.hpp>
-#include <sfge/behaviours/input_behaviour.hpp>
 
 #include <SFML/Graphics/Shape.hpp>
 
