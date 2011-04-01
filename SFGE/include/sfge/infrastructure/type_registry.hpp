@@ -1,12 +1,9 @@
 #ifndef SFGE_INFRASTRUCTURE_TYPE_REGISTRY_HPP
 #define SFGE_INFRASTRUCTURE_TYPE_REGISTRY_HPP
 
+#include <cassert>
 #include <map>
 #include <string>
-
-#include <boost/static_assert.hpp>
-
-#include "sfge/utilities/delegate.hpp"
 
 namespace sfge
 {
@@ -16,12 +13,14 @@ namespace sfge
 		typedef size_t				TypeId;
 		typedef size_t				TypeSize;
 		typedef std::string			TypeName;
-		typedef delegate<void()>	CtorType;
+		typedef void *(*Ctor)(void*);
+		typedef void  (*Dtor)(void*);
 
 		struct TypeInfo
 		{
-			TypeInfo(TypeId id, TypeSize size, bool hasCtorOrDtor, const CtorType &ctor = CtorType())
-				:	mId(id), mSize(size), mHasCtorOrDtor(hasCtorOrDtor), mTypeCtor(ctor)
+			TypeInfo(TypeId id, TypeSize size, bool hasCtorOrDtor)
+				:	mId(id), mSize(size), mHasCtorOrDtor(hasCtorOrDtor),
+					mCtor(nullptr), mDtor(nullptr)
 			{
 			}
 
@@ -30,7 +29,8 @@ namespace sfge
 			TypeId		mId;
 			TypeSize	mSize;
 			bool		mHasCtorOrDtor;
-			CtorType	mTypeCtor;
+			Ctor		mCtor;
+			Dtor		mDtor;
 
 		private:
 			TypeInfo();
@@ -41,7 +41,8 @@ namespace sfge
 		static const TypeInfo	InvalidType;
 
 	public:
-		static void				RegisterType	(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor, const CtorType &ctor = CtorType());
+		template <typename T>
+		static void				RegisterType	(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor);
 		static const TypeInfo&	GetTypeInfoFor	(const TypeName &typeName);
 
 	private:
@@ -53,6 +54,8 @@ namespace sfge
 	private:
 		static TypeId				mNextId;
 	};
+
+#include "type_registry.inl"
 }
 
 #endif

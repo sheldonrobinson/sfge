@@ -12,7 +12,7 @@ AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T
 		if (typeInfo.IsBiggerThanPointer())
 			new (mData.mValuePtr) T(defaultVal);
 		else
-			ValueHolder<T, false>::Store(mData, T(defaultVal));
+			new (&mData.mValue) T(defaultVal);
 	}
 }
 

@@ -16,12 +16,10 @@ AttributeHolder::AttributeHolder()
 
 AttributeHolder::~AttributeHolder()
 {
-	// FIXME handle Dtors
-	/*if (TypeRegistration<T>::isComplex)
+	if (mTypeInfo.mHasCtorOrDtor)
 	{
-		T *p = reinterpret_cast<T*>(data.mValuePtr);
-		p->~T();
-	}*/
+		mTypeInfo.mDtor(mData.mValuePtr);
+	}
 	
 	if (mTypeInfo.IsBiggerThanPointer())
 		free(mData.mValuePtr);

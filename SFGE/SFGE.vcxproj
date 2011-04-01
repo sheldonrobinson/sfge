@@ -59,6 +59,7 @@
     <None Include="include\sfge\infrastructure\attribute.inl" />
     <None Include="include\sfge\infrastructure\detail\attribute_holder.inl" />
     <None Include="include\sfge\infrastructure\game_object.inl" />
+    <None Include="include\sfge\infrastructure\type_registry.inl" />
     <None Include="include\sfge\math\convex_hull.inl" />
     <None Include="include\sfge\math\edge.inl" />
     <None Include="include\sfge\math\intersections.inl" />

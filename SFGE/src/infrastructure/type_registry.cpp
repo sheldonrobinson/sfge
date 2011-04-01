@@ -19,20 +19,6 @@ TypeRegistry::TypeRegistryHolder&	TypeRegistry::GetTypeRegistryHolder()
 	return content;
 }
 
-void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor, const CtorType &ctor)
-{
-	TypeRegistryHolder::const_iterator it = GetTypeRegistryHolder().find(typeName);
-	if (it != GetTypeRegistryHolder().end())
-	{
-		assert("Type already registered!" && it == GetTypeRegistryHolder().end());
-		return;
-	}
-
-	const TypeId tId = mNextId++;
-	const TypeInfo tInfo(tId, sizeType, hasCtorOrDtor, ctor);
-	GetTypeRegistryHolder().insert(make_pair(typeName, tInfo));
-}
-
 const TypeRegistry::TypeInfo& TypeRegistry::GetTypeInfoFor(const TypeName &typeName)
 {
 	TypeRegistryHolder::const_iterator it = GetTypeRegistryHolder().find(typeName);

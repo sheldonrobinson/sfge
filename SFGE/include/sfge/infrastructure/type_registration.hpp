@@ -24,7 +24,7 @@ namespace sfge
 	{ \
 		typedef sfge::TypeRegistration<Type> self_type; \
 		\
-		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), false); } \
+		TypeRegistration() { sfge::TypeRegistry::RegisterType<Type>(#Type, sizeof(Type), false); } \
 		\
 		static sfge::TypeRegistry::TypeId Get() \
 		{ \
@@ -39,7 +39,7 @@ namespace sfge
 	{ \
 		typedef sfge::TypeRegistration<Type> self_type; \
 		\
-		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), true); } \
+		TypeRegistration() { sfge::TypeRegistry::RegisterType<Type>(#Type, sizeof(Type), true); } \
 		\
 		static sfge::TypeRegistry::TypeId Get() \
 		{ \
