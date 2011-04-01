@@ -12,7 +12,7 @@ namespace sfge
 		RenderBehaviour(GameObjectPtr owner);
 		RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable = DrawablePtr());
 
-		virtual void OnUpdate(float dt);
+		virtual void OnUpdate(float dt) override;
 
 		void SetDrawable(DrawablePtr drawable);
 

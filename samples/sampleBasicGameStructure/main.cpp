@@ -20,7 +20,7 @@ public:
 	{
 	}
 
-	virtual void OnUpdate(float /*dt*/)
+	virtual void OnUpdate(float /*dt*/) override
 	{
 		const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
 
@@ -45,7 +45,7 @@ public:
 	SampleGame()	{ ; }
 
 protected:
-	virtual void OnEndSystemInit()
+	virtual void OnEndSystemInit() override
 	{
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
 

@@ -16,7 +16,7 @@ RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
 	RegisterAttribute(AK_RB_COLOR, colorInfo, &sf::Color::White);
 }
 
-void RenderBehaviour::OnUpdate(float dt)
+void RenderBehaviour::OnUpdate(float /*dt*/)
 {
 	Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
 	assert(pos.IsValid());
