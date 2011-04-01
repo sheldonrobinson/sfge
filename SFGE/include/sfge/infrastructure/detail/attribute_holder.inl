@@ -1,15 +1,14 @@
 template <typename T>
 AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal)
-	: mTypeInfo(typeInfo)
+	: mTypeInfo(&typeInfo)
 {
 	// FIXME handle alignment
-	if (mTypeInfo.IsBiggerThanPointer())
-		mData.mValuePtr = malloc(mTypeInfo.mSize);
+	if (mTypeInfo->IsBiggerThanPointer())
+		mData.mValuePtr = malloc(mTypeInfo->mSize);
 
-	// FIXME handle Ctors
-	if (typeInfo.mHasCtorOrDtor)
+	if (mTypeInfo->mHasCtorOrDtor)
 	{
-		if (typeInfo.IsBiggerThanPointer())
+		if (mTypeInfo->IsBiggerThanPointer())
 			new (mData.mValuePtr) T(defaultVal);
 		else
 			new (&mData.mValue) T(defaultVal);
@@ -20,7 +19,7 @@ template <typename T>
 void AttributeHolder::CheckTypes() const
 {
 	const TypeRegistry::TypeId otherTypeId = TypeRegistration<T>::Get();
-	assert(otherTypeId == mTypeInfo.mId);
+	assert(otherTypeId == mTypeInfo->mId);
 }
 
 template <typename T>

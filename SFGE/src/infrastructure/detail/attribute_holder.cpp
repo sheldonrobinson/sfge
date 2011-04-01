@@ -10,24 +10,24 @@ namespace detail
 const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
 
 AttributeHolder::AttributeHolder()
-	: mTypeInfo(TypeRegistry::InvalidType)
+	: mTypeInfo(&TypeRegistry::InvalidType)
 {
 }
 
 AttributeHolder::~AttributeHolder()
 {
-	if (mTypeInfo.mHasCtorOrDtor)
+	if (mTypeInfo->mHasCtorOrDtor)
 	{
-		mTypeInfo.mDtor(mData.mValuePtr);
+		mTypeInfo->mDtor(mData.mValuePtr);
 	}
 	
-	if (mTypeInfo.IsBiggerThanPointer())
+	if (mTypeInfo->IsBiggerThanPointer())
 		free(mData.mValuePtr);
 }
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const
 {
-	return mTypeInfo.mId;
+	return mTypeInfo->mId;
 }
 
 }

@@ -48,7 +48,7 @@ namespace sfge
 			struct ValueHolder;
 
 		private:
-			TypeRegistry::TypeInfo	mTypeInfo;
+			const TypeRegistry::TypeInfo * const mTypeInfo;
 			union Data
 			{
 				void*			mValuePtr;
