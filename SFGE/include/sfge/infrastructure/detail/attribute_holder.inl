@@ -26,21 +26,21 @@ template <typename T>
 void AttributeHolder::SetValue(const T &v)
 {
 	CheckTypes<T>();
-	ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(void*))>::Store(mData, v);
+	ValueHolder<T, (sizeof(T) > sizeof(void*))>::Store(mData, v);
 }
 
 template <typename T>
 const T& AttributeHolder::GetValue() const
 {
 	CheckTypes<T>();
-	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(void*))>::Load(mData);
+	return ValueHolder<T, (sizeof(T) > sizeof(void*))>::Load(mData);
 }
 
 template <typename T>
 T& AttributeHolder::GetValue()
 {
 	CheckTypes<T>();
-	return ValueHolder<T, static_cast<bool>(sizeof(T) > sizeof(void*))>::Load(mData);
+	return ValueHolder<T, (sizeof(T) > sizeof(void*))>::Load(mData);
 }
 
 // Store manipulator for types bigger than a pointer.
