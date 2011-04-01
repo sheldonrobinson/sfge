@@ -12,13 +12,31 @@ const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(0);
 AttributeHolder::AttributeHolder(const TypeRegistry::TypeInfo &typeInfo)
 	: mTypeInfo(typeInfo)
 {
-	if (mTypeInfo.mSize > sizeof(void*))
+	// FIXME handle alignment
+	if (mTypeInfo.IsBiggerThanPointer())
 		mData.mValuePtr = malloc(mTypeInfo.mSize);
+
+	// FIXME handle Ctors
+	if (typeInfo.mHasCtorOrDtor)
+	{
+		/*if (typeInfo.IsBiggerThanPointer())
+			new (mData.mValuePtr) T();
+		else
+			ValueHolder<T, false>::Store(mData, T());*/
+	}
 }
 
 AttributeHolder::~AttributeHolder()
 {
-	free(mData.mValuePtr);
+	// FIXME handle Dtors
+	/*if (TypeRegistration<T>::isComplex)
+	{
+		T *p = reinterpret_cast<T*>(data.mValuePtr);
+		p->~T();
+	}*/
+	
+	if (mTypeInfo.IsBiggerThanPointer())
+		free(mData.mValuePtr);
 }
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const

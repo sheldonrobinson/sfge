@@ -10,31 +10,36 @@ using namespace std;
 namespace sfge
 {
 	
-const TypeRegistry::TypeInfo		TypeRegistry::InvalidType(TypeRegistry::InvalidTypeId, 0);
+const TypeRegistry::TypeInfo		TypeRegistry::InvalidType(TypeRegistry::InvalidTypeId, 0, false);
 
 TypeRegistry::TypeId				TypeRegistry::mNextId = 0;
-TypeRegistry::TypeRegistryHolder	TypeRegistry::mContent;
 
-void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType)
+TypeRegistry::TypeRegistryHolder&	TypeRegistry::GetTypeRegistryHolder()
 {
-	TypeRegistryHolder::const_iterator it = mContent.find(typeName);
-	if (it != mContent.end())
+	static TypeRegistryHolder content;
+	return content;
+}
+
+void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool hasCtorOrDtor)
+{
+	TypeRegistryHolder::const_iterator it = GetTypeRegistryHolder().find(typeName);
+	if (it != GetTypeRegistryHolder().end())
 	{
-		assert("Type already registered!" && it == mContent.end());
+		assert("Type already registered!" && it == GetTypeRegistryHolder().end());
 		return;
 	}
 
 	const TypeId tId = mNextId++;
-	const TypeInfo tInfo(tId, sizeType);
-	mContent.insert(make_pair(typeName, tInfo));
+	const TypeInfo tInfo(tId, sizeType, hasCtorOrDtor);
+	GetTypeRegistryHolder().insert(make_pair(typeName, tInfo));
 }
 
 const TypeRegistry::TypeInfo& TypeRegistry::GetTypeInfoFor(const TypeName &typeName)
 {
-	TypeRegistryHolder::const_iterator it = mContent.find(typeName);
-	if (it == mContent.end())
+	TypeRegistryHolder::const_iterator it = GetTypeRegistryHolder().find(typeName);
+	if (it == GetTypeRegistryHolder().end())
 	{
-		assert("Type not registered!" && it == mContent.end());
+		assert("Type not registered!" && it == GetTypeRegistryHolder().end());
 		return InvalidType;
 	}
 

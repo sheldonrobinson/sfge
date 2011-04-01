@@ -13,19 +13,21 @@ using namespace std;
 using namespace sf;
 using namespace sfge;
 
-class ControllerBehaviour : public InputBehaviour
+class ControllerBehaviour : public Behaviour
 {
 public:
 	ControllerBehaviour(GameObjectPtr owner)
-		: InputBehaviour(owner)
+		: Behaviour(owner)
 	{
 	}
 
 	virtual void OnUpdate(float /*dt*/)
 	{
-		unsigned int	newX	= mInput.GetMouseX(),
-						newY	= mInput.GetMouseY();
-		bool mouseLeftPressed	= mInput.IsMouseButtonDown(sf::Mouse::Left);
+		const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
+
+		unsigned int	newX	= input.GetMouseX(),
+						newY	= input.GetMouseY();
+		bool mouseLeftPressed	= input.IsMouseButtonDown(sf::Mouse::Left);
 
 		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_GO_POSITION);
 		assert(pos.IsValid());

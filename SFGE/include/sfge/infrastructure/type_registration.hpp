@@ -19,19 +19,20 @@ namespace sfge
 		}
 	};
 
-#define DEFINE_TYPEID_QUERY(Type)		template<> struct sfge::TypeRegistration<Type> \
-										{	\
-											typedef sfge::TypeRegistration<Type> self_type;	\
-											\
-											TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type)); } \
-											\
-											static sfge::TypeRegistry::TypeId Get() \
-											{	\
-												return sfge::TypeRegistry::GetTypeInfoFor(#Type).mId;	\
-											}	\
-											\
-											static self_type tag;	\
-										};
+#define DEFINE_TYPEID_QUERY(Type, HasCtorOrDtor) \
+	template<> struct sfge::TypeRegistration<Type> \
+	{ \
+		typedef sfge::TypeRegistration<Type> self_type; \
+		\
+		TypeRegistration() { sfge::TypeRegistry::RegisterType(#Type, sizeof(Type), HasCtorOrDtor); } \
+		\
+		static sfge::TypeRegistry::TypeId Get() \
+		{ \
+			return sfge::TypeRegistry::GetTypeInfoFor(#Type).mId; \
+		} \
+		\
+		static self_type tag; \
+	};
 
 #define IMPLEMENT_TYPEID_QUERY(Type)	sfge::TypeRegistration<Type>::self_type	sfge::TypeRegistration<Type>::tag;
 }

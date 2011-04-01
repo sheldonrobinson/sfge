@@ -9,11 +9,11 @@
 namespace sfge
 {
 	// POD types
-	DEFINE_TYPEID_QUERY(float);
+	DEFINE_TYPEID_QUERY(float,			false);
 
 	// SFML types
-	DEFINE_TYPEID_QUERY(sf::Vector2f);
-	DEFINE_TYPEID_QUERY(sf::Color);
+	DEFINE_TYPEID_QUERY(sf::Vector2f,	true);
+	DEFINE_TYPEID_QUERY(sf::Color,		true);
 }
 
 #endif
