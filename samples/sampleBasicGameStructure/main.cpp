@@ -6,6 +6,7 @@
 #include <sfge/infrastructure/message_manager.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 #include <sfge/behaviours/render_behaviour.hpp>
+#include <sfge/behaviours/transform_behaviour.hpp>
 
 #include <SFML/Graphics/Shape.hpp>
 
@@ -67,6 +68,7 @@ protected:
 
 		GameObjectPtr go = GameObject::Create();
 		go->AddBehaviour(BehaviourPtr(new RenderBehaviour(go, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
+		go->AddBehaviour(BehaviourPtr(new TransformBehaviour(go)));
 		go->AddBehaviour(BehaviourPtr(new ControllerBehaviour(go)));
 		mObjects.push_back(go);
 	}

@@ -15,11 +15,11 @@ RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
 {
 	RegisterAttribute<sf::Color>(AK_RB_Color, &sf::Color::White);
 
-	MessageKey posMsgKey;
-	posMsgKey.mMessageID	= MID_AttributeChanged;
-	posMsgKey.mSource		= mOwner;
+	MessageKey msgKey;
+	msgKey.mMessageID	= MID_AttributeChanged;
+	msgKey.mSource		= mOwner;
 	MessageManager::MessageReceiver slot = MessageManager::MessageReceiver::from_method<RenderBehaviour, &RenderBehaviour::OnAttributeChanged>(this);
-	MessageManager::getSingleton().SubscribeTo(posMsgKey, slot);
+	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
 
 void RenderBehaviour::OnUpdate(float /*dt*/)

@@ -20,7 +20,6 @@ GameObjectPtr GameObject::Create()
 
 GameObject::GameObject()
 {
-	RegisterAttribute<sf::Vector2f>(AK_GO_Position);
 }
 
 GameObject::~GameObject()
