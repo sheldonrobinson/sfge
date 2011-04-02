@@ -10,6 +10,7 @@
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/detail/attribute_holder.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
+#include "sfge/infrastructure/type_registration.hpp"
 
 namespace sfge
 {
@@ -25,7 +26,7 @@ namespace sfge
 
 		// Attribute management
 		template <typename T>
-		void			RegisterAttribute(size_t attributeKey, const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal = nullptr);
+		void			RegisterAttribute(size_t attributeKey, const T *defaultVal = nullptr);
 		
 		template <typename T>
 		Attribute<T>	GetAttribute(size_t attributeKey);
