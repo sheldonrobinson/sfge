@@ -43,7 +43,6 @@ namespace sfge
 
 	private:
 		Behaviours	mBehaviours;
-
 		Attributes	mAttributes;
 	};
 
