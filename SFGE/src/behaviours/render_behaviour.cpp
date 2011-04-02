@@ -13,7 +13,7 @@ namespace sfge
 RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
 	: Behaviour(owner), mDrawable(drawable)
 {
-	RegisterAttribute<sf::Color>(AK_RB_Color, &sf::Color::White);
+	RegisterAttribute<sf::Color>(AK_Color, &sf::Color::White);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
@@ -39,17 +39,17 @@ void RenderBehaviour::OnAttributeChanged(const Message &msg)
 
 	switch (msg.mMsgData)
 	{
-	case AK_GO_Position:
+	case AK_Position:
 		{
-			const Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_Position);
+			const Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_Position);
 			assert(pos.IsValid());
 			mDrawable->SetPosition(pos);
 		}
 		break;
 		
-	case AK_RB_Color:
+	case AK_Color:
 		{
-			const Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_RB_Color);
+			const Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_Color);
 			assert(col.IsValid());
 			mDrawable->SetColor(col);
 		}

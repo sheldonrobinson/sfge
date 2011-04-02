@@ -17,6 +17,7 @@ namespace sfge
 
 		void SetDrawable(DrawablePtr drawable);
 
+	private:
 		void OnAttributeChanged(const Message &msg);
 
 	private:

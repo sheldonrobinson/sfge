@@ -40,7 +40,7 @@ namespace sfge
 		friend size_t hash_value(const MessageKey &k)
 		{
 			size_t seed = 0;
-			boost::hash_combine(seed, k.mSource);
+			boost::hash_combine(seed, k.mSource.get());
 			boost::hash_combine(seed, k.mMessageID);
 			return seed;
 		}
