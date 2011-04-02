@@ -47,12 +47,15 @@ namespace sfge
 			template <typename T, bool isGreaterThanSizeOfPointer>
 			struct ValueHolder;
 
+			typedef void*	PointerT;
+			typedef size_t	SmallTypeT;
+
 		private:
 			const TypeRegistry::TypeInfo * const mTypeInfo;
 			union Data
 			{
-				void*			mValuePtr;
-				unsigned int	mValue;
+				PointerT	mValuePtr;
+				SmallTypeT	mValue;
 			} mData;
 		};
 

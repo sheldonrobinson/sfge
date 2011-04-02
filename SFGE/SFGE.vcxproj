@@ -54,7 +54,6 @@
     <ClCompile Include="src\infrastructure\type_registry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="include\sfge\graphics\sfml_shape_ext.inl" />
     <None Include="include\sfge\infrastructure\attribute.inl" />
     <None Include="include\sfge\infrastructure\detail\attribute_holder.inl" />
