@@ -1,11 +1,10 @@
+#include <sfge/infrastructure/behaviour.hpp>
 #include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/infrastructure/game_object.hpp>
 #include <sfge/infrastructure/message_manager.hpp>
 #include <sfge/graphics/graphic_system.hpp>
-#include <sfge/behaviours/render_behaviour.hpp>
-#include <sfge/behaviours/transform_behaviour.hpp>
 
 #include <iostream>
 
@@ -21,7 +20,7 @@ using namespace sfge;
 class ControllerBehaviour : public Behaviour
 {
 public:
-	ControllerBehaviour(GameObjectPtr owner)
+	ControllerBehaviour(GameObjectPtr owner = GameObjectPtr())
 		: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
 	{
 	}
@@ -63,7 +62,7 @@ private:
 class OrbiterBehaviour : public Behaviour
 {
 public:
-	OrbiterBehaviour(GameObjectPtr owner)
+	OrbiterBehaviour(GameObjectPtr owner = GameObjectPtr())
 		: Behaviour(owner)
 	{
 	}
@@ -115,6 +114,12 @@ public:
 	SampleGame()	{ ; }
 
 protected:
+	virtual void OnDeclareAdditionnalBehaviours() override
+	{
+		DECLARE_BEHAVIOUR(ControllerBehaviour);
+		DECLARE_BEHAVIOUR(OrbiterBehaviour);
+	}
+
 	virtual void OnEndSystemInit() override
 	{
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
@@ -161,12 +166,6 @@ private:
 
 		ds.DeclareGameObjectDef("ControllableThing");
 		ds.DeclareGameObjectDef("OrbitingThing");
-
-		// Declare the behaviours, doh
-		DECLARE_BEHAVIOUR(ds, TransformBehaviour);
-		DECLARE_BEHAVIOUR(ds, ControllerBehaviour);
-		DECLARE_BEHAVIOUR(ds, OrbiterBehaviour);
-		DECLARE_BEHAVIOUR(ds, RenderBehaviour);
 
 		// Create the links between gameobject definitions and registered behaviours (eventually settings some default params)
 		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "TransformBehaviour");

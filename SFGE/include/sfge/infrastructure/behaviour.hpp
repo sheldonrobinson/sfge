@@ -13,6 +13,8 @@ namespace sfge
 	{
 	public:
 		virtual ~Behaviour();
+
+		void SetOwner(GameObjectPtr owner);
 		
 		//! We're just providing a shortcut to GameObject's method
 		template <typename T>
@@ -27,13 +29,10 @@ namespace sfge
 		virtual void	OnUpdate(float dt)							{ ; }
 
 	protected:
-		Behaviour(GameObjectPtr owner);
+		Behaviour(GameObjectPtr owner = GameObjectPtr());
 
 	protected:
 		GameObjectPtr	mOwner;
-
-	private:
-		Behaviour();
 	};
 }
 

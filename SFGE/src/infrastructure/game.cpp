@@ -4,6 +4,9 @@
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/data_store.hpp"
 
+#include "sfge/behaviours/render_behaviour.hpp"
+#include "sfge/behaviours/transform_behaviour.hpp"
+
 #include "sfge/graphics/graphic_system.hpp"
 
 #include <algorithm>
@@ -51,8 +54,19 @@ void Game::Init()
 	GraphicSystem::Init();
 	MessageManager::Init();
 	DataStore::Init();
+	DeclareBehaviours();
 
 	OnEndSystemInit();
+}
+
+void Game::DeclareBehaviours()
+{
+	// Declare built-in behaviours
+	DECLARE_BEHAVIOUR(TransformBehaviour);
+	DECLARE_BEHAVIOUR(RenderBehaviour);
+
+	// Allow user to declare any additionnal behaviour
+	OnDeclareAdditionnalBehaviours();
 }
 
 }

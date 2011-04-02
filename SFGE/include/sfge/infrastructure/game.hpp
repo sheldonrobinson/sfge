@@ -17,8 +17,9 @@ namespace sfge
 		void Quit()		{ mQuitFlag = true; }
 
 	protected:
-		virtual void OnEndSystemInit()		{ ; }
-		virtual void OnQuit()				{ ; }
+		virtual void OnDeclareAdditionnalBehaviours()	{ ; }
+		virtual void OnEndSystemInit()					{ ; }
+		virtual void OnQuit()							{ ; }
 
 	protected:
 		typedef std::vector<GameObjectPtr>		GameObjects;
@@ -28,6 +29,7 @@ namespace sfge
 		bool			mQuitFlag;
 
 	private:
+		void DeclareBehaviours();
 		void Init();
 	};
 }

@@ -1,5 +1,14 @@
 template <typename T>
-void* Constructer(void *where, const T *t)
+void* Constructer(const T *t)
+{
+	if (!t)
+		return new T;
+
+	return new T(*t);
+}
+
+template <typename T>
+void* PlacementConstructer(void *where, const T *t)
 {
 	assert(where);
 
@@ -29,8 +38,9 @@ void TypeRegistry::RegisterType(const TypeName &typeName, size_t sizeType, bool 
 	TypeInfo tInfo(tId, sizeType, hasCtorOrDtor);
 	if (hasCtorOrDtor)
 	{
-		tInfo.mPlacementCtor = reinterpret_cast<Ctor>(Constructer<T>);		
-		tInfo.mDtor = reinterpret_cast<Dtor>(Deleter<T>);
+		tInfo.mDefaultCtor		= reinterpret_cast<Ctor>(Constructer<T>);
+		tInfo.mPlacementCtor	= reinterpret_cast<PlacemtCtor>(PlacementConstructer<T>);
+		tInfo.mDtor				= reinterpret_cast<Dtor>(Deleter<T>);
 	}
 	GetTypeRegistryHolder().insert(make_pair(typeName, tInfo));
 }

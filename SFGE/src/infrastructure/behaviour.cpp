@@ -13,4 +13,9 @@ Behaviour::~Behaviour()
 {
 }
 
+void Behaviour::SetOwner(GameObjectPtr owner)
+{
+	mOwner = owner;
+}
+
 }

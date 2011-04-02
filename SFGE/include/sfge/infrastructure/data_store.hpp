@@ -55,7 +55,7 @@ namespace sfge
 	BehaviourPtr create(GameObjectPtr owner) { return BehaviourPtr(new T(owner)); }
 
 	// This macro may be used to declare a behaviour without having to type all the bloat around. Should remove bloat heh?
-#define DECLARE_BEHAVIOUR(DataStoreInstance, Behaviour) DataStoreInstance.DeclareBehaviourDef(#Behaviour, DataStore::BehaviourCreator::from_function<create<Behaviour>>());
+#define DECLARE_BEHAVIOUR(Behaviour) DataStore::getSingleton().DeclareBehaviourDef(#Behaviour, DataStore::BehaviourCreator::from_function<create<Behaviour>>());
 }
 
 #endif
