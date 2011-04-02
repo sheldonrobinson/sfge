@@ -16,8 +16,8 @@ namespace DemoSettings
 	static const bool	EnableFrameRateLimit	= false;
 	static const int	FrameRateLimit			= 60;
 
-	static const bool	UseBigBugOccluder		= true;
-	static const bool	UseSpheresAsOccluders	= false;
+	static const bool	UseBigBugOccluder		= false;
+	static const bool	UseSpheresAsOccluders	= true;
 	static const int	OccludersCount			= 125;
 	static const float	OccludersRange			= 275;
 

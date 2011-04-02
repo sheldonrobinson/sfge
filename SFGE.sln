@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFGE", "SFGE\SFGE.vcxproj", "{7FD884D4-88EC-49E8-9172-8F5CF715AB2E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "samplePointlights", "samples\pointlights\samplePointlights.vcxproj", "{CE8F6513-9729-4B77-A0E5-04E54EEB946D}"
@@ -11,6 +11,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampleBasicGameStructure", "samples\sampleBasicGameStructure\sampleBasicGameStructure.vcxproj", "{BF338B1F-990A-4C10-B1C3-CA588FB9ED1E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7FD884D4-88EC-49E8-9172-8F5CF715AB2E} = {7FD884D4-88EC-49E8-9172-8F5CF715AB2E}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9ACFAF96-39E3-4513-8FB2-64CB98184D2F}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+		Performance2.psess = Performance2.psess
 	EndProjectSection
 EndProject
 Global

@@ -23,7 +23,7 @@ inline float cross(const sf::Vector2<T> &v1, const sf::Vector2<T> &v2, const sf:
 template <typename T>
 inline float cross(const sf::Vector2<T> &v1, const sf::Vector2<T> &v2)
 {
-	return v1.x * v2.y - v2.y * v1.x;
+	return v1.x * v2.y - v2.x * v1.y;
 }
 
 template <typename T>
