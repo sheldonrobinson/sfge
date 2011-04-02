@@ -72,6 +72,9 @@ public:
 	{
 		mDistanceFrom	= params.get("distance", 0.f);
 		mSpeed			= params.get("speed", 0.f);
+
+		const std::string &refObjName = params.get("revCenter", "");
+		mRefObj = DataStore::getSingleton().GetGameObjectInstanceByName(refObjName);
 	}
 
 	virtual void OnUpdate(float dt) override
@@ -116,33 +119,73 @@ protected:
 	{
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
 
-		// Setup data store
-		DataStore &ds = DataStore::getSingleton();
-		ds.DeclareGameObjectDef("ControllableThing");
-		ds.DeclareGameObjectDef("OrbitingThing");
+		// NB: this step is generally done by loading data files.
+		SetupDataStore();
 
-		DECLARE_BEHAVIOUR(ds, TransformBehaviour);
-		DECLARE_BEHAVIOUR(ds, ControllerBehaviour);
-		DECLARE_BEHAVIOUR(ds, OrbiterBehaviour);
+		SetupScene();
+	}
 
-		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "TransformBehaviour");
-		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "ControllerBehaviour");
+private:
+	void SetupDataStore()
+	{
+		// Setup some parameters
+		Parameters refObjDrawableDef;
+		refObjDrawableDef.put("type",	"shape");
+		refObjDrawableDef.put("shape",	"circle");
+		refObjDrawableDef.put("cx",		0);
+		refObjDrawableDef.put("cy",		0);
+		refObjDrawableDef.put("radius", 50);
+		refObjDrawableDef.put("cr",		Color::Magenta.r);
+		refObjDrawableDef.put("cg",		Color::Magenta.g);
+		refObjDrawableDef.put("cb",		Color::Magenta.b);
+		refObjDrawableDef.put("ca",		Color::Magenta.a);
+
+		Parameters orbitObjDrawableDef;
+		orbitObjDrawableDef.put("type",		"shape");
+		orbitObjDrawableDef.put("shape",	"circle");
+		orbitObjDrawableDef.put("cx",		0);
+		orbitObjDrawableDef.put("cy",		0);
+		orbitObjDrawableDef.put("radius",	15);
+		orbitObjDrawableDef.put("cr",		Color::White.r);
+		orbitObjDrawableDef.put("cg",		Color::White.g);
+		orbitObjDrawableDef.put("cb",		Color::White.b);
+		orbitObjDrawableDef.put("ca",		Color::White.a);
 		
-		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "TransformBehaviour");
 		Parameters orbitParams;
 		orbitParams.put("distance",		100.f);
 		orbitParams.put("speed",		5.f);
 		orbitParams.put("revCenter",	"refObj");
-		orbitParams.size();
-		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "OrbiterBehaviour", orbitParams);
 
-		// Setup scene
-		GameObjectPtr refGO = ds.InstantiateGameObjectDef("ControllableThing");
-		refGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(refGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
+		// Declare the 2 gameobject definitions we need
+		DataStore &ds = DataStore::getSingleton();
+
+		ds.DeclareGameObjectDef("ControllableThing");
+		ds.DeclareGameObjectDef("OrbitingThing");
+
+		// Declare the behaviours, doh
+		DECLARE_BEHAVIOUR(ds, TransformBehaviour);
+		DECLARE_BEHAVIOUR(ds, ControllerBehaviour);
+		DECLARE_BEHAVIOUR(ds, OrbiterBehaviour);
+		DECLARE_BEHAVIOUR(ds, RenderBehaviour);
+
+		// Create the links between gameobject definitions and registered behaviours (eventually settings some default params)
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "TransformBehaviour");
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "ControllerBehaviour");
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "RenderBehaviour",	refObjDrawableDef);
+		
+		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "TransformBehaviour");
+		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "OrbiterBehaviour",		orbitParams);
+		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "RenderBehaviour",		orbitObjDrawableDef);
+	}
+
+	void SetupScene()
+	{
+		DataStore &ds = DataStore::getSingleton();
+
+		GameObjectPtr refGO = ds.InstantiateGameObjectDef("ControllableThing", "refObj");
 		mObjects.push_back(refGO);
 
 		GameObjectPtr orbiterGO = ds.InstantiateGameObjectDef("OrbitingThing");
-		orbiterGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(orbiterGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 15, sf::Color::White))))));
 		mObjects.push_back(orbiterGO);
 
 		ds.InitializeInstances();

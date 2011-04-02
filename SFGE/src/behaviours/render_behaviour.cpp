@@ -6,31 +6,58 @@
 #include "sfge/infrastructure/game_object.hpp"
 
 #include <cassert>
+#include <vector>
+
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Shape.hpp>
+
+using namespace std;
+using namespace sf;
 
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
-	: Behaviour(owner), mDrawable(drawable)
+RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
+	: Behaviour(owner)
 {
 	RegisterAttribute<sf::Color>(AK_Color, &sf::Color::White);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
 	msgKey.mSource		= mOwner;
-	MessageManager::MessageReceiver slot = MessageManager::MessageReceiver::from_method<RenderBehaviour, &RenderBehaviour::OnAttributeChanged>(this);
+	MessageReceiver slot = MessageReceiver::from_method<RenderBehaviour, &RenderBehaviour::OnAttributeChanged>(this);
 	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
+}
+
+void RenderBehaviour::OnParamsReceived(const Parameters &params)
+{
+	// TODO move that into some kind of sfml-graphics content factory
+	if (params.get("type", "") == "shape")
+	{
+		if (params.get("shape", "") == "circle")
+		{
+			float cx		= params.get("cx",		0.f);
+			float cy		= params.get("cy",		0.f);
+			float radius	= params.get("radius",	0.f);
+
+			Color color;
+			color.r	= params.get("cr",	0);
+			color.g	= params.get("cg",	0);
+			color.b	= params.get("cb",	0);
+			color.a	= params.get("ca",	0);
+
+			mDrawable = DrawablePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
+		}
+	}
 }
 
 void RenderBehaviour::OnUpdate(float /*dt*/)
 {
+	if (!mDrawable)
+		return;
+
 	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 	currTarget.Draw(*mDrawable);
-}
-
-void RenderBehaviour::SetDrawable(DrawablePtr drawable)
-{
-	mDrawable = drawable;
 }
 
 void RenderBehaviour::OnAttributeChanged(const Message &msg)

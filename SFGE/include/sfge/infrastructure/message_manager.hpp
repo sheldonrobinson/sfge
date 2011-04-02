@@ -48,13 +48,12 @@ namespace sfge
 		GameObjectPtr	mSource;
 		size_t			mMessageID;
 	};
+	
+	typedef delegate<void(const Message &msg)>	MessageReceiver;
 
 	// TODO THREADING get rid of this singleton
 	class MessageManager : public Singleton<MessageManager>
 	{
-	public:
-		typedef delegate<void(const Message &msg)>	MessageReceiver;
-
 	public:
 		static void Init();
 

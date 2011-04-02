@@ -18,7 +18,7 @@ void DataStore::Init()
 
 void DataStore::DeclareGameObjectDef(const std::string &godName)
 {
-	assert(mLinks.find(godName) == mLinks.end() && "GameObject already registered!");
+	assert(mLinks.find(godName) == mLinks.end() && ("GameObject definition named " + godName + " has already been registered!").c_str());
 
 	mLinks[godName] = BehaviourList();
 }
@@ -26,7 +26,7 @@ void DataStore::DeclareGameObjectDef(const std::string &godName)
 void DataStore::DeclareBehaviourDef(const std::string &behaviourName, const BehaviourCreator &behaviourCreator)
 {
 	assert(mBehaviourDefinitions.find(behaviourName) == mBehaviourDefinitions.end() &&
-		"Behaviour already registered!");
+		("Behaviour definition named " + behaviourName + " has already been registered!").c_str());
 
 	mBehaviourDefinitions[behaviourName] = behaviourCreator;
 }
@@ -38,18 +38,18 @@ void DataStore::LinkBehaviourDefToGameObjectDef(const std::string &godName, cons
 
 void DataStore::LinkBehaviourDefToGameObjectDef(const std::string &godName, const std::string &behaviourName, const Parameters &defaultParams)
 {
-	assert(mLinks.find(godName) != mLinks.end() && "GameObject has not been registered!");
+	assert(mLinks.find(godName) != mLinks.end() && ("GameObject definition named " + godName + " has not been registered!").c_str());
 
 	mLinks[godName].insert(make_pair(behaviourName, defaultParams));
 }
 
-GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName)
+GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName)
 {
 	GameObjectPtr go(GameObject::Create());
 	
 	GOBehaviourLinks::const_iterator godIt = mLinks.find(godName);
-	assert(godIt != mLinks.end() && "GameObject definition has no associated behaviours!");
-
+	assert(godIt != mLinks.end() && ("GameObject definition named " + godName + " has no associated behaviours!").c_str());
+	
 	const BehaviourList &goBehaviours = godIt->second;
 	for_each(goBehaviours.begin(), goBehaviours.end(),
 		[&] (const BehaviourList::value_type &behaviourEntry) {
@@ -58,13 +58,16 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName)
 			go->AddBehaviour(bp);
 		} );
 
+	if (!goInstanceName.empty())
+		mInstances.insert(make_pair(goInstanceName, go));
+
 	return go;
 }
 
 BehaviourPtr DataStore::InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner)
 {
 	BehaviourDefs::const_iterator it = mBehaviourDefinitions.find(behaviourName);
-	assert(it != mBehaviourDefinitions.end() && "Behaviour definition has not been registered!");
+	assert(it != mBehaviourDefinitions.end() && ("No Behaviour definition named " + behaviourName + " has been registered!").c_str());
 
 	return it->second(owner);
 }
@@ -73,6 +76,16 @@ void DataStore::InitializeInstances()
 {
 	for_each(mBehavioursWaitingForInit.begin(), mBehavioursWaitingForInit.end(),
 		[&] (BehavioursToInit::value_type &entry) { entry.first->OnParamsReceived(*entry.second); } );
+}
+
+GameObjectPtr DataStore::GetGameObjectInstanceByName(const std::string &goInstanceName)
+{
+	if (goInstanceName.empty())
+		return GameObjectPtr();
+
+	GameObjectInstances::const_iterator it = mInstances.find(goInstanceName);
+	assert(it != mInstances.end() && ("Failed to retrieve instance named " + goInstanceName).c_str());
+	return it->second;
 }
 
 }

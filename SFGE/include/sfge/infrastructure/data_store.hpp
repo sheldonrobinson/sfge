@@ -1,9 +1,7 @@
 #ifndef SFGE_INFRASTRUCTURE_DATA_STORE_HPP
 #define SFGE_INFRASTRUCTURE_DATA_STORE_HPP
 
-#include <list>
 #include <map>
-#include <set>
 #include <string>
 
 #include "sfge/utilities/singleton.hpp"
@@ -27,16 +25,21 @@ namespace sfge
 		void LinkBehaviourDefToGameObjectDef(const std::string &godName, const std::string &behaviourName, const Parameters &defaultParams);
 
 		// Instantiation
-		GameObjectPtr InstantiateGameObjectDef(const std::string &godName);
+		//! This will create a new GameObject based on definition registered as godName. The instance name is optionnal, but anonymous instances can't be get back.
+		GameObjectPtr InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName = "");
 
 		//! This method will send the default params to every instanciated behaviour.
 		void InitializeInstances();
 
+		// Getters
+		GameObjectPtr GetGameObjectInstanceByName(const std::string &goInstanceName);
+
 	private:
-		typedef std::map<std::string, BehaviourCreator>		BehaviourDefs;
-		typedef std::map<std::string, Parameters>			BehaviourList;
-		typedef std::map<std::string, BehaviourList>		GOBehaviourLinks;
-		typedef std::map<Behaviour*, const Parameters*>		BehavioursToInit;
+		typedef std::map<std::string,	BehaviourCreator>		BehaviourDefs;
+		typedef std::map<std::string,	Parameters>				BehaviourList;
+		typedef std::map<std::string,	BehaviourList>			GOBehaviourLinks;
+		typedef std::map<Behaviour*,	const Parameters*>		BehavioursToInit;
+		typedef std::map<std::string,	GameObjectPtr>			GameObjectInstances;
 
 	private:
 		BehaviourPtr InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner);
@@ -45,6 +48,7 @@ namespace sfge
 		BehaviourDefs		mBehaviourDefinitions;
 		GOBehaviourLinks	mLinks;
 		BehavioursToInit	mBehavioursWaitingForInit;
+		GameObjectInstances	mInstances;
 	};
 
 	template <typename T>
