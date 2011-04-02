@@ -17,35 +17,29 @@ namespace sfge
 		}
 	};
 
-#define DEFINE_POD_TYPEID(Type) \
+// Users should use the shortcuts macros defined below
+#define _DEFINE_TYPE(Type, IsComplex) \
 	template<> struct sfge::TypeRegistration<Type> \
 	{ \
 		typedef sfge::TypeRegistration<Type> self_type; \
 		\
-		TypeRegistration() { sfge::TypeRegistry::RegisterType<Type>(#Type, sizeof(Type), false); } \
+		TypeRegistration() { sfge::TypeRegistry::RegisterType<Type>(#Type, sizeof(Type), IsComplex); } \
 		\
 		static sfge::TypeRegistry::TypeId Get() \
 		{ \
 			return sfge::TypeRegistry::GetTypeInfoFor(#Type).mId; \
+		} \
+		\
+		static const sfge::TypeRegistry::TypeInfo& GetFullInfos() \
+		{ \
+			return sfge::TypeRegistry::GetTypeInfoFor(#Type); \
 		} \
 		\
 		static self_type tag; \
 	};
 
-#define DEFINE_COMPLEX_TYPEID(Type) \
-	template<> struct sfge::TypeRegistration<Type> \
-	{ \
-		typedef sfge::TypeRegistration<Type> self_type; \
-		\
-		TypeRegistration() { sfge::TypeRegistry::RegisterType<Type>(#Type, sizeof(Type), true); } \
-		\
-		static sfge::TypeRegistry::TypeId Get() \
-		{ \
-			return sfge::TypeRegistry::GetTypeInfoFor(#Type).mId; \
-		} \
-		\
-		static self_type tag; \
-	};
+#define DEFINE_POD_TYPEID(Type)			_DEFINE_TYPE(Type, false)
+#define DEFINE_COMPLEX_TYPEID(Type)		_DEFINE_TYPE(Type, true)
 
 #define IMPLEMENT_TYPEID_QUERY(Type)	sfge::TypeRegistration<Type>::self_type	sfge::TypeRegistration<Type>::tag;
 }

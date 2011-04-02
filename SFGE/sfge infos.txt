@@ -1,0 +1,15 @@
+message def:
+<src_go_id, msg_id>, key
+
+subscription:
+to <src_go_id, msg_id>
+as delegate<void(const Message&)>
+
+--------------------------------
+
+Attribute storage:
+
+AttributeDB
+> go_id
+> behaviour_id
+> attr_id
