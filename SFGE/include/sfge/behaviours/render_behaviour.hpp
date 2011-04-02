@@ -10,8 +10,7 @@ namespace sfge
 	class RenderBehaviour : public Behaviour
 	{
 	public:
-		RenderBehaviour(GameObjectPtr owner);
-		RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable = DrawablePtr());
+		RenderBehaviour(GameObjectPtr owner, const Parameters &params, DrawablePtr drawable = DrawablePtr());
 
 		virtual void OnUpdate(float dt) override;
 

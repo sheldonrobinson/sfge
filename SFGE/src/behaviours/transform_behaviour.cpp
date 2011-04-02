@@ -10,7 +10,7 @@
 namespace sfge
 {
 
-TransformBehaviour::TransformBehaviour(GameObjectPtr owner)
+TransformBehaviour::TransformBehaviour(GameObjectPtr owner, const Parameters &params)
 	: Behaviour(owner)
 {
 	RegisterAttribute<sf::Vector2f>(AK_Position);

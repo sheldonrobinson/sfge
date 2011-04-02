@@ -10,7 +10,7 @@
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
+RenderBehaviour::RenderBehaviour(GameObjectPtr owner, const Parameters &params, DrawablePtr drawable)
 	: Behaviour(owner), mDrawable(drawable)
 {
 	RegisterAttribute<sf::Color>(AK_Color, &sf::Color::White);

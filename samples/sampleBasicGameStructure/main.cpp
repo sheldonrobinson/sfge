@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <sfge/infrastructure/builtin_attributes.hpp>
+#include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/infrastructure/game_object.hpp>
 #include <sfge/infrastructure/message_manager.hpp>
@@ -17,7 +18,7 @@ using namespace sfge;
 class ControllerBehaviour : public Behaviour
 {
 public:
-	ControllerBehaviour(GameObjectPtr owner)
+	ControllerBehaviour(GameObjectPtr owner, const Parameters &params)
 		: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
 	{
 	}
@@ -59,13 +60,16 @@ private:
 class OrbiterBehaviour : public Behaviour
 {
 public:
-	OrbiterBehaviour(GameObjectPtr owner)
-		: Behaviour(owner)
+	OrbiterBehaviour(GameObjectPtr owner, const Parameters &params)
+		: Behaviour(owner), mDistanceFrom(0), mSpeed(0)
 	{
 	}
 
 	virtual void OnUpdate(float dt) override
 	{
+		if (!mRefObj)
+			return;
+
 		dt *= mSpeed;
 
 		const Attribute<Vector2f> refPos = mRefObj->GetAttribute<Vector2f>(AK_Position);
@@ -101,18 +105,32 @@ protected:
 	{
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
 
-		GameObjectPtr refGO = GameObject::Create();
-		refGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(refGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
-		refGO->AddBehaviour(BehaviourPtr(new TransformBehaviour(refGO)));
-		refGO->AddBehaviour(BehaviourPtr(new ControllerBehaviour(refGO)));
+		// Setup data store
+		DataStore &ds = DataStore::getSingleton();
+		ds.DeclareGameObjectDef("ControllableThing");
+		ds.DeclareGameObjectDef("OrbitingThing");
+
+		DECLARE_BEHAVIOUR(ds, TransformBehaviour);
+		DECLARE_BEHAVIOUR(ds, ControllerBehaviour);
+		DECLARE_BEHAVIOUR(ds, OrbiterBehaviour);
+
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "TransformBehaviour");
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "ControllerBehaviour");
+		
+		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "TransformBehaviour");
+		Parameters orbitParams;
+		orbitParams.push_back(make_pair("distance",		"100"));
+		orbitParams.push_back(make_pair("speed",		"5"));
+		orbitParams.push_back(make_pair("revCenter",	"refObj"));
+		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "OrbiterBehaviour", orbitParams);
+
+		// Setup scene
+		GameObjectPtr refGO = ds.InstantiateGameObjectDef("ControllableThing");
+		refGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(refGO, Parameters(), DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
 		mObjects.push_back(refGO);
 
-		GameObjectPtr orbiterGO = GameObject::Create();
-		orbiterGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(orbiterGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 15, sf::Color::White))))));
-		orbiterGO->AddBehaviour(BehaviourPtr(new TransformBehaviour(orbiterGO)));
-		OrbiterBehaviour *orbiter(new OrbiterBehaviour(orbiterGO));
-		orbiter->SetOrbitInfo(100, 5, refGO);
-		orbiterGO->AddBehaviour(BehaviourPtr(orbiter));
+		GameObjectPtr orbiterGO = ds.InstantiateGameObjectDef("OrbitingThing");
+		orbiterGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(orbiterGO, Parameters(), DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 15, sf::Color::White))))));
 		mObjects.push_back(orbiterGO);
 	}
 };

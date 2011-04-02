@@ -2,6 +2,7 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/infrastructure/data_store.hpp"
 
 #include "sfge/graphics/graphic_system.hpp"
 
@@ -49,6 +50,7 @@ void Game::Init()
 
 	GraphicSystem::Init();
 	MessageManager::Init();
+	DataStore::Init();
 
 	OnEndSystemInit();
 }

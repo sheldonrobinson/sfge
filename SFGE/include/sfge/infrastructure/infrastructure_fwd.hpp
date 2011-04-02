@@ -2,6 +2,8 @@
 #define SFGE_INFRASTRUCTURE_INFRASTRUCTURE_FWD_HPP
 
 #include <memory>
+#include <utility>
+#include <vector>
 
 namespace sfge
 {
@@ -13,6 +15,9 @@ namespace sfge
 
 	template <typename T>
 	class Attribute;
+
+	typedef std::pair<std::string, std::string>		Parameter;
+	typedef std::vector<Parameter>					Parameters;
 	
 	namespace detail
 	{
