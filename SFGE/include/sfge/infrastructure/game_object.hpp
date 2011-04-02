@@ -36,14 +36,16 @@ namespace sfge
 
 	private:
 		GameObject();
+		void setSelf(GameObjectPtr selfPtr)	{ mSelf = selfPtr; }
 
 	private:
 		typedef std::vector<BehaviourPtr>						Behaviours;
 		typedef std::map<size_t, detail::AttributeHolderPtr>	Attributes;
 
 	private:
-		Behaviours	mBehaviours;
-		Attributes	mAttributes;
+		GameObjectPtr	mSelf;			//!< Used when sending messages.
+		Behaviours		mBehaviours;
+		Attributes		mAttributes;
 	};
 
 #include "game_object.inl"

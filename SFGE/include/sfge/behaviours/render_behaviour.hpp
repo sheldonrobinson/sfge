@@ -2,6 +2,7 @@
 #define SFGE_BEHAVIOURS_RENDER_BEHAVIOUR_HPP
 
 #include "sfge/infrastructure/behaviour.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/graphics/sfml_drawable_ext.hpp"
 
 namespace sfge
@@ -15,6 +16,8 @@ namespace sfge
 		virtual void OnUpdate(float dt) override;
 
 		void SetDrawable(DrawablePtr drawable);
+
+		void OnAttributeChanged(const Message &msg);
 
 	private:
 		DrawablePtr		mDrawable;

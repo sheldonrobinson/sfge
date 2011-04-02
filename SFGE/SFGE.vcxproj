@@ -22,6 +22,8 @@
     <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp" />
     <ClInclude Include="include\sfge\infrastructure\attribute.hpp" />
     <ClInclude Include="include\sfge\infrastructure\builtin_attributes.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\builtin_messages.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\message_manager.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registration.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registration_impl.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registry.hpp" />
@@ -50,6 +52,7 @@
     <ClCompile Include="src\infrastructure\detail\attribute_holder.cpp" />
     <ClCompile Include="src\infrastructure\game.cpp" />
     <ClCompile Include="src\infrastructure\game_object.cpp" />
+    <ClCompile Include="src\infrastructure\message_manager.cpp" />
     <ClCompile Include="src\infrastructure\type_registration.cpp" />
     <ClCompile Include="src\infrastructure\type_registry.cpp" />
   </ItemGroup>
@@ -96,16 +99,19 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\vc2010_propsheets\sfml.props" />
     <Import Project="..\..\vc2010_propsheets\boost.props" />
+    <Import Project="..\..\vc2010_propsheets\sfge.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\vc2010_propsheets\sfml.props" />
     <Import Project="..\..\vc2010_propsheets\boost.props" />
+    <Import Project="..\..\vc2010_propsheets\sfge.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWDebugInfo|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\vc2010_propsheets\sfml.props" />
     <Import Project="..\..\vc2010_propsheets\boost.props" />
+    <Import Project="..\..\vc2010_propsheets\sfge.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,7 +133,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SRUTIL_DELEGATE_PREFERRED_SYNTAX;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

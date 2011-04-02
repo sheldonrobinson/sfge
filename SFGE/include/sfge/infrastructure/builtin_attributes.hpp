@@ -5,10 +5,10 @@ namespace sfge
 {
 	enum AttributeKey
 	{
-		AK_GO_POSITION,
-		AK_RB_COLOR,
+		AK_GO_Position,
+		AK_RB_Color,
 
-		AK_USER,			//!< Attribute ids in user code must start from this value.
+		AK_User,			//!< Attribute ids in user code must start from this value.
 	};
 }
 

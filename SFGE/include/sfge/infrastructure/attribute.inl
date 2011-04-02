@@ -1,7 +1,23 @@
 template <typename T>
-Attribute<T>::Attribute(detail::AttributeHolderPtr holder)
-	: mHolder(holder)
+Attribute<T>::Attribute(detail::AttributeHolderPtr holder,
+						GameObjectPtr owner, size_t attrKey) :
+	mHolder(holder), mOwner(owner),
+	mAttributeKey(attrKey), mPotentiallyModified(false)
 {
+}
+
+template <typename T>
+Attribute<T>::~Attribute()
+{
+	if (mPotentiallyModified)
+	{
+		Message msg;
+		msg.mMessageID	= MID_AttributeChanged;
+		msg.mSource		= mOwner;
+		msg.mMsgData	= mAttributeKey;
+
+		MessageManager::getSingleton().Queue(msg);
+	}
 }
 
 template <typename T>
@@ -19,6 +35,7 @@ const T& Attribute<T>::Get() const
 template <typename T>
 T& Attribute<T>::Get()
 {
+	mPotentiallyModified = true;
 	return mHolder->GetValue<T>();
 }
 
@@ -49,6 +66,7 @@ const T* const Attribute<T>::operator->() const
 template <typename T>
 void Attribute<T>::operator=(const T &v)
 {
+	mPotentiallyModified = true;
 	mHolder->SetValue(v);
 }
 

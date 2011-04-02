@@ -1,6 +1,7 @@
 #include "sfge/infrastructure/game.hpp"
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 
 #include "sfge/graphics/graphic_system.hpp"
 
@@ -47,6 +48,7 @@ void Game::Init()
 	sfge::InitTypesStub();
 
 	GraphicSystem::Init();
+	MessageManager::Init();
 
 	OnEndSystemInit();
 }

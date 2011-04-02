@@ -3,6 +3,7 @@
 #include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/infrastructure/game_object.hpp>
+#include <sfge/infrastructure/message_manager.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 #include <sfge/behaviours/render_behaviour.hpp>
 
@@ -16,7 +17,7 @@ class ControllerBehaviour : public Behaviour
 {
 public:
 	ControllerBehaviour(GameObjectPtr owner)
-		: Behaviour(owner)
+		: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
 	{
 	}
 
@@ -24,19 +25,34 @@ public:
 	{
 		const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
 
-		unsigned int	newX	= input.GetMouseX(),
-						newY	= input.GetMouseY();
-		bool mouseLeftPressed	= input.IsMouseButtonDown(sf::Mouse::Left);
+		const unsigned int	newX	= input.GetMouseX(),
+							newY	= input.GetMouseY();
 
-		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_GO_POSITION);
-		assert(pos.IsValid());
-		pos->x = static_cast<float>(newX);
-		pos->y = static_cast<float>(newY);
+		if (newX != mPrevMouseX || newY != mPrevMouseY)
+		{
+			Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_GO_Position);
+			assert(pos.IsValid());
+			pos->x = static_cast<float>(newX);
+			pos->y = static_cast<float>(newY);
 
-		Attribute<Color> col = GetAttribute<Color>(AK_RB_COLOR);
-		assert(col.IsValid());
-		col = mouseLeftPressed ? Color::Blue : Color::Red;
+			mPrevMouseX = newX;
+			mPrevMouseY = newY;
+		}
+
+		const bool mouseLeftPressed	= input.IsMouseButtonDown(sf::Mouse::Left);
+		if (mouseLeftPressed != mPrevLButtonState)
+		{
+			Attribute<Color> col = GetAttribute<Color>(AK_RB_Color);
+			assert(col.IsValid());
+			col = mouseLeftPressed ? Color::Blue : Color::Red;
+
+			mPrevLButtonState = mouseLeftPressed;
+		}
 	}
+
+private:
+	unsigned int	mPrevMouseX, mPrevMouseY;
+	bool			mPrevLButtonState;
 };
 
 class SampleGame : public Game

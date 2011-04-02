@@ -14,12 +14,13 @@ namespace sfge
 GameObjectPtr GameObject::Create()
 {
 	GameObjectPtr go(new GameObject());
+	go->setSelf(go);
 	return go;
 }
 
 GameObject::GameObject()
 {
-	RegisterAttribute<sf::Vector2f>(AK_GO_POSITION);
+	RegisterAttribute<sf::Vector2f>(AK_GO_Position);
 }
 
 GameObject::~GameObject()

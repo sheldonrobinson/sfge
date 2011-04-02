@@ -6,6 +6,8 @@
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/detail/attribute_holder.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/infrastructure/builtin_messages.hpp"
 
 namespace sfge
 {
@@ -13,7 +15,8 @@ namespace sfge
 	class Attribute
 	{
 	public:
-		Attribute(detail::AttributeHolderPtr holder);
+		Attribute(detail::AttributeHolderPtr holder, GameObjectPtr owner, size_t attrKey);
+		~Attribute();
 
 		bool IsValid() const;
 		
@@ -35,6 +38,11 @@ namespace sfge
 
 	private:
 		detail::AttributeHolderPtr	mHolder;
+		GameObjectPtr				mOwner;
+		size_t						mAttributeKey;
+		
+		//! Set to true whenever any non-const accessor is used. No way to really check modifications without caching I guess.
+		mutable bool				mPotentiallyModified;
 	};
 
 #include "attribute.inl"

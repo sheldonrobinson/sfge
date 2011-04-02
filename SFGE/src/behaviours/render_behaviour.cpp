@@ -2,6 +2,7 @@
 #include "sfge/graphics/graphic_system.hpp"
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
+#include "sfge/infrastructure/builtin_messages.hpp"
 #include "sfge/infrastructure/game_object.hpp"
 
 #include <cassert>
@@ -12,19 +13,17 @@ namespace sfge
 RenderBehaviour::RenderBehaviour(GameObjectPtr owner, DrawablePtr drawable)
 	: Behaviour(owner), mDrawable(drawable)
 {
-	RegisterAttribute<sf::Color>(AK_RB_COLOR, &sf::Color::White);
+	RegisterAttribute<sf::Color>(AK_RB_Color, &sf::Color::White);
+
+	MessageKey posMsgKey;
+	posMsgKey.mMessageID	= MID_AttributeChanged;
+	posMsgKey.mSource		= mOwner;
+	MessageManager::MessageReceiver slot = MessageManager::MessageReceiver::from_method<RenderBehaviour, &RenderBehaviour::OnAttributeChanged>(this);
+	MessageManager::getSingleton().SubscribeTo(posMsgKey, slot);
 }
 
 void RenderBehaviour::OnUpdate(float /*dt*/)
 {
-	Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_POSITION);
-	assert(pos.IsValid());
-	mDrawable->SetPosition(pos);
-
-	Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_RB_COLOR);
-	assert(col.IsValid());
-	mDrawable->SetColor(col);
-
 	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 	currTarget.Draw(*mDrawable);
 }
@@ -32,6 +31,30 @@ void RenderBehaviour::OnUpdate(float /*dt*/)
 void RenderBehaviour::SetDrawable(DrawablePtr drawable)
 {
 	mDrawable = drawable;
+}
+
+void RenderBehaviour::OnAttributeChanged(const Message &msg)
+{
+	assert(msg.mSource == mOwner);
+
+	switch (msg.mMsgData)
+	{
+	case AK_GO_Position:
+		{
+			const Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_GO_Position);
+			assert(pos.IsValid());
+			mDrawable->SetPosition(pos);
+		}
+		break;
+		
+	case AK_RB_Color:
+		{
+			const Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_RB_Color);
+			assert(col.IsValid());
+			mDrawable->SetColor(col);
+		}
+		break;
+	}
 }
 
 }

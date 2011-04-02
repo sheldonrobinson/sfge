@@ -16,12 +16,12 @@ Attribute<T> GameObject::GetAttribute(size_t attributeKey)
 	if (attribIt == mAttributes.end())
 	{
 		assert("Can't find attribute!" && attribIt == mAttributes.end());
-		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr);
+		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr, nullptr, 0);
 	}
 
 	// Check types
 	const TypeRegistry::TypeId otherTypeId = TypeRegistration<T>::Get();
 	assert("Trying to get an attribute using the wrong type!" && otherTypeId == attribIt->second->GetTypeId());
 
-	return Attribute<T>(attribIt->second);
+	return Attribute<T>(attribIt->second, mSelf, attributeKey);
 }
