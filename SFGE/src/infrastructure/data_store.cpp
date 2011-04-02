@@ -53,18 +53,26 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName)
 	const BehaviourList &goBehaviours = godIt->second;
 	for_each(goBehaviours.begin(), goBehaviours.end(),
 		[&] (const BehaviourList::value_type &behaviourEntry) {
-			go->AddBehaviour(InstantiateBehaviourDef(behaviourEntry.first, go, behaviourEntry.second));
+			BehaviourPtr bp = InstantiateBehaviourDef(behaviourEntry.first, go);
+			mBehavioursWaitingForInit.insert(make_pair(bp.get(), &behaviourEntry.second));
+			go->AddBehaviour(bp);
 		} );
 
 	return go;
 }
 
-BehaviourPtr DataStore::InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner, const Parameters &defaultParams)
+BehaviourPtr DataStore::InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner)
 {
 	BehaviourDefs::const_iterator it = mBehaviourDefinitions.find(behaviourName);
 	assert(it != mBehaviourDefinitions.end() && "Behaviour definition has not been registered!");
 
-	return it->second(owner, defaultParams);
+	return it->second(owner);
+}
+
+void DataStore::InitializeInstances()
+{
+	for_each(mBehavioursWaitingForInit.begin(), mBehavioursWaitingForInit.end(),
+		[&] (BehavioursToInit::value_type &entry) { entry.first->OnParamsReceived(*entry.second); } );
 }
 
 }

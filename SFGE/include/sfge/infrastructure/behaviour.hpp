@@ -23,7 +23,8 @@ namespace sfge
 		void			RegisterAttribute(size_t attributeKey, const T *defaultVal = nullptr)
 		{ return mOwner->RegisterAttribute<T>(attributeKey, defaultVal); }
 
-		virtual void	OnUpdate(float dt)						{ ; }
+		virtual void	OnParamsReceived(const Parameters &params)	{ ; }
+		virtual void	OnUpdate(float dt)							{ ; }
 
 	protected:
 		Behaviour(GameObjectPtr owner);

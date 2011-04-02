@@ -9,7 +9,7 @@ namespace sfge
 	class TransformBehaviour : public Behaviour
 	{
 	public:
-		TransformBehaviour(GameObjectPtr owner, const Parameters &params);
+		TransformBehaviour(GameObjectPtr owner);
 	};
 }
 

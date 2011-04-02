@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
@@ -9,16 +7,21 @@
 #include <sfge/behaviours/render_behaviour.hpp>
 #include <sfge/behaviours/transform_behaviour.hpp>
 
+#include <iostream>
+
+#include <boost/lexical_cast.hpp>
+
 #include <SFML/Graphics/Shape.hpp>
 
 using namespace std;
+using namespace boost;
 using namespace sf;
 using namespace sfge;
 
 class ControllerBehaviour : public Behaviour
 {
 public:
-	ControllerBehaviour(GameObjectPtr owner, const Parameters &params)
+	ControllerBehaviour(GameObjectPtr owner)
 		: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
 	{
 	}
@@ -60,26 +63,34 @@ private:
 class OrbiterBehaviour : public Behaviour
 {
 public:
-	OrbiterBehaviour(GameObjectPtr owner, const Parameters &params)
-		: Behaviour(owner), mDistanceFrom(0), mSpeed(0)
+	OrbiterBehaviour(GameObjectPtr owner)
+		: Behaviour(owner)
 	{
+	}
+	
+	virtual void OnParamsReceived(const Parameters &params) override
+	{
+		mDistanceFrom	= params.get("distance", 0.f);
+		mSpeed			= params.get("speed", 0.f);
 	}
 
 	virtual void OnUpdate(float dt) override
 	{
-		if (!mRefObj)
-			return;
+		Vector2f orbitCenter(400, 300);
+		if (mRefObj)
+		{
+			const Attribute<Vector2f> refPos = mRefObj->GetAttribute<Vector2f>(AK_Position);
+			assert(refPos.IsValid());
+			orbitCenter = refPos;
+		}
 
 		dt *= mSpeed;
-
-		const Attribute<Vector2f> refPos = mRefObj->GetAttribute<Vector2f>(AK_Position);
-		assert(refPos.IsValid());
 
 		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 		assert(pos.IsValid());
 
-		pos->x = cos(dt) * mDistanceFrom + refPos->x;
-		pos->y = sin(dt) * mDistanceFrom + refPos->y;
+		pos->x = cos(dt) * mDistanceFrom + orbitCenter.x;
+		pos->y = sin(dt) * mDistanceFrom + orbitCenter.y;
 	}
 
 	void	SetOrbitInfo(float dist, float speed, const GameObjectPtr &refObj)
@@ -119,19 +130,22 @@ protected:
 		
 		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "TransformBehaviour");
 		Parameters orbitParams;
-		orbitParams.push_back(make_pair("distance",		"100"));
-		orbitParams.push_back(make_pair("speed",		"5"));
-		orbitParams.push_back(make_pair("revCenter",	"refObj"));
+		orbitParams.put("distance",		100.f);
+		orbitParams.put("speed",		5.f);
+		orbitParams.put("revCenter",	"refObj");
+		orbitParams.size();
 		ds.LinkBehaviourDefToGameObjectDef("OrbitingThing", "OrbiterBehaviour", orbitParams);
 
 		// Setup scene
 		GameObjectPtr refGO = ds.InstantiateGameObjectDef("ControllableThing");
-		refGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(refGO, Parameters(), DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
+		refGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(refGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 50, sf::Color::Magenta))))));
 		mObjects.push_back(refGO);
 
 		GameObjectPtr orbiterGO = ds.InstantiateGameObjectDef("OrbitingThing");
-		orbiterGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(orbiterGO, Parameters(), DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 15, sf::Color::White))))));
+		orbiterGO->AddBehaviour(BehaviourPtr(new RenderBehaviour(orbiterGO, DrawablePtr(new sf::Shape(sf::Shape::Circle(0, 0, 15, sf::Color::White))))));
 		mObjects.push_back(orbiterGO);
+
+		ds.InitializeInstances();
 	}
 };
 
