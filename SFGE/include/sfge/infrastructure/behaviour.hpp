@@ -18,13 +18,18 @@ namespace sfge
 		
 		//! We're just providing a shortcut to GameObject's method
 		template <typename T>
-		Attribute<T>	GetAttribute(size_t attributeKey)		{ return mOwner->GetAttribute<T>(attributeKey); }
+		Attribute<T> GetAttribute(size_t attributeKey)		{ return mOwner->GetAttribute<T>(attributeKey); }
 		
 		//! We're just providing a shortcut to GameObject's method
 		template <typename T>
-		void			RegisterAttribute(size_t attributeKey, const T *defaultVal = nullptr)
+		void RegisterAttribute(size_t attributeKey, const T *defaultVal = nullptr)
 		{ return mOwner->RegisterAttribute<T>(attributeKey, defaultVal); }
 
+		template <typename T>
+		void RegisterAttribute(size_t attributeKey, const T &defaultVal)
+		{ return mOwner->RegisterAttribute<T>(attributeKey, defaultVal); }
+
+		// Methods to reimplement to actually do something useful
 		virtual void	OnParamsReceived(const Parameters &params)	{ ; }
 		virtual void	OnUpdate(float dt)							{ ; }
 

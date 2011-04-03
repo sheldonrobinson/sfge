@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Color.hpp>
 
 #include "sfge/infrastructure/type_registration.hpp"
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
 
 namespace sfge
 {
@@ -14,6 +15,9 @@ namespace sfge
 	// SFML types
 	DEFINE_COMPLEX_TYPEID(sf::Vector2f);
 	DEFINE_COMPLEX_TYPEID(sf::Color);
+
+	// SFGE types
+	DEFINE_COMPLEX_TYPEID(GameObjectPtr);
 }
 
 #endif

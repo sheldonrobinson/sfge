@@ -11,11 +11,6 @@ public:
 	virtual void OnParamsReceived(const sfge::Parameters &params) override;
 
 	virtual void OnUpdate(float dt) override;
-
-private:
-	float			mDistanceFrom;
-	float			mSpeed;
-	sfge::GameObjectPtr	mRefObj;
 };
 
 #endif

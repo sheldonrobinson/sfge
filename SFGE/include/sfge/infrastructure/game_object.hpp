@@ -27,6 +27,8 @@ namespace sfge
 		// Attribute management
 		template <typename T>
 		void			RegisterAttribute(size_t attributeKey, const T *defaultVal = nullptr);
+		template <typename T>
+		void			RegisterAttribute(size_t attributeKey, const T &defaultVal);
 		
 		template <typename T>
 		Attribute<T>	GetAttribute(size_t attributeKey);

@@ -10,6 +10,17 @@ void GameObject::RegisterAttribute(size_t attributeKey, const T *defaultVal)
 }
 
 template <typename T>
+void GameObject::RegisterAttribute(size_t attributeKey, const T &defaultVal)
+{
+	assert(mAttributes.find(attributeKey) == mAttributes.end() && "Attribute key already registered!");
+
+	const TypeRegistry::TypeInfo &ti = TypeRegistration<T>::GetFullInfos();
+
+	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(ti, defaultVal));
+	mAttributes.insert(std::make_pair(attributeKey, posHolder));
+}
+
+template <typename T>
 Attribute<T> GameObject::GetAttribute(size_t attributeKey)
 {
 	Attributes::iterator attribIt = mAttributes.find(attributeKey);
