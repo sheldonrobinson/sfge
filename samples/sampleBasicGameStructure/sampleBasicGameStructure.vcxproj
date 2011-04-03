@@ -127,12 +127,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\behaviours\controller_chng_pos_color_behaviour.cpp" />
-    <ClCompile Include="..\behaviours\orbiter_behaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\behaviours\controller_chng_pos_color_behaviour.hpp" />
-    <ClInclude Include="..\behaviours\orbiter_behaviour.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
