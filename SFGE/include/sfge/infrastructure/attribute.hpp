@@ -15,7 +15,7 @@ namespace sfge
 	class Attribute
 	{
 	public:
-		Attribute(detail::AttributeHolderPtr holder, GameObjectPtr owner, size_t attrKey);
+		Attribute(detail::AttributeHolderPtr holder, GameObjectWeakPtr owner, size_t attrKey);
 		~Attribute();
 
 		bool IsValid() const;
@@ -38,7 +38,7 @@ namespace sfge
 
 	private:
 		detail::AttributeHolderPtr	mHolder;
-		GameObjectPtr				mOwner;
+		GameObjectWeakPtr			mOwner;
 		size_t						mAttributeKey;
 		
 		//! Set to true whenever any non-const accessor is used. No way to really check modifications without caching I guess.

@@ -2,9 +2,23 @@
 	"type": "world",
 	"game_object_defs": [
 		"Sun",
-		"OrbitingThing"
+		"OrbitingThing",
+		{
+			"name": "Space",
+			"behaviours": [
+				"TransformBehaviour",
+				{
+					"name": "RenderBehaviour",
+					"params": {
+						"type": "sprite",
+						"source": "space.png"
+					}
+				}
+			]
+		}
 	],
 	"game_object_instances": [
+		"Space",
 		{ "godName": "Sun", "instanceName": "sun" }
 	]
 }

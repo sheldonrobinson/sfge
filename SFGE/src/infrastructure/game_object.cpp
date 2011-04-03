@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ namespace sfge
 GameObjectPtr GameObject::Create()
 {
 	GameObjectPtr go(new GameObject());
-	go->setSelf(go);
+	go->SetSelf(go);
 	return go;
 }
 
@@ -24,6 +25,7 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	cout << "Deleting GameObject" << endl;
 }
 
 void GameObject::AddBehaviour(BehaviourPtr b)

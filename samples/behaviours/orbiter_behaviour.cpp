@@ -9,12 +9,12 @@ using namespace std;
 using namespace sfge;
 using namespace sf;
 
-OrbiterBehaviour::OrbiterBehaviour(GameObjectPtr owner)
+OrbiterBehaviour::OrbiterBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	RegisterAttribute(SAK_OrbitDistance, 0.f);
 	RegisterAttribute(SAK_OrbitSpeed, 0.f);
-	RegisterAttribute<GameObjectPtr>(SAK_OrbitReferenceCenter);
+	RegisterAttribute<GameObjectWeakPtr>(SAK_OrbitReferenceCenter);
 }
 	
 void OrbiterBehaviour::OnParamsReceived(const sfge::Parameters &params)
@@ -29,16 +29,18 @@ void OrbiterBehaviour::OnParamsReceived(const sfge::Parameters &params)
 
 	optional<string> refObjName = params.get_optional<string>("revolutionCenter");
 	if (refObjName)
-		GetAttribute<GameObjectPtr>(SAK_OrbitReferenceCenter) = DataStore::getSingleton().GetGameObjectInstanceByName(*refObjName);
+		GetAttribute<GameObjectWeakPtr>(SAK_OrbitReferenceCenter) = DataStore::getSingleton().GetGameObjectInstanceByName(*refObjName);
 }
 
 void OrbiterBehaviour::OnUpdate(float dt)
 {
 	const float dist			= GetAttribute<float>(SAK_OrbitDistance);
 	const float speed			= GetAttribute<float>(SAK_OrbitSpeed);
-	const GameObjectPtr refObj	= GetAttribute<GameObjectPtr>(SAK_OrbitReferenceCenter);
+	const GameObjectWeakPtr refObj	= GetAttribute<GameObjectWeakPtr>(SAK_OrbitReferenceCenter);
+	if(refObj.expired())
+		return;
 	
-	const Attribute<Vector2f> refPos = refObj->GetAttribute<Vector2f>(AK_Position);
+	const Attribute<Vector2f> refPos = refObj.lock()->GetAttribute<Vector2f>(AK_Position);
 	assert(refPos.IsValid());
 
 	Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);

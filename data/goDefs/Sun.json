@@ -6,21 +6,18 @@
 			"name": "TransformBehaviour",
 			"params": {
 				"px": 400,
-				"py": 300
+				"py": 300,
+				"sx": 0.25,
+				"sy": 0.25
 			}
 		},
 		{
 			"name": "RenderBehaviour",
 			"params": {
-				"type": "shape",
-				"shape": "circle",
-				"cx": 0,
-				"cy": 0,
-				"radius": 50,
-				"cr": 255,
-				"cg": 102,
-				"cb": 51,
-				"ca": 255
+				"type": "sprite",
+				"source": "sun.png",
+				"ox": 128,
+				"oy": 128
 			}
 		}
 	]

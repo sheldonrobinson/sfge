@@ -102,7 +102,7 @@ void Game::Run()
 		gfxSys.UpdateEvents();
 		gfxSys.PreRender();
 
-		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectPtr go) { go->Update(clock.GetElapsedTime()); } );
+		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(clock.GetElapsedTime()); } );
 
 		gfxSys.PostRender();
 	}
@@ -143,12 +143,19 @@ void Game::LoadConfigFile()
 
 	mWorldDefsFolder	= config.get("worldDefs", ".");
 	mGODefsFolder		= config.get("goDefs", ".");
+	mImagesFolder		= config.get("images", ".");
 }
 
 void Game::ReloadWorld()
 {
+	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
+	cout << "Destroying current world..." << endl;
+
 	mObjects.clear();
 	DataStore::getSingleton().ClearAll();
+
+	cout << "Reloading current world..." << endl;
+	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
 
 	LoadWorld(mCurrentWorld);
 }
@@ -245,6 +252,7 @@ void Game::LoadWorldFrom(const Parameters &content)
 			if (!goDefName.empty())
 			{
 				GameObjectPtr go = ds.InstantiateGameObjectDef(goDefName);
+				go->SetGame(this);
 				mObjects.push_back(go);
 
 				cout << "Instantiating " << goDefName << endl;
@@ -260,6 +268,7 @@ void Game::LoadWorldFrom(const Parameters &content)
 					throw InvalidGameObjectInstanceException(goDefName, instanceName);
 				
 				GameObjectPtr go = ds.InstantiateGameObjectDef(goDefName, instanceName);
+				go->SetGame(this);
 				mObjects.push_back(go);
 
 				cout << "Instantiating " << goDefName << " under the name '" << instanceName << "'" << endl;

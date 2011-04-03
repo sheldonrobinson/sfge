@@ -7,7 +7,7 @@
 using namespace sfge;
 using namespace sf;
 
-ControllerBehaviour::ControllerBehaviour(GameObjectPtr owner)
+ControllerBehaviour::ControllerBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
 {
 }

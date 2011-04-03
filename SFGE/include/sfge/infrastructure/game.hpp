@@ -19,6 +19,8 @@ namespace sfge
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
 
+		const std::string& GetImagesFolder() const		{ return mImagesFolder; }
+
 		void LoadWorld(const std::string &worldName);
 		void ReloadWorld();
 		void LoadGameObjectDef(const std::string &godName);
@@ -38,6 +40,7 @@ namespace sfge
 		
 		std::string		mWorldDefsFolder;
 		std::string		mGODefsFolder;
+		std::string		mImagesFolder;
 
 		std::string		mCurrentWorld;
 

@@ -6,7 +6,9 @@ namespace sfge
 	enum AttributeKey
 	{
 		AK_Position,
+		AK_Scale,
 		AK_Color,
+		AK_Origin,
 
 		AK_User,			//!< Attribute ids in user code must start from this value.
 	};

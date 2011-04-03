@@ -1,6 +1,6 @@
 template <typename T>
 Attribute<T>::Attribute(detail::AttributeHolderPtr holder,
-						GameObjectPtr owner, size_t attrKey) :
+						GameObjectWeakPtr owner, size_t attrKey) :
 	mHolder(holder), mOwner(owner),
 	mAttributeKey(attrKey), mPotentiallyModified(false)
 {

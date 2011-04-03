@@ -6,7 +6,7 @@
 class OrbiterBehaviour : public sfge::Behaviour
 {
 public:
-	OrbiterBehaviour(sfge::GameObjectPtr owner = sfge::GameObjectPtr());
+	OrbiterBehaviour(sfge::GameObjectWeakPtr owner = sfge::GameObjectPtr());
 	
 	virtual void OnParamsReceived(const sfge::Parameters &params) override;
 

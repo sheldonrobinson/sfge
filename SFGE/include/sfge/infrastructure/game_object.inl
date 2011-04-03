@@ -27,7 +27,7 @@ Attribute<T> GameObject::GetAttribute(size_t attributeKey)
 	if (attribIt == mAttributes.end())
 	{
 		assert("Can't find attribute!" && attribIt == mAttributes.end());
-		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr, nullptr, 0);
+		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr, GameObjectPtr(), 0);
 	}
 
 	// Check types

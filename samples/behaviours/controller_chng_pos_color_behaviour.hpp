@@ -6,7 +6,7 @@
 class ControllerBehaviour : public sfge::Behaviour
 {
 public:
-	ControllerBehaviour(sfge::GameObjectPtr owner = sfge::GameObjectPtr());
+	ControllerBehaviour(sfge::GameObjectWeakPtr owner = sfge::GameObjectPtr());
 
 	virtual void OnUpdate(float dt) override;
 

@@ -20,7 +20,7 @@ namespace sfge
 	{
 		Message() : mMessageID(InvalidMessageID), mMsgData(0) { ; }
 
-		GameObjectPtr	mSource;
+		GameObjectWeakPtr	mSource;
 		size_t			mMessageID;
 		size_t			mMsgData;
 	};
@@ -40,12 +40,12 @@ namespace sfge
 		friend size_t hash_value(const MessageKey &k)
 		{
 			size_t seed = 0;
-			boost::hash_combine(seed, k.mSource.get());
+			boost::hash_combine(seed, k.mSource.lock().get());
 			boost::hash_combine(seed, k.mMessageID);
 			return seed;
 		}
 
-		GameObjectPtr	mSource;
+		GameObjectWeakPtr	mSource;
 		size_t			mMessageID;
 	};
 	

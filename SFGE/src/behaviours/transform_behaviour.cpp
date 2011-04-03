@@ -9,22 +9,32 @@ using namespace sf;
 namespace sfge
 {
 
-TransformBehaviour::TransformBehaviour(GameObjectPtr owner)
+TransformBehaviour::TransformBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	RegisterAttribute<Vector2f>(AK_Position);
+	RegisterAttribute<Vector2f>(AK_Scale);
 }
 
 void TransformBehaviour::OnParamsReceived(const sfge::Parameters &params)
 {
-	optional<float> x = params.get_optional<float>("px");
-	optional<float> y = params.get_optional<float>("py");
+	optional<float> px = params.get_optional<float>("px");
+	optional<float> py = params.get_optional<float>("py");
 
 	Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-	if (x)
-		pos->x = *x;
-	if (y)
-		pos->y = *y;
+	if (px)
+		pos->x = *px;
+	if (py)
+		pos->y = *py;
+	
+	optional<float> sx = params.get_optional<float>("sx");
+	optional<float> sy = params.get_optional<float>("sy");
+
+	Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
+	if (sx)
+		scale->x = *sx;
+	if (sy)
+		scale->y = *sy;
 }
 
 }

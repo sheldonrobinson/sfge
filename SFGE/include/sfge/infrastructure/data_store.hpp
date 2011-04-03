@@ -13,7 +13,7 @@ namespace sfge
 	class DataStore : public Singleton<DataStore>
 	{
 	public:
-		typedef delegate<BehaviourPtr(GameObjectPtr)>	BehaviourCreator;
+		typedef delegate<BehaviourPtr(GameObjectWeakPtr)>	BehaviourCreator;
 
 	public:
 		static void Init();
@@ -37,7 +37,7 @@ namespace sfge
 		void InitializeInstances();
 
 		// Getters
-		GameObjectPtr GetGameObjectInstanceByName(const std::string &goInstanceName);
+		GameObjectWeakPtr GetGameObjectInstanceByName(const std::string &goInstanceName);
 
 	private:
 		typedef std::map<std::string,	BehaviourCreator>		BehaviourDefs;
@@ -47,7 +47,7 @@ namespace sfge
 		typedef std::map<std::string,	GameObjectPtr>			GameObjectInstances;
 
 	private:
-		BehaviourPtr InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner);
+		BehaviourPtr InstantiateBehaviourDef(const std::string &behaviourName, GameObjectWeakPtr owner);
 
 	private:
 		BehaviourDefs		mBehaviourDefinitions;
@@ -57,7 +57,7 @@ namespace sfge
 	};
 
 	template <typename T>
-	BehaviourPtr create(GameObjectPtr owner) { return BehaviourPtr(new T(owner)); }
+	BehaviourPtr create(GameObjectWeakPtr owner) { return BehaviourPtr(new T(owner)); }
 
 	// This macro may be used to declare a behaviour without having to type all the bloat around. Should remove bloat heh?
 #define DECLARE_BEHAVIOUR(Behaviour) DataStore::getSingleton().DeclareBehaviourDef(#Behaviour, DataStore::BehaviourCreator::from_function<create<Behaviour>>());

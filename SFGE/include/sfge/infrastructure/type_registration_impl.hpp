@@ -18,6 +18,7 @@ namespace sfge
 
 	// SFGE types
 	DEFINE_COMPLEX_TYPEID(GameObjectPtr);
+	DEFINE_COMPLEX_TYPEID(GameObjectWeakPtr);
 }
 
 #endif

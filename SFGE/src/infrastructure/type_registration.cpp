@@ -13,6 +13,7 @@ IMPLEMENT_TYPEID_QUERY(sf::Color);
 
 	// SFGE types
 IMPLEMENT_TYPEID_QUERY(sfge::GameObjectPtr);
+IMPLEMENT_TYPEID_QUERY(sfge::GameObjectWeakPtr);
 
 void sfge::InitTypesStub()
 {

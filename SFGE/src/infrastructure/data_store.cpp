@@ -105,7 +105,7 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, co
 	return go;
 }
 
-BehaviourPtr DataStore::InstantiateBehaviourDef(const std::string &behaviourName, GameObjectPtr owner)
+BehaviourPtr DataStore::InstantiateBehaviourDef(const std::string &behaviourName, GameObjectWeakPtr owner)
 {
 	BehaviourDefs::const_iterator it = mBehaviourDefinitions.find(behaviourName);
 	if (it == mBehaviourDefinitions.end())
@@ -120,7 +120,7 @@ void DataStore::InitializeInstances()
 		[&] (BehavioursToInit::value_type &entry) { entry.first->OnParamsReceived(*entry.second); } );
 }
 
-GameObjectPtr DataStore::GetGameObjectInstanceByName(const std::string &goInstanceName)
+GameObjectWeakPtr DataStore::GetGameObjectInstanceByName(const std::string &goInstanceName)
 {
 	if (goInstanceName.empty())
 		return GameObjectPtr();

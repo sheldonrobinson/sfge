@@ -4,21 +4,26 @@
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/builtin_messages.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/game.hpp"
 
 #include <cassert>
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
+using namespace boost;
 using namespace sf;
 
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
+RenderBehaviour::RenderBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	RegisterAttribute<Color>(AK_Color, &Color::White);
+	RegisterAttribute<Vector2f>(AK_Origin);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
@@ -47,8 +52,29 @@ void RenderBehaviour::OnParamsReceived(const Parameters &params)
 			mDrawable = DrawablePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
 		}
 	}
+	else if (params.get("type", "") == "sprite")
+	{
+		const std::string &src = params.get("source", "");
+		assert(!src.empty());
+		
+		mImage = ImagePtr(new Image());
+		mImage->LoadFromFile(mOwner.lock()->GetGame()->GetImagesFolder() + "/" + src);
 
-	// Apply anything we're interested in.
+		mDrawable = DrawablePtr(new Sprite(*mImage));
+	}
+
+	// Apply origin
+	optional<float> ox = params.get_optional<float>("ox");
+	optional<float> oy = params.get_optional<float>("oy");
+	
+	Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
+	assert(origin.IsValid());
+	if (ox)
+		origin->x = *ox;
+	if (oy)
+		origin->y = *oy;
+
+	// Apply anything we're interested in due to unknown initialization order
 	if (mDrawable)
 	{
 		ApplyTransform();
@@ -70,15 +96,17 @@ void RenderBehaviour::OnAttributeChanged(const Message &msg)
 	if (!mDrawable)
 		return;
 
-	assert(msg.mSource == mOwner);
+	assert(msg.mSource.lock().get() == mOwner.lock().get());
 
 	switch (msg.mMsgData)
 	{
 	case AK_Position:
+	case AK_Scale:
 		ApplyTransform();
 		break;
 		
 	case AK_Color:
+	case AK_Origin:
 		ApplyRender();
 		break;
 	}
@@ -89,6 +117,10 @@ void RenderBehaviour::ApplyTransform()
 	const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 	assert(pos.IsValid());
 	mDrawable->SetPosition(pos);
+	
+	const Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
+	assert(scale.IsValid());
+	mDrawable->SetScale(scale);
 }
 
 void RenderBehaviour::ApplyRender()
@@ -96,6 +128,10 @@ void RenderBehaviour::ApplyRender()
 	const Attribute<Color> col = GetAttribute<Color>(AK_Color);
 	assert(col.IsValid());
 	mDrawable->SetColor(col);
+	
+	const Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
+	assert(origin.IsValid());
+	mDrawable->SetOrigin(origin);
 }
 
 }

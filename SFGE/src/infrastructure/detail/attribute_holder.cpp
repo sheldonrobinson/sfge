@@ -1,6 +1,9 @@
 #include "sfge/infrastructure/detail/attribute_holder.hpp"
 
 #include <cstdlib>
+#include <iostream>
+
+using namespace std;
 
 namespace sfge
 {
@@ -16,13 +19,15 @@ AttributeHolder::AttributeHolder()
 
 AttributeHolder::~AttributeHolder()
 {
-	if (mTypeInfo->mHasCtorOrDtor)
-	{
-		mTypeInfo->mDtor(mData.mValuePtr);
-	}
-	
 	if (mTypeInfo->IsBiggerThanPointer())
-		free(mData.mValuePtr);
+	{
+		if (mTypeInfo->mHasCtorOrDtor)
+			mTypeInfo->mDtor(mData.mValuePtr);
+		else
+			free(mData.mValuePtr);
+	}
+
+	cout << "Deleting AttributeHolder" << endl;
 }
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const

@@ -10,9 +10,11 @@
 namespace sfge
 {
 	class Game;
+	typedef Game*								GamePtr;
 
 	class GameObject;
 	typedef std::shared_ptr<GameObject>			GameObjectPtr;
+	typedef std::weak_ptr<GameObject>			GameObjectWeakPtr;
 	
 	class Behaviour;
 	typedef std::shared_ptr<Behaviour>			BehaviourPtr;
