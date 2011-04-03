@@ -26,8 +26,6 @@ AttributeHolder::~AttributeHolder()
 		else
 			free(mData.mValuePtr);
 	}
-
-	cout << "Deleting AttributeHolder" << endl;
 }
 
 TypeRegistry::TypeId AttributeHolder::GetTypeId() const

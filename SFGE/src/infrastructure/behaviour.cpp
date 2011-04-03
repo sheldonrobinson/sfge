@@ -15,7 +15,6 @@ Behaviour::Behaviour(GameObjectWeakPtr owner)
 
 Behaviour::~Behaviour()
 {
-	cout << "Deleting Behaviour" << endl;
 }
 
 void Behaviour::SetOwner(GameObjectWeakPtr owner)

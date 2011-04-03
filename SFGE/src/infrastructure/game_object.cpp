@@ -25,7 +25,6 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-	cout << "Deleting GameObject" << endl;
 }
 
 void GameObject::AddBehaviour(BehaviourPtr b)
