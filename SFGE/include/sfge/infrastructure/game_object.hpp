@@ -45,6 +45,7 @@ namespace sfge
 	private:
 		GameObjectPtr	mSelf;			//!< Used when sending messages.
 		Behaviours		mBehaviours;
+		// FIXME THREADING move that somewhere else for nicer parallelism performances. Datastore too I guess?
 		Attributes		mAttributes;
 	};
 

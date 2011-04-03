@@ -1,112 +1,15 @@
-#include <sfge/infrastructure/behaviour.hpp>
-#include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/infrastructure/game_object.hpp>
-#include <sfge/infrastructure/message_manager.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 
-#include <iostream>
-
-#include <boost/lexical_cast.hpp>
-
-#include <SFML/Graphics/Shape.hpp>
+#include "orbiter_behaviour.hpp"
+#include "controller_chng_pos_color_behaviour.hpp"
 
 using namespace std;
 using namespace boost;
 using namespace sf;
 using namespace sfge;
-
-class ControllerBehaviour : public Behaviour
-{
-public:
-	ControllerBehaviour(GameObjectPtr owner = GameObjectPtr())
-		: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
-	{
-	}
-
-	virtual void OnUpdate(float /*dt*/) override
-	{
-		const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
-
-		const unsigned int	newX	= input.GetMouseX(),
-							newY	= input.GetMouseY();
-
-		if (newX != mPrevMouseX || newY != mPrevMouseY)
-		{
-			Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-			assert(pos.IsValid());
-			pos->x = static_cast<float>(newX);
-			pos->y = static_cast<float>(newY);
-
-			mPrevMouseX = newX;
-			mPrevMouseY = newY;
-		}
-
-		const bool mouseLeftPressed	= input.IsMouseButtonDown(sf::Mouse::Left);
-		if (mouseLeftPressed != mPrevLButtonState)
-		{
-			Attribute<Color> col = GetAttribute<Color>(AK_Color);
-			assert(col.IsValid());
-			col = mouseLeftPressed ? Color::Blue : Color::Red;
-
-			mPrevLButtonState = mouseLeftPressed;
-		}
-	}
-
-private:
-	unsigned int	mPrevMouseX, mPrevMouseY;
-	bool			mPrevLButtonState;
-};
-
-class OrbiterBehaviour : public Behaviour
-{
-public:
-	OrbiterBehaviour(GameObjectPtr owner = GameObjectPtr())
-		: Behaviour(owner)
-	{
-	}
-	
-	virtual void OnParamsReceived(const Parameters &params) override
-	{
-		mDistanceFrom	= params.get("distance", 0.f);
-		mSpeed			= params.get("speed", 0.f);
-
-		const std::string &refObjName = params.get("revCenter", "");
-		mRefObj = DataStore::getSingleton().GetGameObjectInstanceByName(refObjName);
-	}
-
-	virtual void OnUpdate(float dt) override
-	{
-		Vector2f orbitCenter(400, 300);
-		if (mRefObj)
-		{
-			const Attribute<Vector2f> refPos = mRefObj->GetAttribute<Vector2f>(AK_Position);
-			assert(refPos.IsValid());
-			orbitCenter = refPos;
-		}
-
-		dt *= mSpeed;
-
-		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-		assert(pos.IsValid());
-
-		pos->x = cos(dt) * mDistanceFrom + orbitCenter.x;
-		pos->y = sin(dt) * mDistanceFrom + orbitCenter.y;
-	}
-
-	void	SetOrbitInfo(float dist, float speed, const GameObjectPtr &refObj)
-	{
-		mDistanceFrom	= dist;
-		mSpeed			= speed;
-		mRefObj			= refObj;
-	}
-
-private:
-	float			mDistanceFrom;
-	float			mSpeed;
-	GameObjectPtr	mRefObj;
-};
 
 class SampleGame : public Game
 {
@@ -157,9 +60,9 @@ private:
 		orbitObjDrawableDef.put("ca",		Color::White.a);
 		
 		Parameters orbitParams;
-		orbitParams.put("distance",		100.f);
-		orbitParams.put("speed",		5.f);
-		orbitParams.put("revCenter",	"refObj");
+		orbitParams.put("distance",			100.f);
+		orbitParams.put("speed",			5.f);
+		orbitParams.put("revolutionCenter",	"refObj");
 
 		// Declare the 2 gameobject definitions we need
 		DataStore &ds = DataStore::getSingleton();

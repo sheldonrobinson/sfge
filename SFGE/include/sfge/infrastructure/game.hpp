@@ -1,6 +1,7 @@
 #ifndef SFGE_INFRASTRUCTURE_GAME_HPP
 #define SFGE_INFRASTRUCTURE_GAME_HPP
 
+#include <string>
 #include <vector>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
@@ -15,6 +16,8 @@ namespace sfge
 
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
+
+		void LoadFile(const std::string &fileName);
 
 	protected:
 		virtual void OnDeclareAdditionnalBehaviours()	{ ; }
@@ -31,6 +34,8 @@ namespace sfge
 	private:
 		void DeclareBehaviours();
 		void Init();
+		void LoadWorldFrom(const Parameters &content);
+		void LoadGODefinitionFrom(const Parameters &content);
 	};
 }
 

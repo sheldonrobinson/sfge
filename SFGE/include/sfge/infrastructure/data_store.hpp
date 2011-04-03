@@ -24,6 +24,9 @@ namespace sfge
 		void LinkBehaviourDefToGameObjectDef(const std::string &godName, const std::string &behaviourName);
 		void LinkBehaviourDefToGameObjectDef(const std::string &godName, const std::string &behaviourName, const Parameters &defaultParams);
 
+		bool IsGODRegistered(const std::string &godName) const;
+		bool IsBehaviourRegistered(const std::string &behaviourName) const;
+
 		// Instantiation
 		//! This will create a new GameObject based on definition registered as godName. The instance name is optionnal, but anonymous instances can't be get back.
 		GameObjectPtr InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName = "");

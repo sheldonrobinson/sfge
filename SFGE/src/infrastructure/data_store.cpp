@@ -43,12 +43,22 @@ void DataStore::LinkBehaviourDefToGameObjectDef(const std::string &godName, cons
 	mLinks[godName].insert(make_pair(behaviourName, defaultParams));
 }
 
+bool DataStore::IsGODRegistered(const std::string &godName) const
+{
+	return mLinks.find(godName) != mLinks.end();
+}
+
+bool DataStore::IsBehaviourRegistered(const std::string &behaviourName) const
+{
+	return mBehaviourDefinitions.find(behaviourName) != mBehaviourDefinitions.end();
+}
+
 GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName)
 {
 	GameObjectPtr go(GameObject::Create());
 	
 	GOBehaviourLinks::const_iterator godIt = mLinks.find(godName);
-	assert(godIt != mLinks.end() && ("GameObject definition named " + godName + " has no associated behaviours!").c_str());
+	assert(godIt != mLinks.end() && ("GameObject definition named " + godName + " doesn't exist!").c_str());
 	
 	const BehaviourList &goBehaviours = godIt->second;
 	for_each(goBehaviours.begin(), goBehaviours.end(),
