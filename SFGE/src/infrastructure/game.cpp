@@ -13,6 +13,7 @@
 #include <algorithm>
 
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 
 #include <SFML/System/Clock.hpp>
 
@@ -24,7 +25,7 @@ namespace sfge
 {
 
 Game::Game()
-	: mQuitFlag(false)
+	: mQuitFlag(false), mConfigFileName("config.ini")
 {
 }
 
@@ -62,6 +63,8 @@ void Game::Init()
 	DataStore::Init();
 	DeclareBehaviours();
 
+	LoadConfigFile();
+
 	OnEndSystemInit();
 }
 
@@ -75,18 +78,33 @@ void Game::DeclareBehaviours()
 	OnDeclareAdditionnalBehaviours();
 }
 
-void Game::LoadFile(const std::string &fileName)
+void Game::LoadConfigFile()
+{
+	ptree config;
+	ini_parser::read_ini(mConfigFileName, config);
+
+	mWorldDefsFolder	= config.get("worldDefs", ".");
+	mGODefsFolder		= config.get("goDefs", ".");
+}
+
+void Game::LoadWorld(const std::string &worldName)
 {
 	Parameters content;
-	json_parser::read_json(fileName, content);
+	json_parser::read_json(mWorldDefsFolder + "/" + worldName + ".json", content);
 
 	const std::string fileType = content.get("type", "");
-	assert(!fileType.empty());
+	assert(fileType == "world");
+	LoadWorldFrom(content);
+}
 
-	if (fileType == "world")
-	{
-		LoadWorldFrom(content);
-	}
+void Game::LoadGameObjectDef(const std::string &godName)
+{
+	Parameters content;
+	json_parser::read_json(mGODefsFolder + "/" + godName + ".json", content);
+
+	const std::string fileType = content.get("type", "");
+	assert(fileType == "gameObjectDef");
+	LoadGODefinitionFrom(content);
 }
 
 #include <iostream>
@@ -109,7 +127,8 @@ void Game::LoadWorldFrom(const Parameters &content)
 				const string &godName = goDef.second.data();
 				if (!godName.empty())
 				{
-					assert(ds.IsGODRegistered(godName));
+					if (!ds.IsGODRegistered(godName))
+						LoadGameObjectDef(godName);
 				}
 				else
 				{

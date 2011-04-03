@@ -23,7 +23,7 @@ protected:
 	{
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
 
-		LoadFile("data/sampleBasicGameStructure.json");
+		LoadWorld("sampleBasicGameStructure");
 	}
 };
 

@@ -17,7 +17,8 @@ namespace sfge
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
 
-		void LoadFile(const std::string &fileName);
+		void LoadWorld(const std::string &worldName);
+		void LoadGameObjectDef(const std::string &godName);
 
 	protected:
 		virtual void OnDeclareAdditionnalBehaviours()	{ ; }
@@ -30,10 +31,15 @@ namespace sfge
 	protected:
 		GameObjects		mObjects;
 		bool			mQuitFlag;
+		std::string		mConfigFileName;
+		
+		std::string		mWorldDefsFolder;
+		std::string		mGODefsFolder;
 
 	private:
 		void DeclareBehaviours();
 		void Init();
+		void LoadConfigFile();
 		void LoadWorldFrom(const Parameters &content);
 		void LoadGODefinitionFrom(const Parameters &content);
 	};
