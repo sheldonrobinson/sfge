@@ -4,6 +4,8 @@
 #include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/data_store.hpp>
 
+using namespace boost;
+using namespace std;
 using namespace sfge;
 using namespace sf;
 
@@ -17,11 +19,17 @@ OrbiterBehaviour::OrbiterBehaviour(GameObjectPtr owner)
 	
 void OrbiterBehaviour::OnParamsReceived(const sfge::Parameters &params)
 {
-	GetAttribute<float>(SAK_OrbitDistance)	= params.get("distance", 0.f);
-	GetAttribute<float>(SAK_OrbitSpeed)		= params.get("speed", 0.f);
+	optional<float> dist = params.get_optional<float>("distance");
+	if (dist)
+		GetAttribute<float>(SAK_OrbitDistance) = *dist;
 
-	const std::string &refObjName = params.get("revolutionCenter", "");
-	GetAttribute<GameObjectPtr>(SAK_OrbitReferenceCenter) = DataStore::getSingleton().GetGameObjectInstanceByName(refObjName);
+	optional<float> speed = params.get_optional<float>("speed");
+	if (dist)
+		GetAttribute<float>(SAK_OrbitSpeed) = *speed;
+
+	optional<string> refObjName = params.get_optional<string>("revolutionCenter");
+	if (refObjName)
+		GetAttribute<GameObjectPtr>(SAK_OrbitReferenceCenter) = DataStore::getSingleton().GetGameObjectInstanceByName(*refObjName);
 }
 
 void OrbiterBehaviour::OnUpdate(float dt)
