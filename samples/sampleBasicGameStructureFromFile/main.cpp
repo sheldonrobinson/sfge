@@ -1,13 +1,10 @@
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
-#include <sfge/infrastructure/game_object.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 
 #include "orbiter_behaviour.hpp"
 #include "controller_chng_pos_color_behaviour.hpp"
 
-using namespace std;
-using namespace sf;
 using namespace sfge;
 
 class SampleGame : public Game
@@ -27,23 +24,6 @@ protected:
 		GraphicSystem::getSingleton().Create(GraphicSystem::InitParams());
 
 		LoadFile("data/sampleBasicGameStructure.json");
-
-		SetupScene();
-	}
-
-private:
-
-	void SetupScene()
-	{
-		DataStore &ds = DataStore::getSingleton();
-
-		GameObjectPtr refGO = ds.InstantiateGameObjectDef("ControllableThing", "refObj");
-		mObjects.push_back(refGO);
-
-		GameObjectPtr orbiterGO = ds.InstantiateGameObjectDef("OrbitingThing");
-		mObjects.push_back(orbiterGO);
-
-		ds.InitializeInstances();
 	}
 };
 
