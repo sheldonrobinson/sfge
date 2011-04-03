@@ -1,10 +1,12 @@
 #ifndef SFGE_INFRASTRUCTURE_GAME_HPP
 #define SFGE_INFRASTRUCTURE_GAME_HPP
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
+
 #include <string>
 #include <vector>
 
-#include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include <SFML/Window/Event.hpp>
 
 namespace sfge
 {
@@ -18,6 +20,7 @@ namespace sfge
 		void Quit()		{ mQuitFlag = true; }
 
 		void LoadWorld(const std::string &worldName);
+		void ReloadWorld();
 		void LoadGameObjectDef(const std::string &godName);
 
 	protected:
@@ -35,6 +38,8 @@ namespace sfge
 		
 		std::string		mWorldDefsFolder;
 		std::string		mGODefsFolder;
+
+		std::string		mCurrentWorld;
 
 	private:
 		void DeclareBehaviours();

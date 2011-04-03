@@ -11,6 +11,8 @@
 #include "sfge/graphics/graphic_system.hpp"
 
 #include <algorithm>
+#include <exception>
+#include <iostream>
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ini_parser.hpp>
@@ -23,6 +25,60 @@ using namespace boost::property_tree;
 
 namespace sfge
 {
+
+namespace
+{
+class FileTypeException : public std::exception
+{
+public:
+	FileTypeException(const std::string &got, const std::string &expected)
+		: mGot(got), mExpected(expected)
+	{
+	}
+
+	virtual const char *what() const override
+	{
+		return (string("FileTypeException: Got '") + mGot + "' instead of '" + mExpected + "'").c_str();
+	}
+
+	std::string mGot;
+	std::string mExpected;
+};
+
+class InvalidGameObjectInstanceException : public std::exception
+{
+public:
+	InvalidGameObjectInstanceException(const std::string &godName, const std::string &instanceName)
+	{
+		mExceptionText = string("Invalid named GameObject instance: GOD name: '") + godName + "'; Instance name: '" + instanceName + "'";
+	}
+
+	virtual const char *what() const override
+	{
+		return mExceptionText.c_str();
+	}
+
+	std::string mExceptionText;
+};
+
+class InvalidGameObjectDefinitionException : public std::exception
+{
+public:
+	InvalidGameObjectDefinitionException(const std::string &godName, const std::string &why)
+	{
+		mExceptionText = string("Invalid named GameObject definition: GOD name: '") + godName + "'. Reason: '" + why + "'";
+	}
+
+	virtual const char *what() const override
+	{
+		return mExceptionText.c_str();
+	}
+
+	std::string mExceptionText;
+};
+
+const std::exception NoGameObjectInstanceException("No Game Object Instances");
+}
 
 Game::Game()
 	: mQuitFlag(false), mConfigFileName("config.ini")
@@ -65,6 +121,8 @@ void Game::Init()
 
 	LoadConfigFile();
 
+	GraphicSystem::getSingleton().SetGame(this);
+
 	OnEndSystemInit();
 }
 
@@ -87,29 +145,63 @@ void Game::LoadConfigFile()
 	mGODefsFolder		= config.get("goDefs", ".");
 }
 
+void Game::ReloadWorld()
+{
+	mObjects.clear();
+	DataStore::getSingleton().ClearAll();
+
+	LoadWorld(mCurrentWorld);
+}
+
 void Game::LoadWorld(const std::string &worldName)
 {
-	Parameters content;
-	json_parser::read_json(mWorldDefsFolder + "/" + worldName + ".json", content);
+	mCurrentWorld = worldName;
+	const std::string filename(mWorldDefsFolder + "/" + mCurrentWorld + ".json");
 
-	const std::string fileType = content.get("type", "");
-	assert(fileType == "world");
-	LoadWorldFrom(content);
+	Parameters content;
+	try
+	{
+		json_parser::read_json(filename, content);
+
+		const std::string fileType = content.get("type", "");
+		const std::string fileTypeExpected("world");
+		if (fileType != fileTypeExpected)
+			throw FileTypeException(fileType, fileTypeExpected);
+
+		LoadWorldFrom(content);
+	}
+	catch (const std::exception &e)
+	{
+		cout << "Exception while parsing " << filename << ": " << e.what();
+	}
 }
 
 void Game::LoadGameObjectDef(const std::string &godName)
 {
+	const std::string filename(mGODefsFolder + "/" + godName + ".json");
 	Parameters content;
-	json_parser::read_json(mGODefsFolder + "/" + godName + ".json", content);
+	try
+	{
+		json_parser::read_json(filename, content);
 
-	const std::string fileType = content.get("type", "");
-	assert(fileType == "gameObjectDef");
-	LoadGODefinitionFrom(content);
+		const std::string fileType = content.get("type", "");
+		const std::string fileTypeExpected("gameObjectDef");
+		if (fileType != fileTypeExpected)
+			throw FileTypeException(fileType, fileTypeExpected);
+
+		LoadGODefinitionFrom(content);
+	}
+	catch (const std::exception &e)
+	{
+		cout << "Exception while parsing " << filename << ": " << e.what();
+	}
 }
 
-#include <iostream>
 void Game::LoadWorldFrom(const Parameters &content)
 {
+	if (content.size() == 0)
+		throw std::exception("World is empty");
+
 	DataStore &ds = DataStore::getSingleton();
 
 	// Declare any game_object definitions required for the world
@@ -139,7 +231,8 @@ void Game::LoadWorldFrom(const Parameters &content)
 
 	cout << endl << "Loading game_object_instances" << endl;
 	ptree::const_assoc_iterator goIt = content.find("game_object_instances");
-	assert(goIt != content.not_found());
+	if (goIt == content.not_found())
+		throw NoGameObjectInstanceException;
 
 	const ptree &goContent = goIt->second;
 	cout << "Found: " << goContent.size() << endl;
@@ -159,12 +252,12 @@ void Game::LoadWorldFrom(const Parameters &content)
 			else // It's a named game object instance
 			{
 				const ptree &namedGO = goInstance.second;
-				assert(namedGO.size() == 2);
 				
 				const string &goDefName		= namedGO.get("godName", "");
 				const string &instanceName	= namedGO.get("instanceName", "");
 
-				assert(!goDefName.empty() && !instanceName.empty());
+				if (namedGO.size() != 2 || goDefName.empty() || instanceName.empty())
+					throw InvalidGameObjectInstanceException(goDefName, instanceName);
 				
 				GameObjectPtr go = ds.InstantiateGameObjectDef(goDefName, instanceName);
 				mObjects.push_back(go);
@@ -181,7 +274,8 @@ void Game::LoadWorldFrom(const Parameters &content)
 
 void Game::LoadGODefinitionFrom(const Parameters &content)
 {
-	assert(content.data().empty());
+	if (content.size() == 0)
+		throw std::exception("Game object definition is empty");
 	
 	DataStore &ds = DataStore::getSingleton();
 	
@@ -191,7 +285,8 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 
 	cout << "Declaring behaviours";
 	ptree::const_assoc_iterator behavioursIt = content.find("behaviours");
-	assert(behavioursIt != content.not_found());
+	if (behavioursIt == content.not_found())
+		throw InvalidGameObjectDefinitionException(godName, "No behaviours declared");
 
 	const ptree &behavioursContent = behavioursIt->second;
 	cout << " (found: " << behavioursContent.size() << ")" << endl;
@@ -203,19 +298,21 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 			const string &behaviourName = behaviourDecl.second.data();
 			if (!behaviourName.empty())
 			{
-				assert(ds.IsBehaviourRegistered(behaviourName));
+				if (!ds.IsBehaviourRegistered(behaviourName))
+					throw InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered");
+
 				cout << behaviourName << endl;
 				ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName);
 			}
 			else // It's a compound behaviour declaration (ie, it embeds some init parameters)
 			{
 				const string &behaviourName = behaviourDecl.second.get("name", "");
-				assert(ds.IsBehaviourRegistered(behaviourName));
+				if (!ds.IsBehaviourRegistered(behaviourName))
+					throw InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered");
+
 				cout << behaviourName << endl;
 				
 				const ptree::const_assoc_iterator paramsIt = behaviourDecl.second.find("params");
-				assert(paramsIt != behaviourDecl.second.not_found());
-				
 				ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName, paramsIt->second);
 			}
 		} );

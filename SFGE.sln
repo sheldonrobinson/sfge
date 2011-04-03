@@ -18,6 +18,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampleBasicGameStructureFro
 		{7FD884D4-88EC-49E8-9172-8F5CF715AB2E} = {7FD884D4-88EC-49E8-9172-8F5CF715AB2E}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampleSolarSystem", "samples\sampleSolarSystem\sampleSolarSystem.vcxproj", "{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7FD884D4-88EC-49E8-9172-8F5CF715AB2E} = {7FD884D4-88EC-49E8-9172-8F5CF715AB2E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +54,12 @@ Global
 		{F4C2AF35-70A3-4F60-809A-0F2AC8FE8623}.Release|Win32.Build.0 = Release|Win32
 		{F4C2AF35-70A3-4F60-809A-0F2AC8FE8623}.ReleaseWDebugInfo|Win32.ActiveCfg = Release|Win32
 		{F4C2AF35-70A3-4F60-809A-0F2AC8FE8623}.ReleaseWDebugInfo|Win32.Build.0 = Release|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.Debug|Win32.Build.0 = Debug|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.Release|Win32.ActiveCfg = Release|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.Release|Win32.Build.0 = Release|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.ReleaseWDebugInfo|Win32.ActiveCfg = Release|Win32
+		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.ReleaseWDebugInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

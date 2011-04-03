@@ -6,12 +6,10 @@
 #include "sfge/infrastructure/game_object.hpp"
 
 #include <cassert>
-#include <vector>
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Shape.hpp>
 
-using namespace std;
 using namespace sf;
 
 namespace sfge
@@ -20,7 +18,7 @@ namespace sfge
 RenderBehaviour::RenderBehaviour(GameObjectPtr owner)
 	: Behaviour(owner)
 {
-	RegisterAttribute<sf::Color>(AK_Color, &sf::Color::White);
+	RegisterAttribute<Color>(AK_Color, &Color::White);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
@@ -49,6 +47,13 @@ void RenderBehaviour::OnParamsReceived(const Parameters &params)
 			mDrawable = DrawablePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
 		}
 	}
+
+	// Apply anything we're interested in.
+	if (mDrawable)
+	{
+		ApplyTransform();
+		ApplyRender();
+	}
 }
 
 void RenderBehaviour::OnUpdate(float /*dt*/)
@@ -56,32 +61,41 @@ void RenderBehaviour::OnUpdate(float /*dt*/)
 	if (!mDrawable)
 		return;
 
-	sf::RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
+	RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
 	currTarget.Draw(*mDrawable);
 }
 
 void RenderBehaviour::OnAttributeChanged(const Message &msg)
 {
+	if (!mDrawable)
+		return;
+
 	assert(msg.mSource == mOwner);
 
 	switch (msg.mMsgData)
 	{
 	case AK_Position:
-		{
-			const Attribute<sf::Vector2f> pos = GetAttribute<sf::Vector2f>(AK_Position);
-			assert(pos.IsValid());
-			mDrawable->SetPosition(pos);
-		}
+		ApplyTransform();
 		break;
 		
 	case AK_Color:
-		{
-			const Attribute<sf::Color> col = GetAttribute<sf::Color>(AK_Color);
-			assert(col.IsValid());
-			mDrawable->SetColor(col);
-		}
+		ApplyRender();
 		break;
 	}
+}
+
+void RenderBehaviour::ApplyTransform()
+{
+	const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
+	assert(pos.IsValid());
+	mDrawable->SetPosition(pos);
+}
+
+void RenderBehaviour::ApplyRender()
+{
+	const Attribute<Color> col = GetAttribute<Color>(AK_Color);
+	assert(col.IsValid());
+	mDrawable->SetColor(col);
 }
 
 }

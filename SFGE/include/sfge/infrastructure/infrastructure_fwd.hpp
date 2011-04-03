@@ -9,6 +9,8 @@
 
 namespace sfge
 {
+	class Game;
+
 	class GameObject;
 	typedef std::shared_ptr<GameObject>			GameObjectPtr;
 	

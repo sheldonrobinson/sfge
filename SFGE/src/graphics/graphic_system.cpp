@@ -1,4 +1,7 @@
 #include "sfge/graphics/graphic_system.hpp"
+#include "sfge/infrastructure/game.hpp"
+
+using namespace sf;
 
 namespace sfge
 {
@@ -32,23 +35,29 @@ void GraphicSystem::Init()
 	 return mRenderWindow.IsOpened();
  }
 
- const sf::Input& GraphicSystem::GetInput()
+ const Input& GraphicSystem::GetInput()
  {
 	 return mRenderWindow.GetInput();
  }
  
- sf::RenderTarget& GraphicSystem::GetCurrentRenderTarget()
+ RenderTarget& GraphicSystem::GetCurrentRenderTarget()
  {
 	 return mRenderWindow;
  }
  
  void GraphicSystem::UpdateEvents()
  {
-	sf::Event evt;
+	Event evt;
 	while (mRenderWindow.GetEvent(evt))
 	{
-		if (evt.Type == sf::Event::Closed)
+		if (evt.Type == Event::Closed)
 			mRenderWindow.Close();
+
+		if (evt.Type == Event::KeyReleased)
+		{
+			if (evt.Key.Code == Key::F5)
+				mGame->ReloadWorld();
+		}
 	}
  }
 

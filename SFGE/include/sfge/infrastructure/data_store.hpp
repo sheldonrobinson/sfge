@@ -18,6 +18,8 @@ namespace sfge
 	public:
 		static void Init();
 
+		void ClearAll();
+
 		// Data types registration
 		void DeclareGameObjectDef(const std::string &godName);
 		void DeclareBehaviourDef(const std::string &behaviourName, const BehaviourCreator &behaviourCreator);

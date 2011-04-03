@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "sfge/utilities/singleton.hpp"
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
 
 namespace sfge
 {
@@ -38,6 +39,8 @@ namespace sfge
 		void Create(const InitParams &params);
 		bool IsMainWindowOpened();
 
+		void SetGame(Game *g)		{ mGame = g; }
+
 		const sf::Input& GetInput();
 		sf::RenderTarget& GetCurrentRenderTarget();
 
@@ -50,6 +53,7 @@ namespace sfge
 
 	private:
 		sf::RenderWindow	mRenderWindow;
+		Game *				mGame;
 	};
 
 	GraphicSystem* Singleton<GraphicSystem>::ms_Singleton(nullptr);

@@ -1,0 +1,10 @@
+{
+	"type": "world",
+	"game_object_defs": [
+		"Sun",
+		"OrbitingThing"
+	],
+	"game_object_instances": [
+		{ "godName": "Sun", "instanceName": "sun" }
+	]
+}

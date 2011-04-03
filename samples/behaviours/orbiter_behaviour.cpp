@@ -1,5 +1,5 @@
 #include "orbiter_behaviour.hpp"
-#include "../sampleAttributes.hpp"
+#include "sampleAttributes.hpp"
 
 #include <sfge/infrastructure/builtin_attributes.hpp>
 #include <sfge/infrastructure/data_store.hpp>

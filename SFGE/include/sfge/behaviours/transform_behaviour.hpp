@@ -10,6 +10,8 @@ namespace sfge
 	{
 	public:
 		TransformBehaviour(GameObjectPtr owner = GameObjectPtr());
+	
+		virtual void OnParamsReceived(const sfge::Parameters &params) override;
 	};
 }
 

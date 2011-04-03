@@ -18,6 +18,9 @@ namespace sfge
 	private:
 		void OnAttributeChanged(const Message &msg);
 
+		void ApplyTransform();
+		void ApplyRender();
+
 	private:
 		DrawablePtr		mDrawable;
 	};

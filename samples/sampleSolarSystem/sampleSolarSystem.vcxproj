@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F4C2AF35-70A3-4F60-809A-0F2AC8FE8623}</ProjectGuid>
+    <ProjectGuid>{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>sampleBasicGameStructureFromFile</RootNamespace>
+    <RootNamespace>sampleSolarSystem</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -32,15 +32,15 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\vc2010_propsheets\boost.props" />
-    <Import Project="..\..\..\vc2010_propsheets\sfge.props" />
     <Import Project="..\..\..\vc2010_propsheets\sfml.props" />
+    <Import Project="..\..\..\vc2010_propsheets\sfge.props" />
+    <Import Project="..\..\..\vc2010_propsheets\boost.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\vc2010_propsheets\boost.props" />
-    <Import Project="..\..\..\vc2010_propsheets\sfge.props" />
     <Import Project="..\..\..\vc2010_propsheets\sfml.props" />
+    <Import Project="..\..\..\vc2010_propsheets\sfge.props" />
+    <Import Project="..\..\..\vc2010_propsheets\boost.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -59,7 +59,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../;../behaviours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;../behaviours;F:\libs\boost\boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -76,7 +76,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../;../behaviours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;../behaviours;F:\libs\boost\boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,14 +87,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\behaviours\controller_chng_pos_color_behaviour.cpp" />
     <ClCompile Include="..\behaviours\orbiter_behaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\behaviours\controller_chng_pos_color_behaviour.hpp" />
     <ClInclude Include="..\behaviours\orbiter_behaviour.hpp" />
-    <ClInclude Include="..\sampleAttributes.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
