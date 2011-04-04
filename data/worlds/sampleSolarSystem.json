@@ -5,7 +5,12 @@
 		{
 			"name": "Planet",
 			"behaviours": [
-				"TransformBehaviour",
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"layer": 1
+					}
+				},
 				"RenderSpriteBehaviour",
 				"OrbiterBehaviour"
 			]

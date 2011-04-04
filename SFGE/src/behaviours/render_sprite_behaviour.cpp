@@ -21,7 +21,6 @@ RenderSpriteBehaviour::RenderSpriteBehaviour(GameObjectWeakPtr owner)
 {
 	RegisterAttribute<Color>(AK_Color, &Color::White);
 	RegisterAttribute<Vector2f>(AK_Origin);
-	RegisterAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex, (GraphicSystem::LayerIndex)0);
 
 	MessageKey msgKey;
 	msgKey.mID		= MID_AttributeChanged;
@@ -51,11 +50,6 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 		origin->x = *ox;
 	if (oy)
 		origin->y = *oy;
-
-	// Apply layer
-	optional<GraphicSystem::LayerIndex> layer = params.get_optional<GraphicSystem::LayerIndex>("layer");
-	if (layer)
-		GetAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex) = *layer;
 
 	// Apply anything we're interested in due to unknown initialization order
 	if (mSprite)
