@@ -13,7 +13,7 @@ TransformBehaviour::TransformBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	RegisterAttribute<Vector2f>(AK_Position);
-	RegisterAttribute<Vector2f>(AK_Scale);
+	RegisterAttribute<Vector2f>(AK_Scale, Vector2f(1, 1));
 }
 
 void TransformBehaviour::OnParamsReceived(const sfge::Parameters &params)
