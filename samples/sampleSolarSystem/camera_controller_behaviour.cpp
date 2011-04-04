@@ -4,9 +4,6 @@
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 
-#include <iostream>
-
-using namespace std;
 using namespace sfge;
 using namespace sf;
 
@@ -41,7 +38,6 @@ void CameraControllerBehaviour::OnUpdate(float /*dt*/)
 		if (newX != mPrevMouseX || newY != mPrevMouseY)
 		{
 			Vector2f diff((float)mPrevMouseX - newX, (float)mPrevMouseY - newY);
-			cout << "Translate by <" << diff.x << "; " << diff.y << ">" << endl;
 
 			Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 			assert(pos.IsValid());
