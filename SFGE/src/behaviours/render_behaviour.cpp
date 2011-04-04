@@ -75,6 +75,11 @@ void RenderBehaviour::OnParamsReceived(const Parameters &params)
 	if (oy)
 		origin->y = *oy;
 
+	// Apply layer
+	optional<GraphicSystem::LayerIndex> layer = params.get_optional<GraphicSystem::LayerIndex>("layer");
+	if (layer)
+		GetAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex) = *layer;
+
 	// Apply anything we're interested in due to unknown initialization order
 	if (mDrawable)
 	{
