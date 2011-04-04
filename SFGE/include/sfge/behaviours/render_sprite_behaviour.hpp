@@ -1,5 +1,5 @@
-#ifndef SFGE_BEHAVIOURS_RENDER_BEHAVIOUR_HPP
-#define SFGE_BEHAVIOURS_RENDER_BEHAVIOUR_HPP
+#ifndef SFGE_BEHAVIOURS_RENDER_SPRITE_BEHAVIOUR_HPP
+#define SFGE_BEHAVIOURS_RENDER_SPRITE_BEHAVIOUR_HPP
 
 #include "sfge/infrastructure/behaviour.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
@@ -7,10 +7,10 @@
 
 namespace sfge
 {
-	class RenderBehaviour : public Behaviour
+	class RenderSpriteBehaviour : public Behaviour
 	{
 	public:
-		RenderBehaviour(GameObjectWeakPtr owner = GameObjectPtr());
+		RenderSpriteBehaviour(GameObjectWeakPtr owner = GameObjectPtr());
 		
 		virtual void OnParamsReceived(const Parameters &params)	override;
 		virtual void OnUpdate(float dt) override;
@@ -22,7 +22,7 @@ namespace sfge
 		void ApplyRender();
 
 	private:
-		DrawablePtr		mDrawable;
+		SpritePtr		mSprite;
 		ImagePtr		mImage;
 	};
 }

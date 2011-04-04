@@ -12,9 +12,8 @@
 			}
 		},
 		{
-			"name": "RenderBehaviour",
+			"name": "RenderSpriteBehaviour",
 			"params": {
-				"type": "sprite",
 				"source": "sun.png",
 				"ox": 128,
 				"oy": 128,

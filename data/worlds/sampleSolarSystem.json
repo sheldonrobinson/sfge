@@ -2,15 +2,21 @@
 	"type": "world",
 	"game_object_defs": [
 		"Sun",
-		"OrbitingThing",
+		{
+			"name": "Planet",
+			"behaviours": [
+				"TransformBehaviour",
+				"RenderSpriteBehaviour",
+				"OrbiterBehaviour"
+			]
+		},
 		{
 			"name": "Space",
 			"behaviours": [
 				"TransformBehaviour",
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderSpriteBehaviour",
 					"params": {
-						"type": "sprite",
 						"source": "space.png"
 					}
 				}
@@ -21,7 +27,7 @@
 		"Space",
 		{ "godName": "Sun", "instanceName": "sun" },
 		{
-			"godName": "OrbitingThing",
+			"godName": "Planet",
 			"instanceName": "mercury",
 			"instanceParams": [
 				{
@@ -32,9 +38,8 @@
 					}
 				},
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderSpriteBehaviour",
 					"params": {
-						"type": "sprite",
 						"source": "mercury.png",
 						"ox": 128,
 						"oy": 128
@@ -51,7 +56,7 @@
 			]
 		},
 		{
-			"godName": "OrbitingThing",
+			"godName": "Planet",
 			"instanceName": "venus",
 			"instanceParams": [
 				{
@@ -62,9 +67,8 @@
 					}
 				},
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderSpriteBehaviour",
 					"params": {
-						"type": "sprite",
 						"source": "venus.png",
 						"ox": 128,
 						"oy": 128
@@ -81,7 +85,7 @@
 			]
 		},
 		{
-			"godName": "OrbitingThing",
+			"godName": "Planet",
 			"instanceName": "earth",
 			"instanceParams": [
 				{
@@ -92,9 +96,8 @@
 					}
 				},
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderSpriteBehaviour",
 					"params": {
-						"type": "sprite",
 						"source": "earth.png",
 						"ox": 128,
 						"oy": 128
@@ -111,7 +114,7 @@
 			]
 		},
 		{
-			"godName": "OrbitingThing",
+			"godName": "Planet",
 			"instanceName": "moon",
 			"instanceParams": [
 				{
@@ -122,9 +125,8 @@
 					}
 				},
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderSpriteBehaviour",
 					"params": {
-						"type": "sprite",
 						"source": "moon.png",
 						"ox": 128,
 						"oy": 128

@@ -34,7 +34,6 @@ private:
 	{
 		// Setup some parameters
 		Parameters refObjDrawableDef;
-		refObjDrawableDef.put("type",	"shape");
 		refObjDrawableDef.put("shape",	"circle");
 		refObjDrawableDef.put("cx",		0);
 		refObjDrawableDef.put("cy",		0);
@@ -52,7 +51,7 @@ private:
 		// Create the links between gameobject definitions and registered behaviours (eventually settings some default params)
 		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "TransformBehaviour");
 		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "ControllerBehaviour");
-		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "RenderBehaviour",	refObjDrawableDef);
+		ds.LinkBehaviourDefToGameObjectDef("ControllableThing", "RenderShapeBehaviour",	refObjDrawableDef);
 	}
 
 	void SetupScene()

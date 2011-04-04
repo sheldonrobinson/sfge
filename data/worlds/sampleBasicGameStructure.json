@@ -7,9 +7,8 @@
 				"TransformBehaviour",
 				"ControllerBehaviour",
 				{
-					"name": "RenderBehaviour",
+					"name": "RenderShapeBehaviour",
 					"params": {
-						"type": "shape",
 						"shape": "circle",
 						"cx": 0,
 						"cy": 0,

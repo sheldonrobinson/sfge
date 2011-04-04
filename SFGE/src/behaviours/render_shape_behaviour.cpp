@@ -1,4 +1,4 @@
-#include "sfge/behaviours/render_behaviour.hpp"
+#include "sfge/behaviours/render_shape_behaviour.hpp"
 #include "sfge/graphics/graphic_system.hpp"
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
@@ -8,60 +8,42 @@
 
 #include <cassert>
 
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/Shape.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-
 using namespace boost;
 using namespace sf;
 
 namespace sfge
 {
 
-RenderBehaviour::RenderBehaviour(GameObjectWeakPtr owner)
+RenderShapeBehaviour::RenderShapeBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	RegisterAttribute<Color>(AK_Color, &Color::White);
 	RegisterAttribute<Vector2f>(AK_Origin);
-	RegisterAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex, 0);
+	RegisterAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex, (GraphicSystem::LayerIndex)0);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
 	msgKey.mSource		= mOwner;
-	MessageReceiver slot = MessageReceiver::from_method<RenderBehaviour, &RenderBehaviour::OnAttributeChanged>(this);
+	MessageReceiver slot = MessageReceiver::from_method<RenderShapeBehaviour, &RenderShapeBehaviour::OnAttributeChanged>(this);
 	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
 
-void RenderBehaviour::OnParamsReceived(const Parameters &params)
+void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 {
 	// TODO move that into some kind of sfml-graphics content factory
-	if (params.get("type", "") == "shape")
+	if (params.get("shape", "") == "circle")
 	{
-		if (params.get("shape", "") == "circle")
-		{
-			float cx		= params.get("cx",		0.f);
-			float cy		= params.get("cy",		0.f);
-			float radius	= params.get("radius",	0.f);
+		float cx		= params.get("cx",		0.f);
+		float cy		= params.get("cy",		0.f);
+		float radius	= params.get("radius",	0.f);
 
-			Color color;
-			color.r	= params.get("cr",	0);
-			color.g	= params.get("cg",	0);
-			color.b	= params.get("cb",	0);
-			color.a	= params.get("ca",	0);
+		Color color;
+		color.r	= params.get("cr",	0);
+		color.g	= params.get("cg",	0);
+		color.b	= params.get("cb",	0);
+		color.a	= params.get("ca",	0);
 
-			mDrawable = DrawablePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
-		}
-	}
-	else if (params.get("type", "") == "sprite")
-	{
-		const std::string &src = params.get("source", "");
-		assert(!src.empty());
-		
-		mImage = ImagePtr(new Image());
-		mImage->LoadFromFile(mOwner.lock()->GetGame()->GetImagesFolder() + "/" + src);
-
-		mDrawable = DrawablePtr(new Sprite(*mImage));
+		mShape = ShapePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
 	}
 
 	// Apply origin
@@ -81,25 +63,25 @@ void RenderBehaviour::OnParamsReceived(const Parameters &params)
 		GetAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex) = *layer;
 
 	// Apply anything we're interested in due to unknown initialization order
-	if (mDrawable)
+	if (mShape)
 	{
 		ApplyTransform();
 		ApplyRender();
 	}
 }
 
-void RenderBehaviour::OnUpdate(float /*dt*/)
+void RenderShapeBehaviour::OnUpdate(float /*dt*/)
 {
-	if (!mDrawable)
+	if (!mShape)
 		return;
 
 	const Attribute<GraphicSystem::LayerIndex> layer = GetAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex);
-	GraphicSystem::getSingleton().AddDrawableToLayer(layer, mDrawable);
+	GraphicSystem::getSingleton().AddDrawableToLayer(layer, mShape);
 }
 
-void RenderBehaviour::OnAttributeChanged(const Message &msg)
+void RenderShapeBehaviour::OnAttributeChanged(const Message &msg)
 {
-	if (!mDrawable)
+	if (!mShape)
 		return;
 
 	assert(msg.mSource.lock().get() == mOwner.lock().get());
@@ -118,26 +100,26 @@ void RenderBehaviour::OnAttributeChanged(const Message &msg)
 	}
 }
 
-void RenderBehaviour::ApplyTransform()
+void RenderShapeBehaviour::ApplyTransform()
 {
 	const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 	assert(pos.IsValid());
-	mDrawable->SetPosition(pos);
+	mShape->SetPosition(pos);
 	
 	const Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
 	assert(scale.IsValid());
-	mDrawable->SetScale(scale);
+	mShape->SetScale(scale);
 }
 
-void RenderBehaviour::ApplyRender()
+void RenderShapeBehaviour::ApplyRender()
 {
 	const Attribute<Color> col = GetAttribute<Color>(AK_Color);
 	assert(col.IsValid());
-	mDrawable->SetColor(col);
+	mShape->SetColor(col);
 	
 	const Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
 	assert(origin.IsValid());
-	mDrawable->SetOrigin(origin);
+	mShape->SetOrigin(origin);
 }
 
 }

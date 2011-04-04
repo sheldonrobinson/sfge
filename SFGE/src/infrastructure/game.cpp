@@ -5,7 +5,8 @@
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 
-#include "sfge/behaviours/render_behaviour.hpp"
+#include "sfge/behaviours/render_shape_behaviour.hpp"
+#include "sfge/behaviours/render_sprite_behaviour.hpp"
 #include "sfge/behaviours/transform_behaviour.hpp"
 
 #include "sfge/graphics/graphic_system.hpp"
@@ -136,7 +137,8 @@ void Game::DeclareBehaviours()
 {
 	// Declare built-in behaviours
 	DECLARE_BEHAVIOUR(TransformBehaviour);
-	DECLARE_BEHAVIOUR(RenderBehaviour);
+	DECLARE_BEHAVIOUR(RenderShapeBehaviour);
+	DECLARE_BEHAVIOUR(RenderSpriteBehaviour);
 
 	// Allow user to declare any additionnal behaviour
 	OnDeclareAdditionnalBehaviours();
