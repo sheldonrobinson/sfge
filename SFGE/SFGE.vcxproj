@@ -27,12 +27,13 @@
     <ClInclude Include="include\sfge\infrastructure\builtin_attributes.hpp" />
     <ClInclude Include="include\sfge\infrastructure\builtin_messages.hpp" />
     <ClInclude Include="include\sfge\infrastructure\data_store.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\detail\value_holder.hpp" />
+    <ClInclude Include="include\sfge\infrastructure\message.hpp" />
     <ClInclude Include="include\sfge\infrastructure\message_manager.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registration.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registration_impl.hpp" />
     <ClInclude Include="include\sfge\infrastructure\type_registry.hpp" />
     <ClInclude Include="include\sfge\infrastructure\behaviour.hpp" />
-    <ClInclude Include="include\sfge\infrastructure\detail\attribute_holder.hpp" />
     <ClInclude Include="include\sfge\infrastructure\game.hpp" />
     <ClInclude Include="include\sfge\infrastructure\game_object.hpp" />
     <ClInclude Include="include\sfge\infrastructure\infrastructure_fwd.hpp" />
@@ -59,9 +60,10 @@
     <ClCompile Include="src\graphics\light.cpp" />
     <ClCompile Include="src\infrastructure\behaviour.cpp" />
     <ClCompile Include="src\infrastructure\data_store.cpp" />
-    <ClCompile Include="src\infrastructure\detail\attribute_holder.cpp" />
+    <ClCompile Include="src\infrastructure\detail\value_holder.cpp" />
     <ClCompile Include="src\infrastructure\game.cpp" />
     <ClCompile Include="src\infrastructure\game_object.cpp" />
+    <ClCompile Include="src\infrastructure\message.cpp" />
     <ClCompile Include="src\infrastructure\message_manager.cpp" />
     <ClCompile Include="src\infrastructure\type_registration.cpp" />
     <ClCompile Include="src\infrastructure\type_registry.cpp" />
@@ -69,7 +71,7 @@
   <ItemGroup>
     <None Include="include\sfge\graphics\sfml_shape_ext.inl" />
     <None Include="include\sfge\infrastructure\attribute.inl" />
-    <None Include="include\sfge\infrastructure\detail\attribute_holder.inl" />
+    <None Include="include\sfge\infrastructure\detail\value_holder.inl" />
     <None Include="include\sfge\infrastructure\game_object.inl" />
     <None Include="include\sfge\infrastructure\type_registry.inl" />
     <None Include="include\sfge\math\convex_hull.inl" />

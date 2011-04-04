@@ -1,5 +1,5 @@
 template <typename T>
-Attribute<T>::Attribute(detail::AttributeHolderPtr holder,
+Attribute<T>::Attribute(detail::ValueHolderPtr holder,
 						GameObjectWeakPtr owner, size_t attrKey) :
 	mHolder(holder), mOwner(owner),
 	mAttributeKey(attrKey), mPotentiallyModified(false)
@@ -12,9 +12,9 @@ Attribute<T>::~Attribute()
 	if (mPotentiallyModified)
 	{
 		Message msg;
-		msg.mMessageID	= MID_AttributeChanged;
-		msg.mSource		= mOwner;
-		msg.mMsgData	= mAttributeKey;
+		msg.mID		= MID_AttributeChanged;
+		msg.mSource	= mOwner;
+		msg.mData.SetValue<AttributeKey>((AttributeKey)mAttributeKey);
 
 		MessageManager::getSingleton().Queue(msg);
 	}

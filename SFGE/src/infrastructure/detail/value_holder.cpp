@@ -1,4 +1,4 @@
-#include "sfge/infrastructure/detail/attribute_holder.hpp"
+#include "sfge/infrastructure/detail/value_holder.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -10,14 +10,14 @@ namespace sfge
 namespace detail
 {
 
-const AttributeHolderPtr AttributeHolder::InvalidHolderPtr(nullptr);
+const ValueHolderPtr ValueHolder::InvalidHolderPtr(nullptr);
 
-AttributeHolder::AttributeHolder()
+ValueHolder::ValueHolder()
 	: mTypeInfo(&TypeRegistry::InvalidType)
 {
 }
 
-AttributeHolder::~AttributeHolder()
+ValueHolder::~ValueHolder()
 {
 	if (mTypeInfo->IsBiggerThanPointer())
 	{
@@ -28,7 +28,7 @@ AttributeHolder::~AttributeHolder()
 	}
 }
 
-TypeRegistry::TypeId AttributeHolder::GetTypeId() const
+TypeRegistry::TypeId ValueHolder::GetTypeId() const
 {
 	return mTypeInfo->mId;
 }

@@ -15,6 +15,10 @@ namespace sfge
 		{
 			static_assert(false, "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type.");
 		}
+		static const sfge::TypeRegistry::TypeInfo& GetFullInfos()
+		{
+			static_assert(false, "Using TypeRegistration<> on an undefined/incompletely defined type! Use the DEFINE_TYPEID_QUERY & IMPLEMENT_TYPEID_QUERY macros to fully implement your type.");
+		}
 	};
 
 // Users should use the shortcuts macros defined below

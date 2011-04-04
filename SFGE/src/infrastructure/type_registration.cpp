@@ -3,12 +3,14 @@
 
 	// POD types
 IMPLEMENT_TYPEID_QUERY(float);
+IMPLEMENT_TYPEID_QUERY(int);
 
 	// SFML types
 IMPLEMENT_TYPEID_QUERY(sf::Vector2f);
 IMPLEMENT_TYPEID_QUERY(sf::Color);
 
 	// SFGE types
+IMPLEMENT_TYPEID_QUERY(sfge::AttributeKey);
 IMPLEMENT_TYPEID_QUERY(sfge::GameObjectPtr);
 IMPLEMENT_TYPEID_QUERY(sfge::GameObjectWeakPtr);
 IMPLEMENT_TYPEID_QUERY(sfge::GraphicSystem::LayerIndex);

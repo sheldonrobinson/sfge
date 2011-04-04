@@ -2,7 +2,7 @@
 #define SFGE_BEHAVIOURS_RENDER_SHAPE_BEHAVIOUR_HPP
 
 #include "sfge/infrastructure/behaviour.hpp"
-#include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/infrastructure/message.hpp"
 #include "sfge/graphics/sfml_drawable_ext.hpp"
 
 namespace sfge

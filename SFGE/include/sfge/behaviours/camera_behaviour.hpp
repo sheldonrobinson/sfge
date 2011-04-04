@@ -2,7 +2,7 @@
 #define SFGE_BEHAVIOURS_CAMERA_BEHAVIOUR_HPP
 
 #include "sfge/infrastructure/behaviour.hpp"
-#include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/infrastructure/message.hpp"
 
 namespace sfge
 {

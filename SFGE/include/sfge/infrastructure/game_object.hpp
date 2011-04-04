@@ -8,7 +8,7 @@
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/attribute.hpp"
-#include "sfge/infrastructure/detail/attribute_holder.hpp"
+#include "sfge/infrastructure/detail/value_holder.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
 #include "sfge/infrastructure/type_registration.hpp"
 
@@ -45,7 +45,7 @@ namespace sfge
 
 	private:
 		typedef std::vector<BehaviourPtr>						Behaviours;
-		typedef std::map<size_t, detail::AttributeHolderPtr>	Attributes;
+		typedef std::map<size_t, detail::ValueHolderPtr>	Attributes;
 
 	private:
 		GameObjectWeakPtr	mSelf;			//!< Used when sending messages. FIXME that's awful and requires an additional Destroy method!

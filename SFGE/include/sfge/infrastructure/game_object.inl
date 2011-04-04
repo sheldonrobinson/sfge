@@ -5,7 +5,7 @@ void GameObject::RegisterAttribute(size_t attributeKey, const T *defaultVal)
 
 	const TypeRegistry::TypeInfo &ti = TypeRegistration<T>::GetFullInfos();
 
-	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(ti, defaultVal));
+	detail::ValueHolderPtr posHolder(new detail::ValueHolder(ti, defaultVal));
 	mAttributes.insert(std::make_pair(attributeKey, posHolder));
 }
 
@@ -16,7 +16,7 @@ void GameObject::RegisterAttribute(size_t attributeKey, const T &defaultVal)
 
 	const TypeRegistry::TypeInfo &ti = TypeRegistration<T>::GetFullInfos();
 
-	detail::AttributeHolderPtr posHolder(new detail::AttributeHolder(ti, defaultVal));
+	detail::ValueHolderPtr posHolder(new detail::ValueHolder(ti, defaultVal));
 	mAttributes.insert(std::make_pair(attributeKey, posHolder));
 }
 
@@ -27,7 +27,7 @@ Attribute<T> GameObject::GetAttribute(size_t attributeKey)
 	if (attribIt == mAttributes.end())
 	{
 		assert("Can't find attribute!" && attribIt == mAttributes.end());
-		return  Attribute<T>(detail::AttributeHolder::InvalidHolderPtr, GameObjectPtr(), 0);
+		return  Attribute<T>(detail::ValueHolder::InvalidHolderPtr, GameObjectPtr(), 0);
 	}
 
 	// Check types

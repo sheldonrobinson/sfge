@@ -12,7 +12,7 @@ CameraControllerBehaviour::CameraControllerBehaviour(GameObjectWeakPtr owner)
 {
 	// We want to check for mouse wheel events (no way to get it via real time input in SFML)
 	MessageKey msgKey;
-	msgKey.mMessageID	= MID_MouseWheelTurned;
+	msgKey.mID	= MID_MouseWheelTurned;
 	MessageReceiver slot = MessageReceiver::from_method<CameraControllerBehaviour, &CameraControllerBehaviour::OnMouseWheelTurned>(this);
 	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
@@ -54,6 +54,6 @@ void CameraControllerBehaviour::OnMouseWheelTurned(const Message &msg)
 	Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
 	assert(scale.IsValid());
 
-	const float ratio = (int)msg.mMsgData * 0.1f;
+	const float ratio = msg.mData.GetValue<int>() * 0.1f;
 	*scale = Vector2f(1 - ratio, 1 - ratio);
 }

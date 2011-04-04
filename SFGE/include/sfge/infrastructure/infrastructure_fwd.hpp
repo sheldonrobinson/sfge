@@ -20,8 +20,8 @@ namespace sfge
 	
 	namespace detail
 	{
-		class AttributeHolder;
-		typedef std::shared_ptr<AttributeHolder>	AttributeHolderPtr;
+		class ValueHolder;
+		typedef std::shared_ptr<ValueHolder>	ValueHolderPtr;
 	}
 }
 

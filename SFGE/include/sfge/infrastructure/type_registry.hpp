@@ -25,7 +25,8 @@ namespace sfge
 			{
 			}
 
-			bool IsBiggerThanPointer() const	{ return mSize > sizeof(void*); }
+			bool IsBiggerThanPointer() const				{ return mSize > sizeof(void*); }
+			bool operator==(const TypeInfo &other) const	{ return mId == other.mId; }
 
 			TypeId		mId;
 			TypeSize	mSize;

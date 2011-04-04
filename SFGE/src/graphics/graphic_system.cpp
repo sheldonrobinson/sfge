@@ -72,8 +72,8 @@ void GraphicSystem::Init()
 		case Event::MouseWheelMoved:
 			{
 				Message msg;
-				msg.mMessageID	= MID_MouseWheelTurned;
-				msg.mMsgData	= evt.MouseWheel.Delta;
+				msg.mID		= MID_MouseWheelTurned;
+				msg.mData.SetValue<int>(evt.MouseWheel.Delta);
 
 				MessageManager::getSingleton().Queue(msg);
 			}

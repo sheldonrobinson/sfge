@@ -1,9 +1,11 @@
 #include "sfge/behaviours/render_shape_behaviour.hpp"
+
 #include "sfge/graphics/graphic_system.hpp"
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/builtin_messages.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/game.hpp"
 
 #include <cassert>
@@ -22,8 +24,8 @@ RenderShapeBehaviour::RenderShapeBehaviour(GameObjectWeakPtr owner)
 	RegisterAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex, (GraphicSystem::LayerIndex)0);
 
 	MessageKey msgKey;
-	msgKey.mMessageID	= MID_AttributeChanged;
-	msgKey.mSource		= mOwner;
+	msgKey.mID		= MID_AttributeChanged;
+	msgKey.mSource	= mOwner;
 	MessageReceiver slot = MessageReceiver::from_method<RenderShapeBehaviour, &RenderShapeBehaviour::OnAttributeChanged>(this);
 	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
@@ -86,7 +88,7 @@ void RenderShapeBehaviour::OnAttributeChanged(const Message &msg)
 
 	assert(msg.mSource.lock().get() == mOwner.lock().get());
 
-	switch (msg.mMsgData)
+	switch (msg.mData.GetValue<AttributeKey>())
 	{
 	case AK_Position:
 	case AK_Scale:

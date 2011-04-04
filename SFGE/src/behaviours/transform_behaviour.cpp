@@ -1,7 +1,9 @@
 #include "sfge/behaviours/transform_behaviour.hpp"
+
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 
 using namespace boost;
 using namespace sf;

@@ -1,5 +1,5 @@
-#ifndef SFGE_INFRASTRUCTURE_ATTRIBUTE_HOLDER_HPP
-#define SFGE_INFRASTRUCTURE_ATTRIBUTE_HOLDER_HPP
+#ifndef SFGE_INFRASTRUCTURE_VALUE_HOLDER_HPP
+#define SFGE_INFRASTRUCTURE_VALUE_HOLDER_HPP
 
 #include <cassert>
 #include <memory>
@@ -15,20 +15,20 @@ namespace sfge
 {
 	namespace detail
 	{
-		class AttributeHolder
+		class ValueHolder
 		{
 		public:
-			static const AttributeHolderPtr	InvalidHolderPtr;
+			static const ValueHolderPtr	InvalidHolderPtr;
 
 		public:
-			AttributeHolder();
+			ValueHolder();
 
 			template <typename T>
-			explicit AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal = nullptr);
+			explicit ValueHolder(const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal = nullptr);
 			template <typename T>
-			explicit AttributeHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal);
+			explicit ValueHolder(const TypeRegistry::TypeInfo &typeInfo, const T &defaultVal);
 
-			~AttributeHolder();
+			~ValueHolder();
 
 			TypeRegistry::TypeId GetTypeId() const;
 
@@ -46,15 +46,18 @@ namespace sfge
 			void CheckTypes() const;
 
 		private:
+			template <typename T>
+			void Init(const TypeRegistry::TypeInfo &typeInfo, const T *defaultVal);
+
 			//! Used to manipulate the value holder depending on size.
 			template <typename T, bool isGreaterThanSizeOfPointer>
-			struct ValueHolder;
+			struct TypeConverter;
 
 			typedef void*	PointerT;
 			typedef size_t	SmallTypeT;
 
 		private:
-			const TypeRegistry::TypeInfo * const mTypeInfo;
+			const TypeRegistry::TypeInfo * mTypeInfo;
 			union Data
 			{
 				PointerT	mValuePtr;
@@ -62,7 +65,7 @@ namespace sfge
 			} mData;
 		};
 
-#include "attribute_holder.inl"
+#include "value_holder.inl"
 
 	}
 }

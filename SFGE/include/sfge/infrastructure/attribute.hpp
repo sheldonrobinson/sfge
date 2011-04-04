@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
-#include "sfge/infrastructure/detail/attribute_holder.hpp"
+#include "sfge/infrastructure/detail/value_holder.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/builtin_messages.hpp"
 
@@ -15,7 +15,7 @@ namespace sfge
 	class Attribute
 	{
 	public:
-		Attribute(detail::AttributeHolderPtr holder, GameObjectWeakPtr owner, size_t attrKey);
+		Attribute(detail::ValueHolderPtr holder, GameObjectWeakPtr owner, size_t attrKey);
 		~Attribute();
 
 		bool IsValid() const;
@@ -37,7 +37,7 @@ namespace sfge
 		operator bool() const;
 
 	private:
-		detail::AttributeHolderPtr	mHolder;
+		detail::ValueHolderPtr	mHolder;
 		GameObjectWeakPtr			mOwner;
 		size_t						mAttributeKey;
 		

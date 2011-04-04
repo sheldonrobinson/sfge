@@ -1,7 +1,9 @@
 #include "sfge/behaviours/camera_behaviour.hpp"
+
 #include "sfge/infrastructure/attribute.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/graphics/graphic_system.hpp"
 
 #include <SFML/Graphics/View.hpp>
@@ -16,8 +18,8 @@ CameraBehaviour::CameraBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner)
 {
 	MessageKey msgKey;
-	msgKey.mMessageID	= MID_AttributeChanged;
-	msgKey.mSource		= mOwner;
+	msgKey.mID		= MID_AttributeChanged;
+	msgKey.mSource	= mOwner;
 	MessageReceiver slot = MessageReceiver::from_method<CameraBehaviour, &CameraBehaviour::OnAttributeChanged>(this);
 	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
@@ -31,7 +33,7 @@ void CameraBehaviour::OnAttributeChanged(const Message &msg)
 	assert(msg.mSource.lock().get() == mOwner.lock().get());
 
 	
-	switch (msg.mMsgData)
+	switch (msg.mData.GetValue<AttributeKey>())
 	{
 	case AK_Position:
 		{
