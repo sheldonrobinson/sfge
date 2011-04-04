@@ -21,9 +21,18 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Camera",
+			"behaviours": [
+				"TransformBehaviour",
+				"CameraBehaviour",
+				"CameraControllerBehaviour"
+			]
 		}
 	],
 	"game_object_instances": [
+		{ "godName": "Camera", "instanceName": "camera" },
 		"Space",
 		{ "godName": "Sun", "instanceName": "sun" },
 		{

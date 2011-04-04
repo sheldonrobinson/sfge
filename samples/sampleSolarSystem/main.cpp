@@ -3,6 +3,7 @@
 #include <sfge/graphics/graphic_system.hpp>
 
 #include "orbiter_behaviour.hpp"
+#include "camera_controller_behaviour.hpp"
 
 using namespace sfge;
 
@@ -15,6 +16,7 @@ protected:
 	virtual void OnDeclareAdditionnalBehaviours() override
 	{
 		DECLARE_BEHAVIOUR(OrbiterBehaviour);
+		DECLARE_BEHAVIOUR(CameraControllerBehaviour);
 	}
 
 	virtual void OnEndSystemInit() override

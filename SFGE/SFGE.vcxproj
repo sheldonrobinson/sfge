@@ -15,6 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\sfge\behaviours\camera_behaviour.hpp" />
     <ClInclude Include="include\sfge\behaviours\render_shape_behaviour.hpp" />
     <ClInclude Include="include\sfge\behaviours\render_sprite_behaviour.hpp" />
     <ClInclude Include="include\sfge\behaviours\transform_behaviour.hpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="include\sfge\utilities\singleton.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\behaviours\camera_behaviour.cpp" />
     <ClCompile Include="src\behaviours\render_shape_behaviour.cpp" />
     <ClCompile Include="src\behaviours\render_sprite_behaviour.cpp" />
     <ClCompile Include="src\behaviours\transform_behaviour.cpp" />

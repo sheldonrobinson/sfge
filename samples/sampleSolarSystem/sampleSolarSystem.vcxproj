@@ -88,10 +88,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\behaviours\orbiter_behaviour.cpp" />
+    <ClCompile Include="camera_controller_behaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\behaviours\orbiter_behaviour.hpp" />
+    <ClInclude Include="camera_controller_behaviour.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
