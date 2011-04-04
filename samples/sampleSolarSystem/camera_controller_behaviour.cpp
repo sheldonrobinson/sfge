@@ -8,8 +8,13 @@ using namespace sfge;
 using namespace sf;
 
 CameraControllerBehaviour::CameraControllerBehaviour(GameObjectWeakPtr owner)
-	: Behaviour(owner), mPrevMouseX(0), mPrevMouseY(0), mPrevLButtonState(false)
+	: Behaviour(owner), mStartX(0), mStartY(0), mPrevLButtonState(false)
 {
+	// We want to check for mouse wheel events (no way to get it via real time input in SFML)
+	MessageKey msgKey;
+	msgKey.mMessageID	= MID_MouseWheelTurned;
+	MessageReceiver slot = MessageReceiver::from_method<CameraControllerBehaviour, &CameraControllerBehaviour::OnMouseWheelTurned>(this);
+	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
 
 void CameraControllerBehaviour::OnUpdate(float /*dt*/)
@@ -24,30 +29,31 @@ void CameraControllerBehaviour::OnUpdate(float /*dt*/)
 
 		if (!mPrevLButtonState)
 		{
-			mPrevMouseX = newX;
-			mPrevMouseY = newY;
+			mStartX = newX;
+			mStartY = newY;
 			mPrevLButtonState = true;
-			
-			Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-			assert(pos.IsValid());
-			pos = gfxSys.GetCurrentRenderTarget().ConvertCoords(mPrevMouseX, mPrevMouseY);
-
-			return;
 		}
-
-		if (newX != mPrevMouseX || newY != mPrevMouseY)
+		else if (newX != mStartX || newY != mStartY)
 		{
-			Vector2f diff((float)mPrevMouseX - newX, (float)mPrevMouseY - newY);
+			Vector2f diff((float)mStartX - newX, (float)mStartY - newY);
 
 			Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 			assert(pos.IsValid());
 			*pos += diff;
 
-			mPrevMouseX = newX;
-			mPrevMouseY = newY;
 		}
-
+		
+		gfxSys.GetCurrentRenderWindow().SetCursorPosition(mStartX, mStartY);
 	}
 	else
 		mPrevLButtonState = false;
+}
+
+void CameraControllerBehaviour::OnMouseWheelTurned(const Message &msg)
+{
+	Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
+	assert(scale.IsValid());
+
+	const float ratio = (int)msg.mMsgData * 0.1f;
+	*scale = Vector2f(1 - ratio, 1 - ratio);
 }

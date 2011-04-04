@@ -25,7 +25,13 @@
 		{
 			"name": "Camera",
 			"behaviours": [
-				"TransformBehaviour",
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"px": 400,
+						"py": 300
+					}
+				},
 				"CameraBehaviour",
 				"CameraControllerBehaviour"
 			]

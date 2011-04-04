@@ -2,6 +2,7 @@
 #define SFGE_SAMPLES_SOLAR_SYSTEM_CAMERA_CONTROLLER_BEHAVIOUR_HPP
 
 #include <sfge/infrastructure/behaviour.hpp>
+#include <sfge/infrastructure/message_manager.hpp>
 
 class CameraControllerBehaviour : public sfge::Behaviour
 {
@@ -11,7 +12,10 @@ public:
 	virtual void OnUpdate(float dt) override;
 
 private:
-	unsigned int	mPrevMouseX, mPrevMouseY;
+	void OnMouseWheelTurned(const sfge::Message &msg);
+
+private:
+	unsigned int	mStartX, mStartY;
 	bool			mPrevLButtonState;
 };
 

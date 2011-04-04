@@ -1,5 +1,7 @@
 #include "sfge/graphics/graphic_system.hpp"
 #include "sfge/infrastructure/game.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/infrastructure/builtin_messages.hpp"
 
 using namespace sf;
 using namespace std;
@@ -41,6 +43,11 @@ void GraphicSystem::Init()
 	 return mRenderWindow.GetInput();
  }
  
+ sf::RenderWindow& GraphicSystem::GetCurrentRenderWindow()
+ {
+	 return mRenderWindow;
+ }
+
  RenderTarget& GraphicSystem::GetCurrentRenderTarget()
  {
 	 return mRenderWindow;
@@ -51,14 +58,27 @@ void GraphicSystem::Init()
 	Event evt;
 	while (mRenderWindow.GetEvent(evt))
 	{
-		if (evt.Type == Event::Closed)
-			mRenderWindow.Close();
-
-		if (evt.Type == Event::KeyReleased)
+		switch (evt.Type)
 		{
+		case Event::Closed:
+			mRenderWindow.Close();
+			break;
+
+		case Event::KeyReleased:
 			if (evt.Key.Code == Key::F5)
 				mGame->ReloadWorld();
-		}
+			break;
+
+		case Event::MouseWheelMoved:
+			{
+				Message msg;
+				msg.mMessageID	= MID_MouseWheelTurned;
+				msg.mMsgData	= evt.MouseWheel.Delta;
+
+				MessageManager::getSingleton().Queue(msg);
+			}
+			break;
+		};
 	}
  }
 
