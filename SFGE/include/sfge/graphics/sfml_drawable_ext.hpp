@@ -5,12 +5,13 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Shader.hpp>
 
 namespace sfge
 {
 	typedef std::shared_ptr<sf::Drawable>	DrawablePtr;
 	typedef std::shared_ptr<sf::Image>		ImagePtr;
+	typedef std::shared_ptr<sf::Shader>		ShaderPtr;
 }
 
 #endif

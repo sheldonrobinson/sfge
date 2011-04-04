@@ -2,10 +2,6 @@
 #define SFGE_INFRASTRUCTURE_INFRASTRUCTURE_FWD_HPP
 
 #include <memory>
-#include <map>
-#include <utility>
-
-#include <boost/property_tree/ptree.hpp>
 
 namespace sfge
 {
@@ -21,10 +17,6 @@ namespace sfge
 
 	template <typename T>
 	class Attribute;
-
-	typedef boost::property_tree::ptree			Parameters;
-	typedef std::shared_ptr<const Parameters>	ParametersConstPtr;
-	typedef std::shared_ptr<Parameters>			ParametersPtr;
 	
 	namespace detail
 	{

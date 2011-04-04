@@ -4,9 +4,10 @@
 #include <map>
 #include <string>
 
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/utilities/singleton.hpp"
 #include "sfge/utilities/delegate.hpp"
-#include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/utilities/boost_proptree_types.hpp"
 
 namespace sfge
 {

@@ -6,6 +6,7 @@
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
+#include "sfge/utilities/boost_proptree_types.hpp"
 
 namespace sfge
 {

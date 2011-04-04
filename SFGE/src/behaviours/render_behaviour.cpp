@@ -24,6 +24,7 @@ RenderBehaviour::RenderBehaviour(GameObjectWeakPtr owner)
 {
 	RegisterAttribute<Color>(AK_Color, &Color::White);
 	RegisterAttribute<Vector2f>(AK_Origin);
+	RegisterAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex, 0);
 
 	MessageKey msgKey;
 	msgKey.mMessageID	= MID_AttributeChanged;
@@ -87,8 +88,8 @@ void RenderBehaviour::OnUpdate(float /*dt*/)
 	if (!mDrawable)
 		return;
 
-	RenderTarget &currTarget = GraphicSystem::getSingleton().GetCurrentRenderTarget();
-	currTarget.Draw(*mDrawable);
+	const Attribute<GraphicSystem::LayerIndex> layer = GetAttribute<GraphicSystem::LayerIndex>(AK_LayerIndex);
+	GraphicSystem::getSingleton().AddDrawableToLayer(layer, mDrawable);
 }
 
 void RenderBehaviour::OnAttributeChanged(const Message &msg)

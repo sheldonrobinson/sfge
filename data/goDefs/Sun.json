@@ -17,7 +17,8 @@
 				"type": "sprite",
 				"source": "sun.png",
 				"ox": 128,
-				"oy": 128
+				"oy": 128,
+				"layer": 1
 			}
 		}
 	]

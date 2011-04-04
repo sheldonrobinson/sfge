@@ -1,17 +1,33 @@
 #ifndef SFGE_GRAPHICS_GRAPHIC_SYSTEM_HPP
 #define SFGE_GRAPHICS_GRAPHIC_SYSTEM_HPP
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-
 #include "sfge/utilities/singleton.hpp"
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/graphics/sfml_drawable_ext.hpp"
+
+#include <map>
+
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 namespace sfge
 {
 	class GraphicSystem : public sfge::Singleton<GraphicSystem>
 	{
 	public:
+		typedef size_t	LayerIndex;
+
+		struct DrawableEntry
+		{
+			DrawableEntry(DrawablePtr drawable, ShaderPtr shader = ShaderPtr())
+				: mDrawable(drawable), mShader(shader)
+			{
+			}
+
+			DrawablePtr mDrawable;
+			ShaderPtr	mShader;
+		};
+
 		struct InitParams
 		{
 			InitParams()
@@ -44,9 +60,14 @@ namespace sfge
 		const sf::Input& GetInput();
 		sf::RenderTarget& GetCurrentRenderTarget();
 
+		void AddDrawableToLayer(LayerIndex layer, DrawablePtr drawable);
+
 		void UpdateEvents();
 		void PreRender();
 		void PostRender();
+
+	private:
+		typedef std::multimap<LayerIndex, DrawableEntry>	LayeredDrawables;
 
 	private:
 		GraphicSystem();
@@ -54,6 +75,7 @@ namespace sfge
 	private:
 		sf::RenderWindow	mRenderWindow;
 		Game *				mGame;
+		LayeredDrawables	mDrawables;
 	};
 
 	GraphicSystem* Singleton<GraphicSystem>::ms_Singleton(nullptr);

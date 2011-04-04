@@ -2,6 +2,7 @@
 #include "sfge/infrastructure/game.hpp"
 
 using namespace sf;
+using namespace std;
 
 namespace sfge
 {
@@ -68,7 +69,23 @@ void GraphicSystem::Init()
 
  void GraphicSystem::PostRender()
  {
+	 for_each(mDrawables.begin(), mDrawables.end(),
+		 [&] (const LayeredDrawables::value_type &entry)
+		 {
+			 if (entry.second.mShader)
+				GetCurrentRenderTarget().Draw(*entry.second.mDrawable, *entry.second.mShader);
+			 else
+				GetCurrentRenderTarget().Draw(*entry.second.mDrawable);
+		 } );
+
 	 mRenderWindow.Display();
+
+	 mDrawables.clear();
+ }
+
+ void GraphicSystem::AddDrawableToLayer(LayerIndex layer, DrawablePtr drawable)
+ {
+	 mDrawables.insert(make_pair(layer, drawable));
  }
 
 }

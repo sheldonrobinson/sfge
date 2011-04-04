@@ -9,6 +9,7 @@ namespace sfge
 		AK_Scale,
 		AK_Color,
 		AK_Origin,
+		AK_LayerIndex,
 
 		AK_User,			//!< Attribute ids in user code must start from this value.
 	};
