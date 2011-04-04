@@ -23,6 +23,8 @@ namespace sfge
 	class Attribute;
 
 	typedef boost::property_tree::ptree			Parameters;
+	typedef std::shared_ptr<const Parameters>	ParametersConstPtr;
+	typedef std::shared_ptr<Parameters>			ParametersPtr;
 	
 	namespace detail
 	{

@@ -13,6 +13,7 @@ namespace sfge
 	class DataStore : public Singleton<DataStore>
 	{
 	public:
+		typedef std::map<std::string,	Parameters>			BehaviourParameters;
 		typedef delegate<BehaviourPtr(GameObjectWeakPtr)>	BehaviourCreator;
 
 	public:
@@ -31,7 +32,8 @@ namespace sfge
 
 		// Instantiation
 		//! This will create a new GameObject based on definition registered as godName. The instance name is optionnal, but anonymous instances can't be get back.
-		GameObjectPtr InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName = "");
+		GameObjectPtr InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName = "",
+											   const BehaviourParameters &instanceParameters = BehaviourParameters());
 
 		//! This method will send the default params to every instanciated behaviour.
 		void InitializeInstances();
@@ -41,13 +43,13 @@ namespace sfge
 
 	private:
 		typedef std::map<std::string,	BehaviourCreator>		BehaviourDefs;
-		typedef std::map<std::string,	Parameters>				BehaviourList;
-		typedef std::map<std::string,	BehaviourList>			GOBehaviourLinks;
-		typedef std::map<Behaviour*,	const Parameters*>		BehavioursToInit;
+		typedef std::map<std::string,	BehaviourParameters>	GOBehaviourLinks;
+		typedef std::map<Behaviour*,	ParametersConstPtr>		BehavioursToInit;
 		typedef std::map<std::string,	GameObjectPtr>			GameObjectInstances;
 
 	private:
-		BehaviourPtr InstantiateBehaviourDef(const std::string &behaviourName, GameObjectWeakPtr owner);
+		BehaviourPtr InstantiateBehaviour(const std::string &behaviourName, GameObjectWeakPtr owner);
+		ParametersPtr MergeDefaultAndInstanceParams(const Parameters &defaultParams, const Parameters &instanceParams);
 
 	private:
 		BehaviourDefs		mBehaviourDefinitions;

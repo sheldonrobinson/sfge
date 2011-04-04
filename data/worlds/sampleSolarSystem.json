@@ -19,6 +19,126 @@
 	],
 	"game_object_instances": [
 		"Space",
-		{ "godName": "Sun", "instanceName": "sun" }
+		{ "godName": "Sun", "instanceName": "sun" },
+		{
+			"godName": "OrbitingThing",
+			"instanceName": "mercury",
+			"instanceParams": [
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"sx": 0.03125,
+						"sy": 0.03125
+					}
+				},
+				{
+					"name": "RenderBehaviour",
+					"params": {
+						"type": "sprite",
+						"source": "mercury.png",
+						"ox": 128,
+						"oy": 128
+					}
+				},
+				{
+					"name": "OrbiterBehaviour",
+					"params": {
+						"revolutionCenter": "sun",
+						"distance": 70,
+						"speed": 0.4
+					}
+				}
+			]
+		},
+		{
+			"godName": "OrbitingThing",
+			"instanceName": "venus",
+			"instanceParams": [
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"sx": 0.12,
+						"sy": 0.12
+					}
+				},
+				{
+					"name": "RenderBehaviour",
+					"params": {
+						"type": "sprite",
+						"source": "venus.png",
+						"ox": 128,
+						"oy": 128
+					}
+				},
+				{
+					"name": "OrbiterBehaviour",
+					"params": {
+						"revolutionCenter": "sun",
+						"distance": 125,
+						"speed": 0.29
+					}
+				}
+			]
+		},
+		{
+			"godName": "OrbitingThing",
+			"instanceName": "earth",
+			"instanceParams": [
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"sx": 0.125,
+						"sy": 0.125
+					}
+				},
+				{
+					"name": "RenderBehaviour",
+					"params": {
+						"type": "sprite",
+						"source": "earth.png",
+						"ox": 128,
+						"oy": 128
+					}
+				},
+				{
+					"name": "OrbiterBehaviour",
+					"params": {
+						"revolutionCenter": "sun",
+						"distance": 190,
+						"speed": 0.25
+					}
+				}
+			]
+		},
+		{
+			"godName": "OrbitingThing",
+			"instanceName": "moon",
+			"instanceParams": [
+				{
+					"name": "TransformBehaviour",
+					"params": {
+						"sx": 0.025,
+						"sy": 0.025
+					}
+				},
+				{
+					"name": "RenderBehaviour",
+					"params": {
+						"type": "sprite",
+						"source": "moon.png",
+						"ox": 128,
+						"oy": 128
+					}
+				},
+				{
+					"name": "OrbiterBehaviour",
+					"params": {
+						"revolutionCenter": "earth",
+						"distance": 20,
+						"speed": 10
+					}
+				}
+			]
+		}
 	]
 }

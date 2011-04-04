@@ -2,6 +2,7 @@
 #define SFGE_INFRASTRUCTURE_GAME_HPP
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/infrastructure/data_store.hpp"
 
 #include <string>
 #include <vector>
@@ -50,6 +51,7 @@ namespace sfge
 		void LoadConfigFile();
 		void LoadWorldFrom(const Parameters &content);
 		void LoadGODefinitionFrom(const Parameters &content);
+		DataStore::BehaviourParameters ParseInstanceParams(const std::string &godName, const std::string &instanceName, const Parameters &content);
 	};
 }
 

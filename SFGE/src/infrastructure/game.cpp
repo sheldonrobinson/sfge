@@ -50,7 +50,13 @@ class InvalidGameObjectInstanceException : public std::exception
 public:
 	InvalidGameObjectInstanceException(const std::string &godName, const std::string &instanceName)
 	{
-		mExceptionText = string("Invalid named GameObject instance: GOD name: '") + godName + "'; Instance name: '" + instanceName + "'";
+		mExceptionText = string("Invalid GameObject instance: GOD name: '") + godName + "'; Instance name: '" + instanceName + "'";
+	}
+
+	InvalidGameObjectInstanceException(const std::string &godName, const std::string &instanceName, const std::string behaviourName)
+	{
+		mExceptionText = string("Invalid GameObject instance: GOD name: '") + godName + "'; Instance name: '" + instanceName + "'\n";
+		mExceptionText += "Behaviour named '" + behaviourName + "' has not been registered";
 	}
 
 	virtual const char *what() const override
@@ -248,30 +254,38 @@ void Game::LoadWorldFrom(const Parameters &content)
 		[&] (const ptree::value_type &goInstance)
 		{
 			// Check if the entry is just a reference to an already defined GO definition, or an embedded one
-			const string &goDefName = goInstance.second.data();
-			if (!goDefName.empty())
+			const string &godName = goInstance.second.data();
+			if (!godName.empty())
 			{
-				GameObjectPtr go = ds.InstantiateGameObjectDef(goDefName);
+				GameObjectPtr go = ds.InstantiateGameObjectDef(godName);
 				go->SetGame(this);
 				mObjects.push_back(go);
 
-				cout << "Instantiating " << goDefName << endl;
+				cout << "Instantiating " << godName << endl;
 			}
-			else // It's a named game object instance
+			else // It's a named (and/or have per instance parameters) game object instance
 			{
 				const ptree &namedGO = goInstance.second;
 				
-				const string &goDefName		= namedGO.get("godName", "");
+				const string &godName		= namedGO.get("godName", "");
 				const string &instanceName	= namedGO.get("instanceName", "");
 
-				if (namedGO.size() != 2 || goDefName.empty() || instanceName.empty())
-					throw InvalidGameObjectInstanceException(goDefName, instanceName);
+				if (godName.empty())
+					throw InvalidGameObjectInstanceException(godName, instanceName);
+
+				// Check for instance parameters
+				ptree::const_assoc_iterator instParamsIt = namedGO.find("instanceParams");
 				
-				GameObjectPtr go = ds.InstantiateGameObjectDef(goDefName, instanceName);
+				GameObjectPtr go;
+				if (instParamsIt != namedGO.not_found())
+					go = ds.InstantiateGameObjectDef(godName, instanceName, ParseInstanceParams(godName, instanceName, instParamsIt->second));
+				else
+					go = ds.InstantiateGameObjectDef(godName, instanceName);
+
 				go->SetGame(this);
 				mObjects.push_back(go);
 
-				cout << "Instantiating " << goDefName << " under the name '" << instanceName << "'" << endl;
+				cout << "Instantiating " << godName << " under the name '" << instanceName << "'" << endl;
 			}
 		} );
 	
@@ -325,6 +339,25 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 				ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName, paramsIt->second);
 			}
 		} );
+}
+
+DataStore::BehaviourParameters Game::ParseInstanceParams(const std::string &godName, const std::string &instanceName, const Parameters &content)
+{
+	DataStore &ds = DataStore::getSingleton();
+	DataStore::BehaviourParameters out;
+
+	for_each(content.begin(), content.end(),
+		[&] (const Parameters::value_type &behaviourDecl)
+		{
+			const string &behaviourName = behaviourDecl.second.get("name", "");
+			if (!ds.IsBehaviourRegistered(behaviourName))
+				throw InvalidGameObjectInstanceException(godName, instanceName, behaviourName);
+				
+			const ptree::const_assoc_iterator paramsIt = behaviourDecl.second.find("params");
+			out.insert(make_pair(behaviourName, paramsIt->second));
+		} );
+
+	return out;
 }
 
 }
