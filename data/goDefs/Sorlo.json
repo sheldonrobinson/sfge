@@ -29,6 +29,7 @@
 					},
 					{	"animName": "hit_cc",
 						"playMode": "pingpong_once",
+						"animWhenFinished": "idle",
 						"animFrames": [
 							{ "duration": 0.04, "rect": [246, 197, 46, 69], "ox": 17, "oy": 69 },
 							{ "duration": 0.06, "rect": [305, 197, 54, 69], "ox": 18, "oy": 69 },

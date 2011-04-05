@@ -84,6 +84,10 @@ void SpriteAnimationBehaviour::ParseAnimation(const sfge::Parameters &animDef)
 	else if (playModeStr == "pingpong_once")
 		anim->mPlayMode = PM_PingPong_Once;
 
+	// Read anim to play when this one is finished
+	string animOnFinished = animDef.get("animWhenFinished", "");
+	anim->mAnimNameWhenFinished = animOnFinished;
+
 	mAnimationDict.insert(make_pair(name, anim));
 }
 
@@ -151,7 +155,12 @@ void SpriteAnimationBehaviour::OnUpdate(float dt)
 
 	case PM_Once:
 		if (mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
+		{
 			mDirection = 0;
+
+			if (!mCurrentAnim->mAnimNameWhenFinished.empty())
+				GetAttribute<string>(AK_CurrentAnimName) = mCurrentAnim->mAnimNameWhenFinished;
+		}
 		break;
 		
 	case PM_PingPong:
@@ -164,7 +173,12 @@ void SpriteAnimationBehaviour::OnUpdate(float dt)
 
 	case PM_PingPong_Once:
 		if (mCurrentFrameIndex == 0)
+		{
 			mDirection = 0;
+
+			if (!mCurrentAnim->mAnimNameWhenFinished.empty())
+				GetAttribute<string>(AK_CurrentAnimName) = mCurrentAnim->mAnimNameWhenFinished;
+		}
 		else if (mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
 		{
 			mDirection = -mDirection;

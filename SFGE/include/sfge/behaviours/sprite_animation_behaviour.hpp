@@ -43,6 +43,7 @@ namespace sfge
 		{
 			AnimFrames	mAnimFrames;
 			PlayMode	mPlayMode;
+			std::string	mAnimNameWhenFinished;
 		};
 		typedef std::shared_ptr<Animation>	AnimationPtr;
 
