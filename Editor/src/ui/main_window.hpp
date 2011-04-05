@@ -10,8 +10,13 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget *parent = nullptr);
 
+private slots:
+	void OnFileNew();
+	void OnFileOpen();
+
 private:
 	Ui::MainWindow	mUi;
+	QString			mOriginalTitle;
 };
 
 #endif

@@ -162,13 +162,18 @@ void Game::LoadConfigFile()
 	mImagesFolder		= config.get("images", ".");
 }
 
-void Game::ReloadWorld()
+void Game::ClearWorld()
 {
 	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
 	cout << "Destroying current world..." << endl;
 
 	mObjects.clear();
 	DataStore::getSingleton().ClearAll();
+}
+
+void Game::ReloadWorld()
+{
+	ClearWorld();
 
 	cout << "Reloading current world..." << endl;
 	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
@@ -178,6 +183,8 @@ void Game::ReloadWorld()
 
 void Game::LoadWorld(const std::string &worldName)
 {
+	ClearWorld();
+
 	mCurrentWorld = worldName;
 	const std::string filename(mWorldDefsFolder + "/" + mCurrentWorld + ".json");
 

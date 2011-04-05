@@ -23,11 +23,15 @@ namespace sfge
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
 
+		const std::string& GetWorldDefsFolder() const	{ return mWorldDefsFolder; }
+		const std::string& GetGODefsFolder() const		{ return mGODefsFolder; }
 		const std::string& GetImagesFolder() const		{ return mImagesFolder; }
+		const std::string& GetCurrentWorldName() const	{ return mCurrentWorld; }
 
 		void LoadWorld(const std::string &worldName);
-		void ReloadWorld();
 		void LoadGameObjectDef(const std::string &godName);
+		void ReloadWorld();
+		void ClearWorld();
 
 	protected:
 		virtual void OnDeclareAdditionnalBehaviours()	{ ; }
