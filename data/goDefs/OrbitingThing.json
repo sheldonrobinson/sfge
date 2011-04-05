@@ -20,13 +20,9 @@
 			"name": "RenderShapeBehaviour",
 			"params": {
 				"shape": "circle",
-				"cx": 0,
-				"cy": 0,
+				"center": [0, 0],
 				"radius": 15,
-				"cr": 255,
-				"cg": 255,
-				"cb": 255,
-				"ca": 255
+				"color": [255, 255, 255]
 			}
 		}
 	]

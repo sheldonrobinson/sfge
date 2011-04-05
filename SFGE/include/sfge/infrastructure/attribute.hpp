@@ -42,7 +42,7 @@ namespace sfge
 		size_t					mAttributeKey;
 		
 		//! Set to true whenever any non-const accessor is used. No way to really check modifications without caching I guess.
-		mutable bool				mPotentiallyModified;
+		mutable bool			mPotentiallyModified;
 	};
 
 #include "attribute.inl"

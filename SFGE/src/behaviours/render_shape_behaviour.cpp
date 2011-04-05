@@ -7,6 +7,7 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/game.hpp"
+#include "sfge/utilities/ptree_parse_helpers_sfml.hpp"
 
 #include <cassert>
 
@@ -31,32 +32,28 @@ RenderShapeBehaviour::RenderShapeBehaviour(GameObjectWeakPtr owner)
 
 void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 {
-	// TODO move that into some kind of sfml-graphics content factory
+	// Empty Parameters used as default return value
+	const Parameters defParams;
+
 	if (params.get("shape", "") == "circle")
 	{
-		float cx		= params.get("cx",		0.f);
-		float cy		= params.get("cy",		0.f);
-		float radius	= params.get("radius",	0.f);
+		Vector2f center;
+		const Parameters &centerParams = params.get_child("center", defParams);
+		parseTo(centerParams, center);
+
+		float radius = params.get("radius",	0.f);
 
 		Color color;
-		color.r	= params.get("cr",	0);
-		color.g	= params.get("cg",	0);
-		color.b	= params.get("cb",	0);
-		color.a	= params.get("ca",	0);
+		const Parameters &colorParams = params.get_child("color", defParams);
+		parseTo(colorParams, color);
 
-		mShape = ShapePtr(new Shape(Shape::Circle(cx, cy, radius, color)));
+		mShape = ShapePtr(new Shape(Shape::Circle(center, radius, color)));
 	}
-
-	// Apply origin
-	optional<float> ox = params.get_optional<float>("ox");
-	optional<float> oy = params.get_optional<float>("oy");
 	
-	Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
-	assert(origin.IsValid());
-	if (ox)
-		origin->x = *ox;
-	if (oy)
-		origin->y = *oy;
+	// Apply origin if found
+	const Parameters &origin = params.get_child("origin", defParams);
+	if (origin.size() > 0)
+		parseTo(origin, *GetAttribute<Vector2f>(AK_Origin));
 
 	// Apply anything we're interested in due to unknown initialization order
 	if (mShape)

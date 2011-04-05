@@ -4,6 +4,7 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/utilities/exception_str.hpp"
+#include "sfge/utilities/ptree_parse_helpers_sfml.hpp"
 
 #include <algorithm>
 
@@ -96,6 +97,9 @@ void SpriteAnimationBehaviour::ParseAnimationFrames(AnimationPtr out, const sfge
 	if (animFrameDefs.empty())
 		return;
 	
+	// Empty Parameters used as default return value
+	const Parameters defParams;
+
 	// Parse frames
 	for_each(animFrameDefs.begin(), animFrameDefs.end(),
 		[&] (const Parameters::value_type &animFrameDef)
@@ -103,26 +107,15 @@ void SpriteAnimationBehaviour::ParseAnimationFrames(AnimationPtr out, const sfge
 			if (animFrameDef.second.empty())
 				throw ExceptionStr("Empty animation frame found");
 
-			const float duration	= animFrameDef.second.get("duration", 0.f);
-			const Parameters &rect	= animFrameDef.second.get_child("rect", Parameters());
-			const float ox			= animFrameDef.second.get("ox", 0.f);
-			const float oy			= animFrameDef.second.get("oy", 0.f);
-
-			if (rect.empty())
-				throw ExceptionStr("Animation frame without \"rect\" are forbidden");
-			if (rect.size() != 4)
-				throw ExceptionStr("\"rect\" attributes of animation frame must have 4 int components");
-
-			Parameters::const_assoc_iterator rectIt = rect.ordered_begin();
-
 			AnimFrame frame;
-			frame.mDuration			= duration;
-			frame.mOrigin.x			= ox;
-			frame.mOrigin.y			= oy;
-			frame.mFrameRect.Left	= rectIt->second.get_value<int>(0);		++rectIt;
-			frame.mFrameRect.Top	= rectIt->second.get_value<int>(0);		++rectIt;
-			frame.mFrameRect.Width	= rectIt->second.get_value<int>(0);		++rectIt;
-			frame.mFrameRect.Height	= rectIt->second.get_value<int>(0);
+
+			frame.mDuration	= animFrameDef.second.get("duration", 0.f);
+	
+			const Parameters &origin = animFrameDef.second.get_child("origin", defParams);
+			parseTo(origin, frame.mOrigin);
+	
+			const Parameters &frameRect = animFrameDef.second.get_child("rect", defParams);
+			parseTo(frameRect, frame.mFrameRect);
 
 			out->mAnimFrames.push_back(frame);
 		} );

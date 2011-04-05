@@ -50,7 +50,9 @@
     <ClInclude Include="include\sfge\utilities\detail\delegate_list.hpp" />
     <ClInclude Include="include\sfge\utilities\detail\delegate_template.hpp" />
     <ClInclude Include="include\sfge\utilities\exception_str.hpp" />
+    <ClInclude Include="include\sfge\utilities\ptree_parse_helpers.hpp" />
     <ClInclude Include="include\sfge\utilities\null_deleter.hpp" />
+    <ClInclude Include="include\sfge\utilities\ptree_parse_helpers_sfml.hpp" />
     <ClInclude Include="include\sfge\utilities\singleton.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +72,7 @@
     <ClCompile Include="src\infrastructure\message_manager.cpp" />
     <ClCompile Include="src\infrastructure\type_registration.cpp" />
     <ClCompile Include="src\infrastructure\type_registry.cpp" />
+    <ClCompile Include="src\utilities\ptree_parse_helpers_sfml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\sfge\graphics\sfml_shape_ext.inl" />

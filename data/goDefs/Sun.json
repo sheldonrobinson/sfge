@@ -5,10 +5,8 @@
 		{
 			"name": "TransformBehaviour",
 			"params": {
-				"px": 400,
-				"py": 300,
-				"sx": 0.25,
-				"sy": 0.25,
+				"position": [400, 300],
+				"scale": [0.25, 0.25],
 				"layer": 1
 			}
 		},
@@ -16,8 +14,7 @@
 			"name": "RenderSpriteBehaviour",
 			"params": {
 				"source": "sun.png",
-				"ox": 128,
-				"oy": 128
+				"origin": [128, 128]
 			}
 		}
 	]

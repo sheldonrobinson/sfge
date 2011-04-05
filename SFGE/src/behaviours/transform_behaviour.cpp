@@ -4,6 +4,7 @@
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/utilities/ptree_parse_helpers_sfml.hpp"
 
 using namespace boost;
 using namespace sf;
@@ -21,25 +22,18 @@ TransformBehaviour::TransformBehaviour(GameObjectWeakPtr owner)
 
 void TransformBehaviour::OnParamsReceived(const sfge::Parameters &params)
 {
-	// Apply position if found
-	optional<float> px = params.get_optional<float>("px");
-	optional<float> py = params.get_optional<float>("py");
+	// Empty Parameters used as default return value
+	const Parameters defParams;
 
-	Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-	if (px)
-		pos->x = *px;
-	if (py)
-		pos->y = *py;
-	
-	optional<float> sx = params.get_optional<float>("sx");
-	optional<float> sy = params.get_optional<float>("sy");
+	// Apply position if found
+	const Parameters &pos = params.get_child("position", defParams);
+	if (pos.size() > 0)
+		parseTo(pos, *GetAttribute<Vector2f>(AK_Position));
 	
 	// Apply scale if found
-	Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
-	if (sx)
-		scale->x = *sx;
-	if (sy)
-		scale->y = *sy;
+	const Parameters &scale = params.get_child("scale", defParams);
+	if (scale.size() > 0)
+		parseTo(scale, *GetAttribute<Vector2f>(AK_Scale));
 
 	// Apply layer if found
 	optional<GraphicSystem::LayerIndex> layer = params.get_optional<GraphicSystem::LayerIndex>("layer");

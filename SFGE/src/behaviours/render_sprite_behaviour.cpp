@@ -7,6 +7,7 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/game.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
+#include "sfge/utilities/ptree_parse_helpers_sfml.hpp"
 
 #include <cassert>
 
@@ -32,7 +33,10 @@ RenderSpriteBehaviour::RenderSpriteBehaviour(GameObjectWeakPtr owner)
 
 void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 {
-	// TODO move that into some kind of sfml-graphics content factory
+	// Empty Parameters used as default return value
+	const Parameters defParams;
+
+	// Read source filename
 	const std::string &src = params.get("source", "");
 	assert(!src.empty());
 		
@@ -40,17 +44,11 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 	mImage->LoadFromFile(mOwner.lock()->GetGame()->GetImagesFolder() + "/" + src);
 
 	mSprite = SpritePtr(new Sprite(*mImage));
-
-	// Apply origin
-	optional<float> ox = params.get_optional<float>("ox");
-	optional<float> oy = params.get_optional<float>("oy");
 	
-	Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
-	assert(origin.IsValid());
-	if (ox)
-		origin->x = *ox;
-	if (oy)
-		origin->y = *oy;
+	// Apply origin if found
+	const Parameters &origin = params.get_child("origin", defParams);
+	if (origin.size() > 0)
+		parseTo(origin, *GetAttribute<Vector2f>(AK_Origin));
 
 	// Apply smoothing
 	optional<bool> smooth = params.get_optional<bool>("smooth");
@@ -58,12 +56,15 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 		mImage->SetSmooth(*smooth);
 
 	// Apply keycolor
-	int kcr		= params.get("keyColorR", 0);
-	int kcg		= params.get("keyColorG", 0);
-	int kcb		= params.get("keyColorB", 0);
-	int kca		= params.get("keyColorA", 0);
-	int kcoa	= params.get("keyColorOutA", 0);
-	mImage->CreateMaskFromColor(Color(kcr, kcg, kcb, kca), kcoa);
+	const Parameters &keyColorParams = params.get_child("keyColor", defParams);
+	if (keyColorParams.size() > 0)
+	{
+		Color keyColor;
+		parseTo(keyColorParams, keyColor);
+		Uint8 kcoa = params.get("keyColorOutA", 0);
+
+		mImage->CreateMaskFromColor(keyColor, kcoa);
+	}
 
 	// Apply anything we're interested in due to unknown initialization order
 	if (mSprite)

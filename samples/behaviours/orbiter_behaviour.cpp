@@ -10,7 +10,7 @@ using namespace sfge;
 using namespace sf;
 
 OrbiterBehaviour::OrbiterBehaviour(GameObjectWeakPtr owner)
-	: Behaviour(owner)
+	: Behaviour(owner), mAccum(0.f)
 {
 	RegisterAttribute(SAK_OrbitDistance, 0.f);
 	RegisterAttribute(SAK_OrbitSpeed, 0.f);
@@ -46,8 +46,8 @@ void OrbiterBehaviour::OnUpdate(float dt)
 	Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 	assert(pos.IsValid());
 
-	const float theta = dt * speed;
+	mAccum += dt * speed;
 
-	pos->x = cos(theta) * dist + refPos->x;
-	pos->y = sin(theta) * dist + refPos->y;
+	pos->x = cos(mAccum) * dist + refPos->x;
+	pos->y = sin(mAccum) * dist + refPos->y;
 }

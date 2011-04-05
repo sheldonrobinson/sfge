@@ -33,8 +33,7 @@
 				{
 					"name": "TransformBehaviour",
 					"params": {
-						"px": 400,
-						"py": 300
+						"position": [400, 300]
 					}
 				},
 				"CameraBehaviour",
@@ -53,16 +52,14 @@
 				{
 					"name": "TransformBehaviour",
 					"params": {
-						"sx": 0.03125,
-						"sy": 0.03125
+						"scale": [0.03125, 0.03125]
 					}
 				},
 				{
 					"name": "RenderSpriteBehaviour",
 					"params": {
 						"source": "mercury.png",
-						"ox": 128,
-						"oy": 128
+						"origin": [128, 128]
 					}
 				},
 				{
@@ -82,16 +79,14 @@
 				{
 					"name": "TransformBehaviour",
 					"params": {
-						"sx": 0.12,
-						"sy": 0.12
+						"scale": [0.12, 0.12]
 					}
 				},
 				{
 					"name": "RenderSpriteBehaviour",
 					"params": {
 						"source": "venus.png",
-						"ox": 128,
-						"oy": 128
+						"origin": [128, 128]
 					}
 				},
 				{
@@ -111,16 +106,14 @@
 				{
 					"name": "TransformBehaviour",
 					"params": {
-						"sx": 0.125,
-						"sy": 0.125
+						"scale": [0.125, 0.125]
 					}
 				},
 				{
 					"name": "RenderSpriteBehaviour",
 					"params": {
 						"source": "earth.png",
-						"ox": 128,
-						"oy": 128
+						"origin": [128, 128]
 					}
 				},
 				{
@@ -140,16 +133,14 @@
 				{
 					"name": "TransformBehaviour",
 					"params": {
-						"sx": 0.025,
-						"sy": 0.025
+						"scale": [0.025, 0.025]
 					}
 				},
 				{
 					"name": "RenderSpriteBehaviour",
 					"params": {
 						"source": "moon.png",
-						"ox": 128,
-						"oy": 128
+						"origin": [128, 128]
 					}
 				},
 				{

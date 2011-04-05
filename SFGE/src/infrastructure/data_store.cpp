@@ -120,9 +120,10 @@ ParametersPtr DataStore::MergeDefaultAndInstanceParams(const Parameters &default
 				it->second = entry.second;
 			else
 			{
-				if (entry.second.data().empty())
-					throw ExceptionStr("Malformed instance parameters '" + entry.first + "'");
-				out->put(entry.first, entry.second.data());
+				if (!entry.second.data().empty())
+					out->put(entry.first, entry.second.data());
+				else
+					out->put_child(entry.first, entry.second);
 			}
 		} );
 
