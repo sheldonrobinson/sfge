@@ -2,34 +2,14 @@
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/behaviour.hpp"
 #include "sfge/utilities/null_deleter.hpp"
+#include "sfge/utilities/exception_str.hpp"
 
 #include <algorithm>
-#include <exception>
 
 using namespace std;
 
 namespace sfge
 {
-
-namespace
-{
-	class Exception : public std::exception
-	{
-	public:
-		Exception(const std::string &text)
-			: mText(text)
-		{
-		}
-
-		virtual const char *what() const override
-		{
-			return mText.c_str();
-		}
-
-	private:
-		std::string mText;
-	};
-}
 
 DataStore* DataStore::ms_Singleton = 0;
 
@@ -48,7 +28,7 @@ void DataStore::ClearAll()
 void DataStore::DeclareGameObjectDef(const std::string &godName)
 {
 	if (mLinks.find(godName) != mLinks.end())
-		throw Exception("GameObject definition named " + godName + " has already been registered!");
+		throw ExceptionStr("GameObject definition named " + godName + " has already been registered!");
 
 	mLinks[godName] = BehaviourParameters();
 }
@@ -56,7 +36,7 @@ void DataStore::DeclareGameObjectDef(const std::string &godName)
 void DataStore::DeclareBehaviourDef(const std::string &behaviourName, const BehaviourCreator &behaviourCreator)
 {
 	if (mBehaviourDefinitions.find(behaviourName) != mBehaviourDefinitions.end())
-		throw Exception("Behaviour definition named " + behaviourName + " has already been registered!");
+		throw ExceptionStr("Behaviour definition named " + behaviourName + " has already been registered!");
 
 	mBehaviourDefinitions[behaviourName] = behaviourCreator;
 }
@@ -69,7 +49,7 @@ void DataStore::LinkBehaviourDefToGameObjectDef(const std::string &godName, cons
 void DataStore::LinkBehaviourDefToGameObjectDef(const std::string &godName, const std::string &behaviourName, const Parameters &defaultParams)
 {
 	if (mLinks.find(godName) == mLinks.end())
-		throw Exception("GameObject definition named " + godName + " has not been registered!");
+		throw ExceptionStr("GameObject definition named " + godName + " has not been registered!");
 
 	mLinks[godName].insert(make_pair(behaviourName, defaultParams));
 }
@@ -90,7 +70,7 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, co
 	
 	GOBehaviourLinks::const_iterator godIt = mLinks.find(godName);
 	if (godIt == mLinks.end())
-		throw Exception("GameObject definition named " + godName + " doesn't exist!");
+		throw ExceptionStr("GameObject definition named " + godName + " doesn't exist!");
 	
 	const BehaviourParameters &goBehaviours = godIt->second;
 	for_each(goBehaviours.begin(), goBehaviours.end(),
@@ -123,7 +103,7 @@ BehaviourPtr DataStore::InstantiateBehaviour(const std::string &behaviourName, G
 {
 	BehaviourDefs::const_iterator it = mBehaviourDefinitions.find(behaviourName);
 	if (it == mBehaviourDefinitions.end())
-		throw Exception("No Behaviour definition named " + behaviourName + " has been registered!");
+		throw ExceptionStr("No Behaviour definition named " + behaviourName + " has been registered!");
 
 	return it->second(owner);
 }
@@ -141,7 +121,7 @@ ParametersPtr DataStore::MergeDefaultAndInstanceParams(const Parameters &default
 			else
 			{
 				if (entry.second.data().empty())
-					throw Exception("Malformed instance parameters '" + entry.first + "'");
+					throw ExceptionStr("Malformed instance parameters '" + entry.first + "'");
 				out->put(entry.first, entry.second.data());
 			}
 		} );
@@ -162,7 +142,7 @@ GameObjectWeakPtr DataStore::GetGameObjectInstanceByName(const std::string &goIn
 
 	GameObjectInstances::const_iterator it = mInstances.find(goInstanceName);
 	if (it == mInstances.end())
-		throw Exception("Failed to retrieve instance named " + goInstanceName);
+		throw ExceptionStr("Failed to retrieve instance named " + goInstanceName);
 	return it->second;
 }
 

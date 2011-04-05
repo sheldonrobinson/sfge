@@ -23,6 +23,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampleSolarSystem", "sample
 		{7FD884D4-88EC-49E8-9172-8F5CF715AB2E} = {7FD884D4-88EC-49E8-9172-8F5CF715AB2E}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampleSpriteAnimation", "samples\sampleSpriteAnimation\sampleSpriteAnimation.vcxproj", "{01B5084A-440F-4052-AA02-02B4B6C23490}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7FD884D4-88EC-49E8-9172-8F5CF715AB2E} = {7FD884D4-88EC-49E8-9172-8F5CF715AB2E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -60,6 +65,12 @@ Global
 		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.Release|Win32.Build.0 = Release|Win32
 		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.ReleaseWDebugInfo|Win32.ActiveCfg = Release|Win32
 		{F7F0B633-4933-4E04-A9EA-00F0D08CEAF1}.ReleaseWDebugInfo|Win32.Build.0 = Release|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.Debug|Win32.ActiveCfg = Debug|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.Debug|Win32.Build.0 = Debug|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.Release|Win32.ActiveCfg = Release|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.Release|Win32.Build.0 = Release|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.ReleaseWDebugInfo|Win32.ActiveCfg = Release|Win32
+		{01B5084A-440F-4052-AA02-02B4B6C23490}.ReleaseWDebugInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

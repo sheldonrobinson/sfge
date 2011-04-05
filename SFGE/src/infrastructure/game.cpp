@@ -8,6 +8,7 @@
 #include "sfge/behaviours/camera_behaviour.hpp"
 #include "sfge/behaviours/render_shape_behaviour.hpp"
 #include "sfge/behaviours/render_sprite_behaviour.hpp"
+#include "sfge/behaviours/sprite_animation_behaviour.hpp"
 #include "sfge/behaviours/transform_behaviour.hpp"
 
 #include "sfge/graphics/graphic_system.hpp"
@@ -110,7 +111,9 @@ void Game::Run()
 		gfxSys.UpdateEvents();
 		gfxSys.PreRender();
 
-		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(clock.GetElapsedTime()); } );
+		const float dt = clock.GetElapsedTime();
+		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(dt); } );
+		clock.Reset();
 
 		gfxSys.PostRender();
 	}
@@ -140,6 +143,7 @@ void Game::DeclareBehaviours()
 	DECLARE_BEHAVIOUR(CameraBehaviour);
 	DECLARE_BEHAVIOUR(RenderShapeBehaviour);
 	DECLARE_BEHAVIOUR(RenderSpriteBehaviour);
+	DECLARE_BEHAVIOUR(SpriteAnimationBehaviour);
 	DECLARE_BEHAVIOUR(TransformBehaviour);
 
 	// Allow user to declare any additionnal behaviour
@@ -340,7 +344,10 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 				cout << behaviourName << endl;
 				
 				const ptree::const_assoc_iterator paramsIt = behaviourDecl.second.find("params");
-				ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName, paramsIt->second);
+				if (paramsIt != behaviourDecl.second.not_found())
+					ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName, paramsIt->second);
+				else
+					ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName);
 			}
 		} );
 }

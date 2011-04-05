@@ -6,6 +6,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 #include "sfge/graphics/graphic_system.hpp"
 #include "sfge/infrastructure/builtin_attributes.hpp"
@@ -19,6 +20,7 @@ namespace sfge
 	// SFML types
 	DEFINE_COMPLEX_TYPEID(sf::Vector2f);
 	DEFINE_COMPLEX_TYPEID(sf::Color);
+	DEFINE_COMPLEX_TYPEID(sf::IntRect);
 
 	// SFGE types
 	DEFINE_POD_TYPEID(AttributeKey);

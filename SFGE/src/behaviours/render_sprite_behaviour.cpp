@@ -21,6 +21,7 @@ RenderSpriteBehaviour::RenderSpriteBehaviour(GameObjectWeakPtr owner)
 {
 	RegisterAttribute<Color>(AK_Color, &Color::White);
 	RegisterAttribute<Vector2f>(AK_Origin);
+	RegisterAttribute<IntRect>(AK_SpriteRegion, IntRect(-1, -1, -1, -1));
 
 	MessageKey msgKey;
 	msgKey.mID		= MID_AttributeChanged;
@@ -109,6 +110,13 @@ void RenderSpriteBehaviour::ApplyRender()
 	const Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
 	assert(origin.IsValid());
 	mSprite->SetOrigin(origin);
+	
+	const Attribute<IntRect> region = GetAttribute<IntRect>(AK_SpriteRegion);
+	assert(region.IsValid());
+	if (region->Top != -1 && region->Left != -1 && region->Width != -1 && region->Height != -1)
+		mSprite->SetSubRect(region);
+	else
+		mSprite->SetSubRect(IntRect(0, 0, mImage->GetWidth(), mImage->GetHeight()));
 }
 
 }
