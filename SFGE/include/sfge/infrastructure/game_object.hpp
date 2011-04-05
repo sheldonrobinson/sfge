@@ -17,7 +17,9 @@ namespace sfge
 	class GameObject
 	{
 	public:
-		static GameObjectPtr	Create();
+		GameObject();
+		void SetSelf(GameObjectWeakPtr selfPtr)	{ mSelf = selfPtr; }
+
 		~GameObject();
 
 		// Game relationship
@@ -40,20 +42,18 @@ namespace sfge
 		void Update(float dt);
 
 	private:
-		GameObject();
-		void SetSelf(GameObjectWeakPtr selfPtr)	{ mSelf = selfPtr; }
 
 	private:
-		typedef std::vector<BehaviourPtr>						Behaviours;
+		typedef std::vector<BehaviourPtr>					Behaviours;
 		typedef std::map<size_t, detail::ValueHolderPtr>	Attributes;
 
 	private:
-		GameObjectWeakPtr	mSelf;			//!< Used when sending messages. FIXME that's awful and requires an additional Destroy method!
+		GameObjectWeakPtr	mSelf;			//!< Used when sending messages
 
 		GamePtr			mGame;
 
 		Behaviours		mBehaviours;
-		// FIXME THREADING move that somewhere else for nicer parallelism performances. Datastore too I guess?
+		// FIXME THREADING move that somewhere else for potentially nicer parallelism performances. Datastore too I guess?
 		Attributes		mAttributes;
 	};
 

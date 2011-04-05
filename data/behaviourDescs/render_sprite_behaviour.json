@@ -1,0 +1,11 @@
+{
+	"type": "behaviour_definition",
+	"name": "RenderSpriteBehaviour",
+	"params": [
+		{ "name": "source",			"type": "image" },
+		{ "name": "origin",			"type": "sf::Vector2f" },
+		{ "name": "smooth",			"type": "bool", "default": "true" },
+		{ "name": "keyColor",		"type": "sf::Color" },
+		{ "name": "keyColorOutA",	"type": "Uint8", "range": [0, 255] }
+	]
+}

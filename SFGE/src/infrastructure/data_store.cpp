@@ -66,7 +66,8 @@ bool DataStore::IsBehaviourRegistered(const std::string &behaviourName) const
 
 GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, const std::string &goInstanceName, const BehaviourParameters &instanceParameters)
 {
-	GameObjectPtr go(GameObject::Create());
+	GameObjectPtr go(new GameObject);
+	go->SetSelf(go);
 	
 	GOBehaviourLinks::const_iterator godIt = mLinks.find(godName);
 	if (godIt == mLinks.end())

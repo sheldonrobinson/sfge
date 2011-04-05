@@ -1,0 +1,15 @@
+{
+	"type": "behaviour_definition",
+	"name": "RenderShapeBehaviour",
+	"params": [
+		{	"name": "shape",
+			"type": [ "circle" ],
+			"circle": [
+				{ "name": "center", "type": "sf::Vector2f" },
+				{ "name": "radius", "type": "float" },
+				{ "name": "color",	"type": "sf::Color" }
+			]
+		},
+		{ "name": "origin",	"type": "sf::Vector2f" }
+	]
+}

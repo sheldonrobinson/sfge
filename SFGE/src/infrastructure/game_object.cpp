@@ -11,13 +11,6 @@ using namespace std;
 
 namespace sfge
 {
-	
-GameObjectPtr GameObject::Create()
-{
-	GameObjectPtr go(new GameObject());
-	go->SetSelf(go);
-	return go;
-}
 
 GameObject::GameObject()
 {

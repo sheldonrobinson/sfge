@@ -1,0 +1,22 @@
+{
+	"type": "behaviour_definition",
+	"name": "SpriteAnimationBehaviour",
+	"params": [
+		{ "name": "speed",			"type": "float", "default": 1 },
+		{ "name": "initialAnim",	"type": "std::string", "ref": "animName" },
+		{ "name": "anims",
+		  "type": [
+			{ "name": "animName", "type": "std::string" },
+			{ "name": "playMode", "type": [ "loop", "once", "pingpong", "pingpong_once" ], "default": "loop" },
+			{ "name": "animWhenFinished", "type": "std::string", "ref": "animName" },
+			{ "name": "animFrames",
+			  "type" : [
+				{ "name": "duration", "type": "float", "range": [0.001, 1000] },
+				{ "name": "rect", "type": "sf::IntRect" },
+				{ "name": "origin", "type": "sf::Vector2f" }
+			  ]
+			}
+		  ]
+		}
+	]
+}

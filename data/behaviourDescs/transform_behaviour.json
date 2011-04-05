@@ -1,0 +1,8 @@
+{
+	"type": "behaviour_definition",
+	"name": "TransformBehaviour",
+	"params": [
+		{ "name": "position",	"type": "sf::Vector2f" },
+		{ "name": "scale",		"type": "sf::Vector2f", "default": [1, 1] }
+	]
+}
