@@ -14,9 +14,9 @@
 						"anims": [
 							{	"animName": "idle",
 								"animFrames": [
-									{ "duration": 0.05, "rect": [70, 17, 46, 69], "ox": 23, "oy": 69 },
-									{ "duration": 0.05, "rect": [146, 17, 46, 69], "ox": 23, "oy": 69 },
-									{ "duration": 0.05, "rect": [221, 17, 47, 69], "ox": 23.5, "oy": 69 }
+									{ "duration": 0.05, "rect": [70, 17, 46, 69], "ox": 17, "oy": 69 },
+									{ "duration": 0.05, "rect": [146, 17, 46, 69], "ox": 17, "oy": 69 },
+									{ "duration": 0.05, "rect": [221, 17, 47, 69], "ox": 18, "oy": 69 }
 								]
 							},
 							{	"animName": "walk",
