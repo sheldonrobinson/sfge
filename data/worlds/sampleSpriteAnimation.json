@@ -21,10 +21,10 @@
 							},
 							{	"animName": "walk",
 								"animFrames": [
-									{ "duration": 0.15, "rect": [47, 107, 39, 68], "ox": 19.5, "oy": 68 },
-									{ "duration": 0.15, "rect": [127, 106, 43, 69], "ox": 21.5, "oy": 69 },
-									{ "duration": 0.15, "rect": [208, 107, 45, 68], "ox": 22.5, "oy": 68 },
-									{ "duration": 0.15, "rect": [287, 105, 43, 69], "ox": 21.5, "oy": 69 }
+									{ "duration": 0.15, "rect": [47, 107, 39, 68], "ox": 10, "oy": 68 },
+									{ "duration": 0.15, "rect": [127, 106, 43, 69], "ox": 10, "oy": 69 },
+									{ "duration": 0.15, "rect": [208, 107, 45, 68], "ox": 10, "oy": 68 },
+									{ "duration": 0.15, "rect": [287, 105, 43, 69], "ox": 10, "oy": 69 }
 								]
 							}
 						]
@@ -33,12 +33,14 @@
 				{	"name": "RenderSpriteBehaviour",
 					"params": {
 						"source": "sorlo_super_sheet.png",
+						"smooth": 0,
 						"keyColorR": 128,
 						"keyColorG": 128,
 						"keyColorB": 128,
 						"keyColorA": 255
 					}
-				}
+				},
+				"SorloInputBehaviour"
 			]
 		}
 	],

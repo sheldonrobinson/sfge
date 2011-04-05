@@ -1,8 +1,9 @@
 #ifndef SFGE_SPRITE_ANIMATION_BEHAVIOUR_HPP
 #define SFGE_SPRITE_ANIMATION_BEHAVIOUR_HPP
 
-#include <sfge/infrastructure/behaviour.hpp>
-#include <sfge/infrastructure/infrastructure_fwd.hpp>
+#include "sfge/infrastructure/behaviour.hpp"
+#include "sfge/infrastructure/infrastructure_fwd.hpp"
+#include "sfge/infrastructure/message.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 
@@ -37,6 +38,7 @@ namespace sfge
 	private:
 		AnimationPtr	ParseAnimation(const sfge::Parameters &animFrameDefs);
 		void			EnableCurrentAnim();
+		void			OnAttributeChanged(const Message &msg);
 
 	private:
 		AnimationDict	mAnimationDict;

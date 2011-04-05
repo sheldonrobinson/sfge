@@ -4,7 +4,6 @@
 #include <map>
 // TODO THREADING
 //#include <queue>
-#include <set>
 
 #include "sfge/infrastructure/message.hpp"
 #include "sfge/utilities/singleton.hpp"
@@ -26,8 +25,7 @@ namespace sfge
 		MessageManager();
 
 	private:
-		typedef std::set<MessageReceiver>				ReceiverContainer;
-		typedef std::map<MessageKey, ReceiverContainer>	MessageSubscriptions;
+		typedef std::multimap<MessageKey, MessageReceiver>	MessageSubscriptions;
 		// TODO THREADING
 		//typedef std::queue<Message>						MessageQueue;
 

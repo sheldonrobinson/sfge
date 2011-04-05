@@ -11,6 +11,8 @@ namespace sfge
 		AK_Color,			//!< Relates to RenderShapeBehaviour & RenderSpriteBehaviour; used to denote the game object's color
 		AK_Origin,			//!< Relates to RenderSpriteBehaviour; used to denote the sprite's origin (aka sprite's base point)
 		AK_SpriteRegion,	//!< Relates to RenderSpriteBehaviour; used to denote the sprite's current region to use (aka sprite's frame)
+		AK_AnimSpeed,		//!< Relates to SpriteAnimationBehaviour; used to denote the anim speed multiplier
+		AK_CurrentAnimName,	//!< Relates to SpriteAnimationBehaviour; used to denote the current animation name (obscure naming heh?)
 
 		AK_User,			//!< Attribute ids in user code must start from this value.
 	};

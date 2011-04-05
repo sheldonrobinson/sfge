@@ -4,6 +4,8 @@
 #include "sfge/infrastructure/type_registration.hpp"
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 
+#include <string>
+
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -16,6 +18,9 @@ namespace sfge
 	// POD types
 	DEFINE_POD_TYPEID(float);
 	DEFINE_POD_TYPEID(int);
+
+	// STD types
+	DEFINE_COMPLEX_TYPEID(std::string);
 
 	// SFML types
 	DEFINE_COMPLEX_TYPEID(sf::Vector2f);

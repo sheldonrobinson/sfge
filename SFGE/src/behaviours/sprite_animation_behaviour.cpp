@@ -2,6 +2,7 @@
 
 #include "sfge/infrastructure/builtin_attributes.hpp"
 #include "sfge/infrastructure/game_object.hpp"
+#include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/utilities/exception_str.hpp"
 
 #include <algorithm>
@@ -16,12 +17,24 @@ namespace sfge
 SpriteAnimationBehaviour::SpriteAnimationBehaviour(GameObjectWeakPtr owner)
 	: Behaviour(owner), mElapsedTime(0.f), mCurrentFrameIndex(0)
 {
+	RegisterAttribute<float>(AK_AnimSpeed, 1.f);
+	RegisterAttribute<string>(AK_CurrentAnimName, "");
+
+	MessageKey msgKey;
+	msgKey.mID		= MID_AttributeChanged;
+	msgKey.mSource	= mOwner;
+	MessageReceiver slot = MessageReceiver::from_method<SpriteAnimationBehaviour, &SpriteAnimationBehaviour::OnAttributeChanged>(this);
+	MessageManager::getSingleton().SubscribeTo(msgKey, slot);
 }
 
 void SpriteAnimationBehaviour::OnParamsReceived(const Parameters &params)
 {
 	// Empty Parameters used as default return value
 	const Parameters defParams;
+
+	optional<float> animSpeed = params.get_optional<float>("speed");
+	if (animSpeed)
+		GetAttribute<float>(AK_AnimSpeed) = *animSpeed;
 
 	const Parameters &animsBlock = params.get_child("anims", defParams);
 	if (animsBlock.empty())
@@ -104,7 +117,8 @@ void SpriteAnimationBehaviour::OnUpdate(float dt)
 
 	if (mElapsedTime < currFrame.mDuration)
 	{
-		mElapsedTime += dt;
+		const float animSpeed = GetAttribute<float>(AK_AnimSpeed); 
+		mElapsedTime += dt * animSpeed;
 		return;
 	}
 
@@ -130,6 +144,27 @@ void SpriteAnimationBehaviour::EnableCurrentAnim()
 	Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
 	assert(origin.IsValid());
 	origin = currFrame.mOrigin;
+}
+
+void SpriteAnimationBehaviour::OnAttributeChanged(const Message &msg)
+{
+	switch (msg.mData.GetValue<AttributeKey>())
+	{
+	case AK_CurrentAnimName:
+		{
+			const std::string &animName = GetAttribute<string>(AK_CurrentAnimName);
+
+			AnimationDict::const_iterator it = mAnimationDict.find(animName);
+			assert(it != mAnimationDict.end());
+
+			mCurrentAnim		= it->second;
+			mCurrentFrameIndex	= 0;
+			mElapsedTime		= 0.f;
+
+			EnableCurrentAnim();
+		}
+		break;
+	}
 }
 
 }

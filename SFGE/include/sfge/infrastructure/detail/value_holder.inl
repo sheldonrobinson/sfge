@@ -26,6 +26,10 @@ void ValueHolder::Init(const TypeRegistry::TypeInfo &typeInfo, const T *defaultV
 		else
 			mTypeInfo->mPlacementCtor(&mData.mValue, defaultVal);
 	}
+	else if (defaultVal)
+	{
+		TypeConverter<T, (sizeof(T) > sizeof(PointerT))>::Store(mData, *defaultVal);
+	}
 }
 
 template <typename T>

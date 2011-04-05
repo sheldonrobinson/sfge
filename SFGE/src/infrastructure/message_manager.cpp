@@ -21,7 +21,7 @@ MessageManager::MessageManager()
 
 void MessageManager::SubscribeTo(const MessageKey &msgKey, const MessageReceiver &msgReceiver)
 {
-	mSubscriptions[msgKey].insert(msgReceiver);
+	mSubscriptions.insert(make_pair(msgKey, msgReceiver));
 }
 
 void MessageManager::Queue(const Message &msg)
@@ -29,12 +29,8 @@ void MessageManager::Queue(const Message &msg)
 	// TODO THREADING check thread hosting the receiver; if different than the sender, copy it to the targeted thread's message queue.
 	MessageKey key(msg);
 	
-	const MessageSubscriptions::const_iterator msgKeyIt = mSubscriptions.find(key);
-	if (msgKeyIt == mSubscriptions.end())
-		return;
-
-	const ReceiverContainer &slots = msgKeyIt->second;
-	for_each(slots.begin(), slots.end(), [&] (const MessageReceiver &slot) { slot(msg); } );
+	pair<MessageSubscriptions::const_iterator, MessageSubscriptions::const_iterator> slots = mSubscriptions.equal_range(key);
+	for_each(slots.first, slots.second, [&] (const MessageSubscriptions::value_type &slot) { slot.second(msg); } );
 }
 
 }

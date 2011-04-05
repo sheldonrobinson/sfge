@@ -52,6 +52,11 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 	if (oy)
 		origin->y = *oy;
 
+	// Apply smoothing
+	optional<bool> smooth = params.get_optional<bool>("smooth");
+	if (smooth)
+		mImage->SetSmooth(*smooth);
+
 	// Apply keycolor
 	int kcr		= params.get("keyColorR", 0);
 	int kcg		= params.get("keyColorG", 0);

@@ -1,5 +1,8 @@
+#include <sfge/infrastructure/data_store.hpp>
 #include <sfge/infrastructure/game.hpp>
 #include <sfge/graphics/graphic_system.hpp>
+
+#include "sorlo_input_behaviour.hpp"
 
 using namespace sfge;
 
@@ -11,6 +14,7 @@ public:
 protected:
 	virtual void OnDeclareAdditionnalBehaviours() override
 	{
+		DECLARE_BEHAVIOUR(SorloInputBehaviour);
 	}
 
 	virtual void OnEndSystemInit() override
