@@ -23,22 +23,37 @@ namespace sfge
 		virtual void OnUpdate(float dt) override;
 
 	private:
+		enum PlayMode
+		{
+			PM_Loop,
+			PM_Once,
+			PM_PingPong,
+			PM_PingPong_Once,
+		};
+
 		struct AnimFrame
 		{
 			float			mDuration;
 			sf::IntRect		mFrameRect;
 			sf::Vector2f	mOrigin;
 		};
+		typedef std::vector<AnimFrame> AnimFrames;
 
-		typedef std::vector<AnimFrame>		Animation;
+		struct Animation
+		{
+			AnimFrames	mAnimFrames;
+			PlayMode	mPlayMode;
+		};
 		typedef std::shared_ptr<Animation>	AnimationPtr;
 
 		typedef std::map<std::string, AnimationPtr>	AnimationDict;
 
 	private:
-		AnimationPtr	ParseAnimation(const sfge::Parameters &animFrameDefs);
-		void			EnableCurrentAnim();
-		void			OnAttributeChanged(const Message &msg);
+		void	ParseAnimation(const sfge::Parameters &animDef);
+		void	ParseAnimationFrames(AnimationPtr out, const sfge::Parameters &animFrameDefs);
+		void	ResetCurrentAnim();
+		void	EnableCurrentAnimFrame();
+		void	OnAttributeChanged(const Message &msg);
 
 	private:
 		AnimationDict	mAnimationDict;
@@ -46,6 +61,7 @@ namespace sfge
 		AnimationPtr	mCurrentAnim;
 		size_t			mCurrentFrameIndex;
 		float			mElapsedTime;
+		int				mDirection;
 	};
 }
 

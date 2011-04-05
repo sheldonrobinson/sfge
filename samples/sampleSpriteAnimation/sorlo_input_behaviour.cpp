@@ -9,7 +9,7 @@ using namespace sf;
 using namespace std;
 
 SorloInputBehaviour::SorloInputBehaviour(GameObjectWeakPtr owner)
-	: Behaviour(owner), mRightKeyPressed(false)
+	: Behaviour(owner), mRightKeyPressed(false), mLCtrlKeyPressed(false)
 {
 }
 
@@ -17,8 +17,7 @@ void SorloInputBehaviour::OnUpdate(float /*dt*/)
 {
 	const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
 
-	const bool	rightKeyPressed	= input.IsKeyDown(Key::Right);
-
+	const bool rightKeyPressed = input.IsKeyDown(Key::Right);
 	if (rightKeyPressed != mRightKeyPressed)
 	{
 		if (rightKeyPressed)
@@ -27,5 +26,14 @@ void SorloInputBehaviour::OnUpdate(float /*dt*/)
 			GetAttribute<string>(AK_CurrentAnimName) = "idle";
 
 		mRightKeyPressed = rightKeyPressed;
+	}
+
+	const bool lctrlKeyPressed = input.IsKeyDown(Key::LControl);
+	if (lctrlKeyPressed != mLCtrlKeyPressed)
+	{
+		if (lctrlKeyPressed)
+			GetAttribute<string>(AK_CurrentAnimName) = "hit_cc";
+
+		mLCtrlKeyPressed = lctrlKeyPressed;
 	}
 }

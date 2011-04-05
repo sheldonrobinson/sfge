@@ -12,6 +12,7 @@ public:
 
 private:
 	bool mRightKeyPressed;
+	bool mLCtrlKeyPressed;
 };
 
 #endif

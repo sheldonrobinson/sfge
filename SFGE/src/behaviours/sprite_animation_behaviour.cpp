@@ -15,7 +15,7 @@ namespace sfge
 {
 
 SpriteAnimationBehaviour::SpriteAnimationBehaviour(GameObjectWeakPtr owner)
-	: Behaviour(owner), mElapsedTime(0.f), mCurrentFrameIndex(0)
+	: Behaviour(owner), mElapsedTime(0.f), mCurrentFrameIndex(0), mDirection(1)
 {
 	RegisterAttribute<float>(AK_AnimSpeed, 1.f);
 	RegisterAttribute<string>(AK_CurrentAnimName, "");
@@ -32,10 +32,12 @@ void SpriteAnimationBehaviour::OnParamsReceived(const Parameters &params)
 	// Empty Parameters used as default return value
 	const Parameters defParams;
 
+	// Read anim speed
 	optional<float> animSpeed = params.get_optional<float>("speed");
 	if (animSpeed)
 		GetAttribute<float>(AK_AnimSpeed) = *animSpeed;
 
+	// Read anim list
 	const Parameters &animsBlock = params.get_child("anims", defParams);
 	if (animsBlock.empty())
 		return;
@@ -43,38 +45,54 @@ void SpriteAnimationBehaviour::OnParamsReceived(const Parameters &params)
 	for_each(animsBlock.begin(), animsBlock.end(),
 		[&] (const Parameters::value_type &animBlock)
 		{
-			// Extract animation's name
-			const Parameters &animParams = animBlock.second;
-			const std::string &name = animParams.get("animName", "");
-			if (name.empty())
-				throw ExceptionStr("Anonymous animation found!");
-			if (mAnimationDict.find(name) != mAnimationDict.end())
-				throw ExceptionStr("Animation '" + name + "' already declared");
-
-			// Parse animation definition (frames composing the animation)
-			const Parameters &animFrames = animParams.get_child("animFrames", defParams);
-			if (animFrames.empty())
-				mAnimationDict.insert(make_pair(name, nullptr));
-			else
-				mAnimationDict.insert(make_pair(name, ParseAnimation(animFrames)));
+			ParseAnimation(animBlock.second);
 		} );
 
-	if (mAnimationDict.size() > 0)
-	{
-		mCurrentAnim		= mAnimationDict.begin()->second;
-		mElapsedTime		= 0.f;
-		mCurrentFrameIndex	= 0;
-
-		EnableCurrentAnim();
-	}
+	// Read initial animation
+	optional<string> initialAnim = params.get_optional<string>("initialAnim");
+	if (initialAnim)
+		GetAttribute<string>(AK_CurrentAnimName) = *initialAnim;
 }
 
-SpriteAnimationBehaviour::AnimationPtr SpriteAnimationBehaviour::ParseAnimation(const sfge::Parameters &animFrameDefs)
+void SpriteAnimationBehaviour::ParseAnimation(const sfge::Parameters &animDef)
 {
-	AnimationPtr animFrames(new Animation());
+	// Empty Parameters used as default return value
+	const Parameters defParams;
+
+	AnimationPtr anim(new Animation);
+
+	// Read animation's name
+	const std::string &name = animDef.get("animName", "");
+	if (name.empty())
+		throw ExceptionStr("Anonymous animation found!");
+	if (mAnimationDict.find(name) != mAnimationDict.end())
+		throw ExceptionStr("Animation '" + name + "' already declared");
+
+	// Parse frames composing the animation
+	const Parameters &animFrames = animDef.get_child("animFrames", defParams);
+	if (animFrames.empty())
+		throw ExceptionStr("Animation '" + name + "' has no frames");
+
+	ParseAnimationFrames(anim, animFrames);
+
+	// Read anim play mode
+	string playModeStr = animDef.get("playMode", "loop");
+	if (playModeStr == "loop")
+		anim->mPlayMode = PM_Loop;
+	else if (playModeStr == "pingpong")
+		anim->mPlayMode = PM_PingPong;
+	else if (playModeStr == "pingpong_once")
+		anim->mPlayMode = PM_PingPong_Once;
+
+	mAnimationDict.insert(make_pair(name, anim));
+}
+
+void SpriteAnimationBehaviour::ParseAnimationFrames(AnimationPtr out, const sfge::Parameters &animFrameDefs)
+{
 	if (animFrameDefs.empty())
-		return animFrames;
+		return;
 	
+	// Parse frames
 	for_each(animFrameDefs.begin(), animFrameDefs.end(),
 		[&] (const Parameters::value_type &animFrameDef)
 		{
@@ -102,18 +120,16 @@ SpriteAnimationBehaviour::AnimationPtr SpriteAnimationBehaviour::ParseAnimation(
 			frame.mFrameRect.Width	= rectIt->second.get_value<int>(0);		++rectIt;
 			frame.mFrameRect.Height	= rectIt->second.get_value<int>(0);
 
-			animFrames->push_back(frame);
+			out->mAnimFrames.push_back(frame);
 		} );
-
-	return animFrames;
 }
 
 void SpriteAnimationBehaviour::OnUpdate(float dt)
 {
-	if (!mCurrentAnim || mCurrentAnim->empty())
+	if (!mCurrentAnim || mCurrentAnim->mAnimFrames.empty() || mDirection == 0)
 		return;
 
-	const AnimFrame &currFrame = mCurrentAnim->at(mCurrentFrameIndex);
+	const AnimFrame &currFrame = mCurrentAnim->mAnimFrames.at(mCurrentFrameIndex);
 
 	if (mElapsedTime < currFrame.mDuration)
 	{
@@ -123,19 +139,56 @@ void SpriteAnimationBehaviour::OnUpdate(float dt)
 	}
 
 	// Go to next frame
-	mCurrentFrameIndex++;
+	mCurrentFrameIndex += mDirection;
 
-	// TODO cycle mode!
-	if (mCurrentFrameIndex == mCurrentAnim->size())
-		mCurrentFrameIndex = 0;
+	// Cycle
+	switch(mCurrentAnim->mPlayMode)
+	{
+	case PM_Loop:
+		if (mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
+			mCurrentFrameIndex = 0;
+		break;
+
+	case PM_Once:
+		if (mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
+			mDirection = 0;
+		break;
+		
+	case PM_PingPong:
+		if (mCurrentFrameIndex == 0 || mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
+		{
+			mDirection = -mDirection;
+			mCurrentFrameIndex += mDirection;
+		}
+		break;
+
+	case PM_PingPong_Once:
+		if (mCurrentFrameIndex == 0)
+			mDirection = 0;
+		else if (mCurrentFrameIndex == mCurrentAnim->mAnimFrames.size())
+		{
+			mDirection = -mDirection;
+			mCurrentFrameIndex += mDirection;
+		}
+	};
+	
 	mElapsedTime = 0.f;
 
-	EnableCurrentAnim();
+	EnableCurrentAnimFrame();
 }
 
-void SpriteAnimationBehaviour::EnableCurrentAnim()
+void SpriteAnimationBehaviour::ResetCurrentAnim()
 {
-	const AnimFrame &currFrame = mCurrentAnim->at(mCurrentFrameIndex);
+	mElapsedTime		= 0.f;
+	mCurrentFrameIndex	= 0;
+	mDirection			= 1;
+
+	EnableCurrentAnimFrame();
+}
+
+void SpriteAnimationBehaviour::EnableCurrentAnimFrame()
+{
+	const AnimFrame &currFrame = mCurrentAnim->mAnimFrames.at(mCurrentFrameIndex);
 
 	Attribute<IntRect> region = GetAttribute<IntRect>(AK_SpriteRegion);
 	assert(region.IsValid());
@@ -157,11 +210,8 @@ void SpriteAnimationBehaviour::OnAttributeChanged(const Message &msg)
 			AnimationDict::const_iterator it = mAnimationDict.find(animName);
 			assert(it != mAnimationDict.end());
 
-			mCurrentAnim		= it->second;
-			mCurrentFrameIndex	= 0;
-			mElapsedTime		= 0.f;
-
-			EnableCurrentAnim();
+			mCurrentAnim = it->second;
+			ResetCurrentAnim();
 		}
 		break;
 	}
