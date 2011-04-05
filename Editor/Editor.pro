@@ -6,10 +6,21 @@ TEMPLATE = app
 DESTDIR = ../bin
 TARGET = editor
 DEPENDPATH += . src
-INCLUDEPATH += .
+CONFIG += console
+
+DEFINES += SRUTIL_DELEGATE_PREFERRED_SYNTAX SFML_DYNAMIC
+
+INCLUDEPATH += . ../sfge/include $$(BOOST_PATH) $$(SFML2_PATH)/include
+LIBS += -L../sfge/lib -L$$(SFML2_PATH)/lib -L$$(BOOST_PATH)/lib
 
 CONFIG(debug, debug|release) {
 	TARGET = $$member(TARGET, 0)_d
+	LIBS += -lSFGE_d -lsfml-system-d -lsfml-window-d -lsfml-graphics-d
+}
+
+CONFIG(release, debug|release) {
+	TARGET = $$member(TARGET, 0)_d
+	LIBS += -lSFGE -lsfml-system -lsfml-window -lsfml-graphics
 }
 
 # Input

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 5. Apr 19:06:42 2011
+** Created: Tue 5. Apr 19:27:18 2011
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -32,7 +32,7 @@ class Ui_MainWindow
 public:
     QAction *actionQuit;
     QAction *actionImages;
-    SFGERenderWidget *centralwidget;
+    SFGERenderWidget *sfgeRenderWodget;
     QMenuBar *menubar;
     QMenu *menu_File;
     QMenu *menu_View;
@@ -54,9 +54,9 @@ public:
         actionImages->setObjectName(QString::fromUtf8("actionImages"));
         actionImages->setCheckable(true);
         actionImages->setChecked(true);
-        centralwidget = new SFGERenderWidget(MainWindow);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        MainWindow->setCentralWidget(centralwidget);
+        sfgeRenderWodget = new SFGERenderWidget(MainWindow);
+        sfgeRenderWodget->setObjectName(QString::fromUtf8("sfgeRenderWodget"));
+        MainWindow->setCentralWidget(sfgeRenderWodget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 783, 18));
@@ -73,6 +73,7 @@ public:
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
         verticalLayout = new QVBoxLayout(dockWidgetContents);
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         listWidgetImages = new QListWidget(dockWidgetContents);
         listWidgetImages->setObjectName(QString::fromUtf8("listWidgetImages"));

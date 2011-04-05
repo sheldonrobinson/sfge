@@ -65,6 +65,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeOutput>$(OutDir)$(TargetName)_d.exe</NMakeOutput>
     <NMakeIncludeSearchPath>.</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>SRUTIL_DELEGATE_PREFERRED_SYNTAX;SFML_DYNAMIC</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

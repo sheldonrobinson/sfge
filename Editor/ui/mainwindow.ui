@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>SFGE Editor</string>
   </property>
-  <widget class="SFGERenderWidget" name="centralwidget"/>
+  <widget class="SFGERenderWidget" name="sfgeRenderWodget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -48,6 +48,9 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="margin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QListWidget" name="listWidgetImages"/>
      </item>

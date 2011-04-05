@@ -1,6 +1,5 @@
 #include "sfge/infrastructure/game.hpp"
 
-#include "sfge/infrastructure/data_store.hpp"
 #include "sfge/infrastructure/game_object.hpp"
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/type_registry.hpp"
@@ -19,8 +18,6 @@
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ini_parser.hpp>
-
-#include <SFML/System/Clock.hpp>
 
 using namespace std;
 using namespace boost;
@@ -98,29 +95,6 @@ Game::~Game()
 {
 }
 
-void Game::Run()
-{
-	Init();
-	
-	GraphicSystem &gfxSys = GraphicSystem::getSingleton();
-
-	sf::Clock clock;
-
-	while(!mQuitFlag && GraphicSystem::getSingleton().IsMainWindowOpened())
-	{
-		gfxSys.UpdateEvents();
-		gfxSys.PreRender();
-
-		const float dt = clock.GetElapsedTime();
-		for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(dt); } );
-		clock.Reset();
-
-		gfxSys.PostRender();
-	}
-
-	OnQuit();
-}
-
 void Game::Init()
 {
 	sfge::InitTypesStub();
@@ -135,6 +109,34 @@ void Game::Init()
 	GraphicSystem::getSingleton().SetGame(this);
 
 	OnEndSystemInit();
+}
+
+void Game::ProcessOneFrame()
+{
+	GraphicSystem &gfxSys = GraphicSystem::getSingleton();
+	
+	gfxSys.UpdateEvents();
+	gfxSys.PreRender();
+
+	const float dt = mClock.GetElapsedTime();
+	for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(dt); } );
+	mClock.Reset();
+
+	gfxSys.PostRender();
+}
+
+void Game::Run()
+{
+	Init();
+	
+	GraphicSystem &gfxSys = GraphicSystem::getSingleton();
+
+	mClock.Reset();
+
+	while(!mQuitFlag && GraphicSystem::getSingleton().IsMainWindowOpened())
+		ProcessOneFrame();
+
+	OnQuit();
 }
 
 void Game::DeclareBehaviours()

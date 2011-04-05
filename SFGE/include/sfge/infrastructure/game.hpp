@@ -8,6 +8,7 @@
 #include <vector>
 
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Clock.hpp>
 
 namespace sfge
 {
@@ -16,7 +17,9 @@ namespace sfge
 	public:
 		Game();
 		virtual ~Game();
-
+		
+		void Init();
+		void ProcessOneFrame();
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
 
@@ -45,9 +48,10 @@ namespace sfge
 
 		std::string		mCurrentWorld;
 
+		sf::Clock		mClock;
+
 	private:
 		void DeclareBehaviours();
-		void Init();
 		void LoadConfigFile();
 		void LoadWorldFrom(const Parameters &content);
 		void LoadGODefinitionFrom(const Parameters &content);
