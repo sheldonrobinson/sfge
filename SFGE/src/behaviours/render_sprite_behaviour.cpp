@@ -52,6 +52,14 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 	if (oy)
 		origin->y = *oy;
 
+	// Apply keycolor
+	int kcr		= params.get("keyColorR", 0);
+	int kcg		= params.get("keyColorG", 0);
+	int kcb		= params.get("keyColorB", 0);
+	int kca		= params.get("keyColorA", 0);
+	int kcoa	= params.get("keyColorOutA", 0);
+	mImage->CreateMaskFromColor(Color(kcr, kcg, kcb, kca), kcoa);
+
 	// Apply anything we're interested in due to unknown initialization order
 	if (mSprite)
 	{

@@ -32,7 +32,11 @@
 				},
 				{	"name": "RenderSpriteBehaviour",
 					"params": {
-						"source": "sorlo_super_sheet.png"
+						"source": "sorlo_super_sheet.png",
+						"keyColorR": 128,
+						"keyColorG": 128,
+						"keyColorB": 128,
+						"keyColorA": 255
 					}
 				}
 			]
