@@ -3,6 +3,8 @@
 
 #include "ui_mainwindow.h"
 
+#include <sfge/infrastructure/data_store.hpp>
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -13,6 +15,10 @@ public:
 private slots:
 	void OnFileNew();
 	void OnFileOpen();
+
+private:
+	void ClearWorldTree();
+	void OnGameObjectInstantiated(sfge::DataStore::GameObjectInstantiated &goiInfos);
 
 private:
 	Ui::MainWindow	mUi;

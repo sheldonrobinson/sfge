@@ -14,9 +14,10 @@ public:
 	SFGERenderWidget(QWidget *parent = nullptr);
 
 protected:
-	virtual void			OnEndSystemInit() override;
 	virtual QPaintEngine*	paintEngine() const override;
-	virtual void			paintEvent(QPaintEvent *paintEvent) override;
+
+	virtual void paintEvent(QPaintEvent *evt) override;
+	virtual void resizeEvent(QResizeEvent *evt) override;
 
 private:
 	void	InitSFGE();

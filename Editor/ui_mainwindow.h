@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 5. Apr 21:18:08 2011
+** Created: Thu 7. Apr 00:43:34 2011
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -22,6 +22,7 @@
 #include <QtGui/QMenuBar>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
+#include <QtGui/QTreeWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 #include "sfge_render_widget.hpp"
@@ -32,7 +33,6 @@ class Ui_MainWindow
 {
 public:
     QAction *actionQuit;
-    QAction *actionImages;
     QAction *actionOpen;
     QAction *actionNew;
     SFGERenderWidget *sfgeRenderWidget;
@@ -40,11 +40,15 @@ public:
     QMenu *menu_File;
     QMenu *menu_View;
     QStatusBar *statusbar;
-    QDockWidget *dockWidgetImages;
+    QDockWidget *dockWidgetWorld;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout;
-    QListWidget *listWidgetImages;
+    QTreeWidget *treeWidgetWorld;
     QToolBar *toolBar;
+    QDockWidget *dockWidgetGODefs;
+    QWidget *dockWidgetContentsGODefs;
+    QVBoxLayout *verticalLayout_2;
+    QListWidget *listWidgetGODefs;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -55,10 +59,6 @@ public:
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QString::fromUtf8("actionQuit"));
         actionQuit->setShortcutContext(Qt::ApplicationShortcut);
-        actionImages = new QAction(MainWindow);
-        actionImages->setObjectName(QString::fromUtf8("actionImages"));
-        actionImages->setCheckable(true);
-        actionImages->setChecked(true);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionNew = new QAction(MainWindow);
@@ -77,23 +77,43 @@ public:
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
-        dockWidgetImages = new QDockWidget(MainWindow);
-        dockWidgetImages->setObjectName(QString::fromUtf8("dockWidgetImages"));
+        dockWidgetWorld = new QDockWidget(MainWindow);
+        dockWidgetWorld->setObjectName(QString::fromUtf8("dockWidgetWorld"));
+        dockWidgetWorld->setAllowedAreas(Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
         verticalLayout = new QVBoxLayout(dockWidgetContents);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        listWidgetImages = new QListWidget(dockWidgetContents);
-        listWidgetImages->setObjectName(QString::fromUtf8("listWidgetImages"));
+        treeWidgetWorld = new QTreeWidget(dockWidgetContents);
+        new QTreeWidgetItem(treeWidgetWorld);
+        treeWidgetWorld->setObjectName(QString::fromUtf8("treeWidgetWorld"));
+        treeWidgetWorld->setFocusPolicy(Qt::StrongFocus);
+        treeWidgetWorld->setRootIsDecorated(true);
+        treeWidgetWorld->header()->setVisible(false);
 
-        verticalLayout->addWidget(listWidgetImages);
+        verticalLayout->addWidget(treeWidgetWorld);
 
-        dockWidgetImages->setWidget(dockWidgetContents);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetImages);
+        dockWidgetWorld->setWidget(dockWidgetContents);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetWorld);
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName(QString::fromUtf8("toolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
+        dockWidgetGODefs = new QDockWidget(MainWindow);
+        dockWidgetGODefs->setObjectName(QString::fromUtf8("dockWidgetGODefs"));
+        dockWidgetGODefs->setFeatures(QDockWidget::AllDockWidgetFeatures);
+        dockWidgetContentsGODefs = new QWidget();
+        dockWidgetContentsGODefs->setObjectName(QString::fromUtf8("dockWidgetContentsGODefs"));
+        verticalLayout_2 = new QVBoxLayout(dockWidgetContentsGODefs);
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        listWidgetGODefs = new QListWidget(dockWidgetContentsGODefs);
+        listWidgetGODefs->setObjectName(QString::fromUtf8("listWidgetGODefs"));
+
+        verticalLayout_2->addWidget(listWidgetGODefs);
+
+        dockWidgetGODefs->setWidget(dockWidgetContentsGODefs);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetGODefs);
 
         menubar->addAction(menu_File->menuAction());
         menubar->addAction(menu_View->menuAction());
@@ -101,14 +121,12 @@ public:
         menu_File->addAction(actionOpen);
         menu_File->addSeparator();
         menu_File->addAction(actionQuit);
-        menu_View->addAction(actionImages);
         toolBar->addAction(actionNew);
         toolBar->addAction(actionOpen);
+        toolBar->addSeparator();
 
         retranslateUi(MainWindow);
         QObject::connect(actionQuit, SIGNAL(triggered()), MainWindow, SLOT(close()));
-        QObject::connect(actionImages, SIGNAL(toggled(bool)), dockWidgetImages, SLOT(setVisible(bool)));
-        QObject::connect(dockWidgetImages, SIGNAL(visibilityChanged(bool)), actionImages, SLOT(setChecked(bool)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -118,15 +136,24 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "SFGE Editor - %1 [*]", 0, QApplication::UnicodeUTF8));
         actionQuit->setText(QApplication::translate("MainWindow", "&Quit", 0, QApplication::UnicodeUTF8));
         actionQuit->setShortcut(QString());
-        actionImages->setText(QApplication::translate("MainWindow", "Images", 0, QApplication::UnicodeUTF8));
         actionOpen->setText(QApplication::translate("MainWindow", "&Open", 0, QApplication::UnicodeUTF8));
         actionOpen->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", 0, QApplication::UnicodeUTF8));
         actionNew->setText(QApplication::translate("MainWindow", "&New", 0, QApplication::UnicodeUTF8));
         actionNew->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0, QApplication::UnicodeUTF8));
         menu_File->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
         menu_View->setTitle(QApplication::translate("MainWindow", "&View", 0, QApplication::UnicodeUTF8));
-        dockWidgetImages->setWindowTitle(QApplication::translate("MainWindow", "Images", 0, QApplication::UnicodeUTF8));
+        dockWidgetWorld->setWindowTitle(QApplication::translate("MainWindow", "World view", 0, QApplication::UnicodeUTF8));
+        QTreeWidgetItem *___qtreewidgetitem = treeWidgetWorld->headerItem();
+        ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "1", 0, QApplication::UnicodeUTF8));
+
+        const bool __sortingEnabled = treeWidgetWorld->isSortingEnabled();
+        treeWidgetWorld->setSortingEnabled(false);
+        QTreeWidgetItem *___qtreewidgetitem1 = treeWidgetWorld->topLevelItem(0);
+        ___qtreewidgetitem1->setText(0, QApplication::translate("MainWindow", "World", 0, QApplication::UnicodeUTF8));
+        treeWidgetWorld->setSortingEnabled(__sortingEnabled);
+
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0, QApplication::UnicodeUTF8));
+        dockWidgetGODefs->setWindowTitle(QApplication::translate("MainWindow", "Available Game object definitions", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

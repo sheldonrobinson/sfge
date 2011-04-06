@@ -25,6 +25,11 @@ void DataStore::ClearAll()
 	mInstances.clear();
 }
 
+void DataStore::AddGODInstantiationListener(GODInstantiationListener &listener)
+{
+	mGODInstantiationListeners.push_back(listener);
+}
+
 void DataStore::DeclareGameObjectDef(const std::string &godName)
 {
 	if (mLinks.find(godName) != mLinks.end())
@@ -68,6 +73,11 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, co
 {
 	GameObjectPtr go(new GameObject);
 	go->SetSelf(go);
+
+	GameObjectInstantiated infos;
+	infos.mGoPtr		= go;
+	infos.mInstanceName	= goInstanceName;
+	infos.mGODName		= godName;
 	
 	GOBehaviourLinks::const_iterator godIt = mLinks.find(godName);
 	if (godIt == mLinks.end())
@@ -78,6 +88,7 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, co
 		[&] (const BehaviourParameters::value_type &behaviourEntry)
 		{
 			BehaviourPtr bp = InstantiateBehaviour(behaviourEntry.first, go);
+			infos.mBehaviours.insert(make_pair(behaviourEntry.first, bp));
 
 			DataStore::BehaviourParameters::const_iterator instParams = instanceParameters.find(behaviourEntry.first);
 
@@ -96,6 +107,9 @@ GameObjectPtr DataStore::InstantiateGameObjectDef(const std::string &godName, co
 
 	if (!goInstanceName.empty())
 		mInstances.insert(make_pair(goInstanceName, go));
+
+	for_each(mGODInstantiationListeners.begin(), mGODInstantiationListeners.end(),
+		[&] (const GODInstantiationListener &listener) { listener(infos); } );
 
 	return go;
 }

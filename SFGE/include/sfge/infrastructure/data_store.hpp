@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "sfge/infrastructure/infrastructure_fwd.hpp"
 #include "sfge/utilities/singleton.hpp"
@@ -14,11 +15,24 @@ namespace sfge
 	class DataStore : public Singleton<DataStore>
 	{
 	public:
+		struct GameObjectInstantiated
+		{
+			typedef std::map<const std::string, BehaviourPtr> Behaviours;
+
+			GameObjectWeakPtr	mGoPtr;
+			std::string			mInstanceName;
+			std::string			mGODName;
+			Behaviours			mBehaviours;
+		};
+
 		typedef std::map<std::string,	Parameters>			BehaviourParameters;
 		typedef delegate<BehaviourPtr(GameObjectWeakPtr)>	BehaviourCreator;
+		typedef delegate<void(GameObjectInstantiated&)>		GODInstantiationListener;
 
 	public:
 		static void Init();
+
+		void AddGODInstantiationListener(GODInstantiationListener &listener);
 
 		void ClearAll();
 
@@ -43,6 +57,7 @@ namespace sfge
 		GameObjectWeakPtr GetGameObjectInstanceByName(const std::string &goInstanceName);
 
 	private:
+		typedef std::vector<GODInstantiationListener>			GODInstantiationListeners;
 		typedef std::map<std::string,	BehaviourCreator>		BehaviourDefs;
 		typedef std::map<std::string,	BehaviourParameters>	GOBehaviourLinks;
 		typedef std::map<Behaviour*,	ParametersConstPtr>		BehavioursToInit;
@@ -53,10 +68,12 @@ namespace sfge
 		ParametersPtr MergeDefaultAndInstanceParams(const Parameters &defaultParams, const Parameters &instanceParams);
 
 	private:
-		BehaviourDefs		mBehaviourDefinitions;
-		GOBehaviourLinks	mLinks;
-		BehavioursToInit	mBehavioursWaitingForInit;
-		GameObjectInstances	mInstances;
+		GODInstantiationListeners	mGODInstantiationListeners;
+
+		BehaviourDefs				mBehaviourDefinitions;
+		GOBehaviourLinks			mLinks;
+		BehavioursToInit			mBehavioursWaitingForInit;
+		GameObjectInstances			mInstances;
 	};
 
 	template <typename T>
