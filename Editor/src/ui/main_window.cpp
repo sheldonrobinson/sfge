@@ -4,11 +4,14 @@
 #include <QtCore/QRegExp>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtGui/QTextCursor>
+#include <QtGui/QTextDocument>
 
 #include <exception>
 #include <algorithm>
 
 #include <sfge/utilities/delegate.hpp>
+#include <sfge/utilities/log_manager.hpp>
 
 using namespace sfge;
 using namespace std;
@@ -39,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent)
 	DataStore::GODInstantiationListener listener =
 		DataStore::GODInstantiationListener::from_method<MainWindow, &MainWindow::OnGameObjectInstantiated>(this);
 	DataStore::getSingleton().AddGODInstantiationListener(listener);
+
+	mConsoleLogger = Log::LogListener::from_method<MainWindow, &MainWindow::OnMessageLogged>(this);
+	LogManager::getSingleton().GetDefaultLogger()->AddListener(mConsoleLogger);
 }
 
 void MainWindow::OnFileNew()
@@ -123,4 +129,13 @@ void MainWindow::OnGameObjectInstantiated(DataStore::GameObjectInstantiated &goi
 
 	goItem->setExpanded(true);
 	worldNode->setExpanded(true);
+}
+
+void MainWindow::OnMessageLogged(const std::string &msg)
+{
+	QTextCursor cursor(mUi.textEditConsole->document());
+	cursor.movePosition(QTextCursor::End);
+	mUi.textEditConsole->setTextCursor(cursor);
+	
+	cursor.insertText(QString::fromLocal8Bit(msg.c_str(), msg.size()));
 }
