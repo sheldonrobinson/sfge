@@ -165,15 +165,23 @@
        <property name="alternatingRowColors">
         <bool>true</bool>
        </property>
+       <property name="columnCount">
+        <number>2</number>
+       </property>
        <attribute name="headerVisible">
-        <bool>false</bool>
+        <bool>true</bool>
        </attribute>
        <attribute name="headerVisible">
-        <bool>false</bool>
+        <bool>true</bool>
        </attribute>
        <column>
         <property name="text">
-         <string notr="true">1</string>
+         <string>Property</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
         </property>
        </column>
       </widget>

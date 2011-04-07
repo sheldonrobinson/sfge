@@ -160,9 +160,10 @@ void Game::LoadConfigFile()
 	ptree config;
 	ini_parser::read_ini(mConfigFileName, config);
 
-	mWorldDefsFolder	= config.get("worldDefs", ".");
-	mGODefsFolder		= config.get("goDefs", ".");
-	mImagesFolder		= config.get("images", ".");
+	mBehaviourDescsFolder	= config.get("behaviourDescs", ".");
+	mGODefsFolder			= config.get("goDefs", ".");
+	mImagesFolder			= config.get("images", ".");
+	mWorldDefsFolder		= config.get("worldDefs", ".");
 }
 
 void Game::ClearWorld()

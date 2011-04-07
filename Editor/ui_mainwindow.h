@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu 7. Apr 04:32:08 2011
+** Created: Thu 7. Apr 05:08:16 2011
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -149,12 +149,10 @@ public:
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         treeWidgetProperties = new PropertiesEditor(dockWidgetContents_3);
-        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
-        __qtreewidgetitem->setText(0, QString::fromUtf8("1"));
-        treeWidgetProperties->setHeaderItem(__qtreewidgetitem);
         treeWidgetProperties->setObjectName(QString::fromUtf8("treeWidgetProperties"));
         treeWidgetProperties->setAlternatingRowColors(true);
-        treeWidgetProperties->header()->setVisible(false);
+        treeWidgetProperties->setColumnCount(2);
+        treeWidgetProperties->header()->setVisible(true);
 
         verticalLayout_3->addWidget(treeWidgetProperties);
 
@@ -202,6 +200,9 @@ public:
         dockWidgetGODefs->setWindowTitle(QApplication::translate("MainWindow", "Available Game object definitions", 0, QApplication::UnicodeUTF8));
         dockWidgetConsole->setWindowTitle(QApplication::translate("MainWindow", "Console", 0, QApplication::UnicodeUTF8));
         dockWidgetProperties->setWindowTitle(QApplication::translate("MainWindow", "Properties", 0, QApplication::UnicodeUTF8));
+        QTreeWidgetItem *___qtreewidgetitem2 = treeWidgetProperties->headerItem();
+        ___qtreewidgetitem2->setText(1, QApplication::translate("MainWindow", "Value", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem2->setText(0, QApplication::translate("MainWindow", "Property", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

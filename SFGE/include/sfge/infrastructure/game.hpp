@@ -23,10 +23,11 @@ namespace sfge
 		void Run();
 		void Quit()		{ mQuitFlag = true; }
 
-		const std::string& GetWorldDefsFolder() const	{ return mWorldDefsFolder; }
-		const std::string& GetGODefsFolder() const		{ return mGODefsFolder; }
-		const std::string& GetImagesFolder() const		{ return mImagesFolder; }
-		const std::string& GetCurrentWorldName() const	{ return mCurrentWorld; }
+		const std::string& GetBehaviourDescsFolder() const		{ return mBehaviourDescsFolder; }
+		const std::string& GetGODefsFolder() const				{ return mGODefsFolder; }
+		const std::string& GetImagesFolder() const				{ return mImagesFolder; }
+		const std::string& GetWorldDefsFolder() const			{ return mWorldDefsFolder; }
+		const std::string& GetCurrentWorldName() const			{ return mCurrentWorld; }
 
 		void LoadWorld(const std::string &worldName);
 		void LoadGameObjectDef(const std::string &godName);
@@ -46,9 +47,10 @@ namespace sfge
 		bool			mQuitFlag;
 		std::string		mConfigFileName;
 		
-		std::string		mWorldDefsFolder;
+		std::string		mBehaviourDescsFolder;
 		std::string		mGODefsFolder;
 		std::string		mImagesFolder;
+		std::string		mWorldDefsFolder;
 
 		std::string		mCurrentWorld;
 

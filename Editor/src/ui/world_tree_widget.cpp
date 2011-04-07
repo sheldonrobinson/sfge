@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include <sfge/infrastructure/data_store.hpp>
 #include <sfge/utilities/log_manager.hpp>
 
 using namespace sfge;
@@ -18,6 +19,10 @@ WorldTreeWidget::WorldTreeWidget(QWidget *parent)
 	: QTreeWidget(parent)
 {
 	connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(OnSelectionChanged()));
+
+	DataStore::GODInstantiationListener listener =
+		DataStore::GODInstantiationListener::from_method<WorldTreeWidget, &WorldTreeWidget::OnGameObjectInstantiated>(this);
+	DataStore::getSingleton().AddGODInstantiationListener(listener);
 }
 
 void WorldTreeWidget::ClearWorldTree()

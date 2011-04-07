@@ -8,7 +8,6 @@
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 
-#include <sfge/infrastructure/data_store.hpp>
 #include <sfge/utilities/delegate.hpp>
 #include <sfge/utilities/log_manager.hpp>
 
@@ -32,12 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
 	mOriginalTitle = windowTitle();
 	setWindowTitle(mOriginalTitle.arg(tr("[Unnamed]")));
 
-	DataStore::GODInstantiationListener listener =
-		DataStore::GODInstantiationListener::from_method<WorldTreeWidget, &WorldTreeWidget::OnGameObjectInstantiated>(mUi.treeWidgetWorld);
-	DataStore::getSingleton().AddGODInstantiationListener(listener);
-
 	mConsoleLogger = Log::LogListener::from_method<MainWindow, &MainWindow::OnMessageLogged>(this);
 	LogManager::getSingleton().GetDefaultLogger()->AddListener(mConsoleLogger);
+
+	mUi.treeWidgetProperties->SetGame(mUi.sfgeRenderWidget);
 }
 
 void MainWindow::OnFileNew()
