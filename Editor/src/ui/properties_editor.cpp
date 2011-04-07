@@ -135,6 +135,7 @@ void PropertiesEditor::OnCurrentGameObjectChanged(GameObjectBehaviours *newGOB)
 			item->setBackgroundColor(0, Qt::darkGray);
 			item->setBackgroundColor(1, Qt::darkGray);
 			item->setTextColor(0, Qt::white);
+			item->setFirstColumnSpanned(true);
 
 			DisplayPropertiesFor(name, item);
 		} );
