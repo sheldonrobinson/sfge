@@ -39,13 +39,15 @@ void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 	{
 		Vector2f center;
 		const Parameters &centerParams = params.get_child("center", defParams);
-		parseTo(centerParams, center);
+		if (!centerParams.empty())
+			parseTo(centerParams, center);
 
 		float radius = params.get("radius",	0.f);
 
-		Color color;
+		Color color(Color::Magenta);
 		const Parameters &colorParams = params.get_child("color", defParams);
-		parseTo(colorParams, color);
+		if (!colorParams.empty())
+			parseTo(colorParams, color);
 
 		mShape = ShapePtr(new Shape(Shape::Circle(center, radius, color)));
 	}

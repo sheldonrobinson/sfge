@@ -12,9 +12,10 @@
 
 #include "sfge/graphics/graphic_system.hpp"
 
+#include "sfge/utilities/log_manager.hpp"
+
 #include <algorithm>
 #include <exception>
-#include <iostream>
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ini_parser.hpp>
@@ -102,6 +103,8 @@ void Game::Init()
 	GraphicSystem::Init();
 	MessageManager::Init();
 	DataStore::Init();
+	LogManager::Init();
+
 	DeclareBehaviours();
 
 	LoadConfigFile();
@@ -164,8 +167,8 @@ void Game::LoadConfigFile()
 
 void Game::ClearWorld()
 {
-	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
-	cout << "Destroying current world..." << endl;
+	LogManager::getSingleton() << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n";
+	LogManager::getSingleton() << "Destroying current world...\n";
 
 	mObjects.clear();
 	DataStore::getSingleton().ClearAll();
@@ -175,8 +178,8 @@ void Game::ReloadWorld()
 {
 	ClearWorld();
 
-	cout << "Reloading current world..." << endl;
-	cout << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
+	LogManager::getSingleton() << "Reloading current world...\n";
+	LogManager::getSingleton() << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n";
 
 	LoadWorld(mCurrentWorld);
 }
@@ -202,7 +205,7 @@ void Game::LoadWorld(const std::string &worldName)
 	}
 	catch (const std::exception &e)
 	{
-		cout << "Exception while parsing " << filename << ": " << e.what();
+		LogManager::getSingleton() << "Exception while parsing " << filename << ": " << e.what() << "\n";
 	}
 }
 
@@ -223,24 +226,27 @@ void Game::LoadGameObjectDef(const std::string &godName)
 	}
 	catch (const std::exception &e)
 	{
-		cout << "Exception while parsing " << filename << ": " << e.what();
+		LogManager::getSingleton() << "Exception while parsing " << filename << ": " << e.what() << "\n";
 	}
 }
 
 void Game::LoadWorldFrom(const Parameters &content)
 {
 	if (content.size() == 0)
-		throw std::exception("World is empty");
+	{
+		LogManager::getSingleton() << "World is empty\n";
+		return;
+	}
 
 	DataStore &ds = DataStore::getSingleton();
 
 	// Declare any game_object definitions required for the world
-	cout << "Loading game_object_defs" << endl;
+	LogManager::getSingleton() << "Loading game_object_defs\n";
 	ptree::const_assoc_iterator godIt = content.find("game_object_defs");
 	if (godIt != content.not_found())
 	{
 		const ptree &godContent = godIt->second;
-		cout << "Found: " << godContent.size() << endl;
+		LogManager::getSingleton() << "Found: " << godContent.size() << "\n";
 
 		for_each(godContent.begin(), godContent.end(),
 			[&] (const ptree::value_type &goDef)
@@ -259,13 +265,15 @@ void Game::LoadWorldFrom(const Parameters &content)
 			} );
 	}
 
-	cout << endl << "Loading game_object_instances" << endl;
+	LogManager::getSingleton() << "\nLoading game_object_instances\n";
 	ptree::const_assoc_iterator goIt = content.find("game_object_instances");
 	if (goIt == content.not_found())
-		throw NoGameObjectInstanceException;
+	{
+		LogManager::getSingleton() << NoGameObjectInstanceException.what() << "\n";
+	}
 
 	const ptree &goContent = goIt->second;
-	cout << "Found: " << goContent.size() << endl;
+	LogManager::getSingleton() << "Found: " << goContent.size() << "\n";
 
 	for_each(goContent.begin(), goContent.end(),
 		[&] (const ptree::value_type &goInstance)
@@ -278,7 +286,7 @@ void Game::LoadWorldFrom(const Parameters &content)
 				go->SetGame(this);
 				mObjects.push_back(go);
 
-				cout << "Instantiating " << godName << endl;
+				LogManager::getSingleton() << "Instantiating " << godName << "\n";
 			}
 			else // It's a named (and/or have per instance parameters) game object instance
 			{
@@ -288,7 +296,10 @@ void Game::LoadWorldFrom(const Parameters &content)
 				const string &instanceName	= namedGO.get("instanceName", "");
 
 				if (godName.empty())
-					throw InvalidGameObjectInstanceException(godName, instanceName);
+				{
+					LogManager::getSingleton() << InvalidGameObjectInstanceException(godName, instanceName).what();
+					return;
+				}
 
 				// Check for instance parameters
 				ptree::const_assoc_iterator instParamsIt = namedGO.find("instanceParams");
@@ -302,34 +313,40 @@ void Game::LoadWorldFrom(const Parameters &content)
 				go->SetGame(this);
 				mObjects.push_back(go);
 
-				cout << "Instantiating " << godName << " under the name '" << instanceName << "'" << endl;
+				LogManager::getSingleton() << "Instantiating " << godName << " under the name '" << instanceName << "'\n";
 			}
 		} );
 	
-	cout << endl << "Finished loading world, initializing instances..." << endl;
+	LogManager::getSingleton() << "\nFinished loading world, initializing instances...\n";
 	ds.InitializeInstances();
 
-	cout << "Finished initialization" << endl;
+	LogManager::getSingleton() << "Finished initialization\n";
 }
 
 void Game::LoadGODefinitionFrom(const Parameters &content)
 {
 	if (content.size() == 0)
-		throw std::exception("Game object definition is empty");
+	{
+		LogManager::getSingleton() << "Game object definition is empty\n";
+		return;
+	}
 	
 	DataStore &ds = DataStore::getSingleton();
 	
 	const string &godName = content.get("name", "");
-	cout << "Registering GO definition: " << godName << endl;
+	LogManager::getSingleton() << "Registering GO definition: " << godName << "\n";
 	ds.DeclareGameObjectDef(godName);
 
-	cout << "Declaring behaviours";
+	LogManager::getSingleton() << "Declaring behaviours";
 	ptree::const_assoc_iterator behavioursIt = content.find("behaviours");
 	if (behavioursIt == content.not_found())
-		throw InvalidGameObjectDefinitionException(godName, "No behaviours declared");
+	{
+		LogManager::getSingleton() << InvalidGameObjectDefinitionException(godName, "No behaviours declared").what() << "\n";
+		return;
+	}
 
 	const ptree &behavioursContent = behavioursIt->second;
-	cout << " (found: " << behavioursContent.size() << ")" << endl;
+	LogManager::getSingleton() << " (found: " << behavioursContent.size() << ")" << "\n";
 
 	for_each(behavioursContent.begin(), behavioursContent.end(),
 		[&] (const ptree::value_type &behaviourDecl)
@@ -339,7 +356,10 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 			if (!behaviourName.empty())
 			{
 				if (!ds.IsBehaviourRegistered(behaviourName))
-					throw InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered");
+				{
+					LogManager::getSingleton() << InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered").what() << "\n";
+					return;
+				}
 
 				cout << behaviourName << endl;
 				ds.LinkBehaviourDefToGameObjectDef(godName, behaviourName);
@@ -348,7 +368,10 @@ void Game::LoadGODefinitionFrom(const Parameters &content)
 			{
 				const string &behaviourName = behaviourDecl.second.get("name", "");
 				if (!ds.IsBehaviourRegistered(behaviourName))
-					throw InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered");
+				{
+					LogManager::getSingleton() << InvalidGameObjectDefinitionException(godName, behaviourName + " is not registered").what() << "\n";
+					return;
+				}
 
 				cout << behaviourName << endl;
 				
@@ -371,7 +394,10 @@ DataStore::BehaviourParameters Game::ParseInstanceParams(const std::string &godN
 		{
 			const string &behaviourName = behaviourDecl.second.get("name", "");
 			if (!ds.IsBehaviourRegistered(behaviourName))
-				throw InvalidGameObjectInstanceException(godName, instanceName, behaviourName);
+			{
+				LogManager::getSingleton() << InvalidGameObjectInstanceException(godName, instanceName, behaviourName).what() << "\n";
+				return;
+			}
 				
 			const ptree::const_assoc_iterator paramsIt = behaviourDecl.second.find("params");
 			out.insert(make_pair(behaviourName, paramsIt->second));

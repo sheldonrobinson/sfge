@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu 7. Apr 00:43:34 2011
+** Created: Thu 7. Apr 02:28:53 2011
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,12 +15,14 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QDockWidget>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QListWidget>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QStatusBar>
+#include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QVBoxLayout>
@@ -49,6 +51,10 @@ public:
     QWidget *dockWidgetContentsGODefs;
     QVBoxLayout *verticalLayout_2;
     QListWidget *listWidgetGODefs;
+    QDockWidget *dockWidgetConsole;
+    QWidget *dockWidgetContents_2;
+    QHBoxLayout *horizontalLayout;
+    QTextEdit *textEditConsole;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -114,6 +120,21 @@ public:
 
         dockWidgetGODefs->setWidget(dockWidgetContentsGODefs);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetGODefs);
+        dockWidgetConsole = new QDockWidget(MainWindow);
+        dockWidgetConsole->setObjectName(QString::fromUtf8("dockWidgetConsole"));
+        dockWidgetContents_2 = new QWidget();
+        dockWidgetContents_2->setObjectName(QString::fromUtf8("dockWidgetContents_2"));
+        horizontalLayout = new QHBoxLayout(dockWidgetContents_2);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        textEditConsole = new QTextEdit(dockWidgetContents_2);
+        textEditConsole->setObjectName(QString::fromUtf8("textEditConsole"));
+        textEditConsole->setReadOnly(true);
+
+        horizontalLayout->addWidget(textEditConsole);
+
+        dockWidgetConsole->setWidget(dockWidgetContents_2);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(8), dockWidgetConsole);
 
         menubar->addAction(menu_File->menuAction());
         menubar->addAction(menu_View->menuAction());
@@ -154,6 +175,7 @@ public:
 
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0, QApplication::UnicodeUTF8));
         dockWidgetGODefs->setWindowTitle(QApplication::translate("MainWindow", "Available Game object definitions", 0, QApplication::UnicodeUTF8));
+        dockWidgetConsole->setWindowTitle(QApplication::translate("MainWindow", "Console", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -35,13 +35,7 @@ private:
 		// Setup some parameters
 		Parameters refObjDrawableDef;
 		refObjDrawableDef.put("shape",	"circle");
-		refObjDrawableDef.put("cx",		0);
-		refObjDrawableDef.put("cy",		0);
 		refObjDrawableDef.put("radius", 50);
-		refObjDrawableDef.put("cr",		Color::Magenta.r);
-		refObjDrawableDef.put("cg",		Color::Magenta.g);
-		refObjDrawableDef.put("cb",		Color::Magenta.b);
-		refObjDrawableDef.put("ca",		Color::Magenta.a);
 
 		// Declare the 2 gameobject definitions we need
 		DataStore &ds = DataStore::getSingleton();
