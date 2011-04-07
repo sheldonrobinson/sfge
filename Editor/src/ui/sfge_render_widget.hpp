@@ -1,6 +1,7 @@
 #ifndef SFGE_EDITOR_UI_SFGE_RENDER_WIDGET_HPP
 #define SFGE_EDITOR_UI_SFGE_RENDER_WIDGET_HPP
 
+#include <QtCore/QTimer>
 #include <QtGui/QWidget>
 #include <QtGui/QPaintEvent>
 
@@ -20,10 +21,11 @@ protected:
 	virtual void resizeEvent(QResizeEvent *evt) override;
 
 private:
-	void	InitSFGE();
+	void InitSFGE();
 
 private:
 	bool	mSFGEInitialized;
+	QTimer*	mRefreshTimer;
 };
 
 #endif

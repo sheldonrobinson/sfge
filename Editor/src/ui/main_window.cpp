@@ -102,6 +102,7 @@ void MainWindow::OnGameObjectInstantiated(DataStore::GameObjectInstantiated &goi
 	QTreeWidgetItem *worldNode = mUi.treeWidgetWorld->topLevelItem(0);
 	Q_ASSERT(worldNode != nullptr);
 
+	// Create the Game Object node
 	QString itemText;
 	if (goiInfos.mInstanceName.empty())
 		itemText = "<unnamed>";
@@ -116,6 +117,7 @@ void MainWindow::OnGameObjectInstantiated(DataStore::GameObjectInstantiated &goi
 	goItem->setText(0, itemText);
 	goItem->setData(0, WTR_GameObjectPtrRole, goVariant);
 
+	// Create all the Behaviours node relevant to this game object definition
 	for_each(goiInfos.mBehaviours.begin(), goiInfos.mBehaviours.end(),
 		[&] (DataStore::GameObjectInstantiated::Behaviours::value_type &behaviour)
 		{

@@ -24,6 +24,10 @@ SFGERenderWidget::SFGERenderWidget(QWidget *parent)
 	setAttribute(Qt::WA_OpaquePaintEvent);
 	setAttribute(Qt::WA_NoBackground);
 
+	mRefreshTimer = new QTimer(this);
+	mRefreshTimer->setInterval(30);
+	connect(mRefreshTimer, SIGNAL(timeout()), this, SLOT(repaint()));
+
 	Game::Init();
 }
 
@@ -42,6 +46,8 @@ void SFGERenderWidget::InitSFGE()
 		initParams.mMode.Height	= height();
 
 		GraphicSystem::getSingleton().Create(initParams);
+
+		mRefreshTimer->start();
 	}
 	catch(const exception &e)
 	{
