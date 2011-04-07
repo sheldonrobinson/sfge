@@ -3,7 +3,6 @@
 
 #include "ui_mainwindow.h"
 
-#include <sfge/infrastructure/data_store.hpp>
 #include <sfge/utilities/log.hpp>
 
 class MainWindow : public QMainWindow
@@ -18,9 +17,6 @@ private slots:
 	void OnFileOpen();
 
 private:
-	void ClearWorldTree();
-	void OnGameObjectInstantiated(sfge::DataStore::GameObjectInstantiated &goiInfos);
-
 	void OnMessageLogged(const std::string &msg);
 
 private:

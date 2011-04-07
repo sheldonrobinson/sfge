@@ -27,8 +27,13 @@ CONFIG(release, debug|release) {
 FORMS += ui/mainwindow.ui
 
 HEADERS +=	src/ui/main_window.hpp			\
-			src/ui/sfge_render_widget.hpp
+			src/ui/ui_types.hpp				\
+			src/ui/properties_editor.hpp	\
+			src/ui/sfge_render_widget.hpp	\
+			src/ui/world_tree_widget.hpp
 
 SOURCES +=	src/main.cpp					\
 			src/ui/main_window.cpp			\
-			src/ui/sfge_render_widget.cpp
+			src/ui/properties_editor.cpp	\
+			src/ui/sfge_render_widget.cpp	\
+			src/ui/world_tree_widget.cpp

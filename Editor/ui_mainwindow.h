@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu 7. Apr 02:28:53 2011
+** Created: Thu 7. Apr 04:32:08 2011
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -24,10 +24,11 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
-#include <QtGui/QTreeWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
+#include "properties_editor.hpp"
 #include "sfge_render_widget.hpp"
+#include "world_tree_widget.hpp"
 
 QT_BEGIN_NAMESPACE
 
@@ -45,7 +46,7 @@ public:
     QDockWidget *dockWidgetWorld;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout;
-    QTreeWidget *treeWidgetWorld;
+    WorldTreeWidget *treeWidgetWorld;
     QToolBar *toolBar;
     QDockWidget *dockWidgetGODefs;
     QWidget *dockWidgetContentsGODefs;
@@ -55,12 +56,16 @@ public:
     QWidget *dockWidgetContents_2;
     QHBoxLayout *horizontalLayout;
     QTextEdit *textEditConsole;
+    QDockWidget *dockWidgetProperties;
+    QWidget *dockWidgetContents_3;
+    QVBoxLayout *verticalLayout_3;
+    PropertiesEditor *treeWidgetProperties;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(783, 681);
+        MainWindow->resize(852, 820);
         MainWindow->setUnifiedTitleAndToolBarOnMac(false);
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QString::fromUtf8("actionQuit"));
@@ -74,7 +79,7 @@ public:
         MainWindow->setCentralWidget(sfgeRenderWidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 783, 18));
+        menubar->setGeometry(QRect(0, 0, 852, 18));
         menu_File = new QMenu(menubar);
         menu_File->setObjectName(QString::fromUtf8("menu_File"));
         menu_View = new QMenu(menubar);
@@ -91,10 +96,11 @@ public:
         verticalLayout = new QVBoxLayout(dockWidgetContents);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        treeWidgetWorld = new QTreeWidget(dockWidgetContents);
+        treeWidgetWorld = new WorldTreeWidget(dockWidgetContents);
         new QTreeWidgetItem(treeWidgetWorld);
         treeWidgetWorld->setObjectName(QString::fromUtf8("treeWidgetWorld"));
         treeWidgetWorld->setFocusPolicy(Qt::StrongFocus);
+        treeWidgetWorld->setAlternatingRowColors(false);
         treeWidgetWorld->setRootIsDecorated(true);
         treeWidgetWorld->header()->setVisible(false);
 
@@ -119,7 +125,7 @@ public:
         verticalLayout_2->addWidget(listWidgetGODefs);
 
         dockWidgetGODefs->setWidget(dockWidgetContentsGODefs);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetGODefs);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(4), dockWidgetGODefs);
         dockWidgetConsole = new QDockWidget(MainWindow);
         dockWidgetConsole->setObjectName(QString::fromUtf8("dockWidgetConsole"));
         dockWidgetContents_2 = new QWidget();
@@ -135,6 +141,25 @@ public:
 
         dockWidgetConsole->setWidget(dockWidgetContents_2);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(8), dockWidgetConsole);
+        dockWidgetProperties = new QDockWidget(MainWindow);
+        dockWidgetProperties->setObjectName(QString::fromUtf8("dockWidgetProperties"));
+        dockWidgetContents_3 = new QWidget();
+        dockWidgetContents_3->setObjectName(QString::fromUtf8("dockWidgetContents_3"));
+        verticalLayout_3 = new QVBoxLayout(dockWidgetContents_3);
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        treeWidgetProperties = new PropertiesEditor(dockWidgetContents_3);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QString::fromUtf8("1"));
+        treeWidgetProperties->setHeaderItem(__qtreewidgetitem);
+        treeWidgetProperties->setObjectName(QString::fromUtf8("treeWidgetProperties"));
+        treeWidgetProperties->setAlternatingRowColors(true);
+        treeWidgetProperties->header()->setVisible(false);
+
+        verticalLayout_3->addWidget(treeWidgetProperties);
+
+        dockWidgetProperties->setWidget(dockWidgetContents_3);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidgetProperties);
 
         menubar->addAction(menu_File->menuAction());
         menubar->addAction(menu_View->menuAction());
@@ -176,6 +201,7 @@ public:
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0, QApplication::UnicodeUTF8));
         dockWidgetGODefs->setWindowTitle(QApplication::translate("MainWindow", "Available Game object definitions", 0, QApplication::UnicodeUTF8));
         dockWidgetConsole->setWindowTitle(QApplication::translate("MainWindow", "Console", 0, QApplication::UnicodeUTF8));
+        dockWidgetProperties->setWindowTitle(QApplication::translate("MainWindow", "Properties", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

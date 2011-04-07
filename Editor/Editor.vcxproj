@@ -92,7 +92,9 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ui\main_window.cpp" />
+    <ClCompile Include="src\ui\properties_editor.cpp" />
     <ClCompile Include="src\ui\sfge_render_widget.cpp" />
+    <ClCompile Include="src\ui\world_tree_widget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Editor.pro" />
@@ -100,7 +102,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ui\main_window.hpp" />
+    <ClInclude Include="src\ui\properties_editor.hpp" />
     <ClInclude Include="src\ui\sfge_render_widget.hpp" />
+    <ClInclude Include="src\ui\ui_types.hpp" />
+    <ClInclude Include="src\ui\world_tree_widget.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
