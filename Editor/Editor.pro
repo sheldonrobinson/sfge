@@ -19,7 +19,7 @@ CONFIG(debug, debug|release) {
 }
 
 CONFIG(release, debug|release) {
-	TARGET = $$member(TARGET, 0)_d
+	TARGET = $$member(TARGET, 0)
 	LIBS += -lSFGE -lsfml-system -lsfml-window -lsfml-graphics
 }
 
