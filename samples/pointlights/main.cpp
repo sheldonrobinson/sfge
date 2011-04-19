@@ -50,7 +50,7 @@ typedef std::shared_ptr<Light> LightPtr;
 bool handleEvents(Window &wnd, LightPtr light)
 {
 	Event evt;
-	while (wnd.GetEvent(evt))
+	while (wnd.PollEvent(evt))
 	{
 		switch(evt.Type)
 		{

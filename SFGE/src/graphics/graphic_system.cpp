@@ -56,7 +56,7 @@ void GraphicSystem::Init()
  void GraphicSystem::UpdateEvents()
  {
 	Event evt;
-	while (mRenderWindow.GetEvent(evt))
+	while (mRenderWindow.PollEvent(evt))
 	{
 		switch (evt.Type)
 		{
