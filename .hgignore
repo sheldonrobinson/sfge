@@ -106,7 +106,6 @@ ipch
 *.exp
 *.idb
 *.sdf
-*.filters
 
 # Mac OS X garbage
 .DS_Store

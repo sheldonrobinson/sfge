@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{8aa96f6a-6a25-4e2d-9af0-bec88a79405b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{b4369958-72d6-4db8-8a40-08dc8929175b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{b9d69d0b-920c-45e3-a1de-53a0353e6d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{032ca3be-8fba-48fb-ae37-6daaa10ebe71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\infrastructure">
+      <UniqueIdentifier>{c43b92d3-a268-442f-9f0e-a46d00355cf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\infrastructure">
+      <UniqueIdentifier>{59c44ef7-e7ac-44bf-bcee-9dbcf1a7e31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\infrastructure\detail">
+      <UniqueIdentifier>{0729bac0-5e6a-401a-bb31-aa7a1ee8e5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\infrastructure\detail">
+      <UniqueIdentifier>{89bb965b-4593-4481-b4d7-52c18f0f777f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities">
+      <UniqueIdentifier>{140df438-b985-4519-abbd-1feb675d2cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\behaviours">
+      <UniqueIdentifier>{ea0588d9-ca00-4648-89c6-1b9368c24755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\behaviours">
+      <UniqueIdentifier>{bb0099a2-1dd3-4333-818b-4f08572580d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities\detail">
+      <UniqueIdentifier>{3e04eb31-7abd-42e6-b517-b4b8165d99df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utilities">
+      <UniqueIdentifier>{c75d1acc-9e68-4a36-8dd8-53948ad1d29d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\sfge\math\edge.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\numerics.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\vector_utilities.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\point.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\graphics\light.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\convex_hull.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\graphics\sfml_shape_ext.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\circle.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\math\intersections.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\game.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\game_object.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\behaviour.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\attribute.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\infrastructure_fwd.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\graphics\graphic_system.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\singleton.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\graphics\sfml_drawable_ext.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\type_registry.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\builtin_attributes.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\type_registration.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\type_registration_impl.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\delegate.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\detail\delegate_template.hpp">
+      <Filter>Header Files\utilities\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\detail\delegate_list.hpp">
+      <Filter>Header Files\utilities\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\message_manager.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\builtin_messages.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\behaviours\transform_behaviour.hpp">
+      <Filter>Header Files\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\data_store.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\null_deleter.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\boost_proptree_types.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\behaviours\render_sprite_behaviour.hpp">
+      <Filter>Header Files\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\behaviours\render_shape_behaviour.hpp">
+      <Filter>Header Files\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\behaviours\camera_behaviour.hpp">
+      <Filter>Header Files\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\message.hpp">
+      <Filter>Header Files\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\infrastructure\detail\value_holder.hpp">
+      <Filter>Header Files\infrastructure\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\exception_str.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\behaviours\sprite_animation_behaviour.hpp">
+      <Filter>Header Files\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\ptree_parse_helpers.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\ptree_parse_helpers_sfml.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\log.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\log_manager.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\profilerstreams.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sfge\utilities\profiler.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\graphics\light.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\game_object.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\behaviour.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\graphic_system.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\game.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\type_registry.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\type_registration.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\message_manager.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behaviours\transform_behaviour.cpp">
+      <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\data_store.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behaviours\render_shape_behaviour.cpp">
+      <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behaviours\render_sprite_behaviour.cpp">
+      <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behaviours\camera_behaviour.cpp">
+      <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\message.cpp">
+      <Filter>Source Files\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\detail\value_holder.cpp">
+      <Filter>Source Files\infrastructure\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="src\behaviours\sprite_animation_behaviour.cpp">
+      <Filter>Source Files\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\ptree_parse_helpers_sfml.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\log.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\log_manager.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\profiler.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\profilerstreams.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\sfge\math\vector_utilities.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\math\numerics.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\math\point.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\math\edge.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\math\convex_hull.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\math\intersections.inl">
+      <Filter>Header Files\math</Filter>
+    </None>
+    <None Include="include\sfge\graphics\sfml_shape_ext.inl">
+      <Filter>Header Files\graphics</Filter>
+    </None>
+    <None Include="include\sfge\infrastructure\game_object.inl">
+      <Filter>Header Files\infrastructure</Filter>
+    </None>
+    <None Include="include\sfge\infrastructure\attribute.inl">
+      <Filter>Header Files\infrastructure</Filter>
+    </None>
+    <None Include="include\sfge\infrastructure\type_registry.inl">
+      <Filter>Header Files\infrastructure</Filter>
+    </None>
+    <None Include="include\sfge\infrastructure\detail\value_holder.inl">
+      <Filter>Header Files\infrastructure\detail</Filter>
+    </None>
+    <None Include="include\sfge\utilities\profiler.inl">
+      <Filter>Header Files\utilities</Filter>
+    </None>
+  </ItemGroup>
+</Project>
