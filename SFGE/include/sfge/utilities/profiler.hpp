@@ -1,7 +1,7 @@
 #ifndef SFGE_UTILITIES_PROFILER_HPP
 #define SFGE_UTILITIES_PROFILER_HPP
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #undef max
 #else // WIN32
@@ -74,14 +74,14 @@ MySection................6.29711476s
         
             size_t          m_ParentSectionID;  //!< Index of parent section, or numeric_limits<size_t>::max() if none.
             size_t          m_NameID;           //!< Index of section's name, or numeric_limits<size_t>::max() if none.
-    #ifdef WIN32
+    #ifdef _WIN32
             LARGE_INTEGER   m_TicksCount;       //!< Start time or duration when section ended, expressed as tick count.
     #endif
         };
         typedef std::vector<SectionData> SectionDataCont;
 
     private:
-    #ifdef WIN32
+    #ifdef _WIN32
         LARGE_INTEGER   m_Frequency;            //!< Number of ticks/seconds of the timer
     #endif
 

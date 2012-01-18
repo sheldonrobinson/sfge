@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <Windows.h>
-#endif // WIN32
+#endif // _WIN32
 
 #include "sfge/utilities/profilerstreams.hpp"
 
@@ -91,7 +91,7 @@ void BinaryOStream::EndReport()
 // -------------------------------------------
 // DebugOutput
 
-#ifdef WIN32
+#ifdef _WIN32
 
 void DebugOutput::StartReport()
 {
@@ -118,7 +118,7 @@ void DebugOutput::EndReport()
 {
 }
 
-#endif // WIN32
+#endif // _WIN32
 
 } // namespace ProfilerStreams
 } // namespace sfge

@@ -14,7 +14,7 @@ void Profiler::Report(ReporterT &reporter, bool clearResults)
         ++cit, ++idx)
     {
         // Compute duration as seconds
-#ifdef WIN32
+#ifdef _WIN32
         const double durationSecs = static_cast<double>(cit->m_TicksCount.QuadPart) / m_Frequency.QuadPart;
 #endif
 

@@ -61,7 +61,7 @@ prof.Report(ProfilerStreams::OStream(std::ofstream("report.txt")); // Will write
         std::ostream    &   m_Stream;
     };
 
-#ifdef WIN32
+#ifdef _WIN32
     //! Output profiler's results to Windows' debug stream.
     class DebugOutput
     {
@@ -70,7 +70,7 @@ prof.Report(ProfilerStreams::OStream(std::ofstream("report.txt")); // Will write
         void Report(const std::string &sectionName, int sonLevel, double duration);
         void EndReport();
     };
-#endif // WIN32
+#endif // _WIN32
 
 } // namespace ProfilerStreams
 

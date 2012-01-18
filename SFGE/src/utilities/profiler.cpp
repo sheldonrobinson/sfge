@@ -1,5 +1,11 @@
 #include <cassert>
+
+// Import hasher for std::string
+#if _MSC_VER == 1600
 #include <xfunctional>
+#else
+#include <unordered_set>
+#endif
 
 #include "sfge/utilities/profiler.hpp"
 
@@ -11,7 +17,7 @@ namespace sfge
 Profiler::SectionData::SectionData(size_t psid, size_t nid)
     : m_ParentSectionID(psid), m_NameID(nid)
 {
-#ifdef WIN32
+#ifdef _WIN32
     QueryPerformanceCounter(&m_TicksCount);
 #endif
 }
@@ -21,7 +27,7 @@ Profiler::Profiler(size_t baseSectionSize)
 {
     m_SectionData.reserve(baseSectionSize);
 
-#ifdef WIN32
+#ifdef _WIN32
     QueryPerformanceFrequency(&m_Frequency);
 #endif
 }
@@ -44,7 +50,7 @@ void Profiler::EndSection()
     SectionData &sd = m_SectionData[m_ActiveSectionID];
     m_ActiveSectionID = sd.m_ParentSectionID;
     
-#ifdef WIN32
+#ifdef _WIN32
     LARGE_INTEGER end;
     QueryPerformanceCounter(&end);
     sd.m_TicksCount.QuadPart = end.QuadPart - sd.m_TicksCount.QuadPart;
