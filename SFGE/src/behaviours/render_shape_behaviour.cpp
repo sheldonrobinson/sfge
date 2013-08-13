@@ -8,6 +8,7 @@
 #include "sfge/infrastructure/message_manager.hpp"
 #include "sfge/infrastructure/game.hpp"
 #include "sfge/utilities/ptree_parse_helpers_sfml.hpp"
+#include "sfge/graphics/sfml_shape_ext.hpp"
 
 #include <cassert>
 
@@ -49,7 +50,7 @@ void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 		if (!colorParams.empty())
 			parseTo(colorParams, color);
 
-		mShape = ShapePtr(new Shape(Shape::Circle(center, radius, color)));
+		mShape = shapeFromCircle(sfge::Circle<float>(center, radius), color);
 	}
 	
 	// Apply origin if found
@@ -99,22 +100,22 @@ void RenderShapeBehaviour::ApplyTransform()
 {
 	const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 	assert(pos.IsValid());
-	mShape->SetPosition(pos);
+	mShape->setPosition(pos);
 	
 	const Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
 	assert(scale.IsValid());
-	mShape->SetScale(scale);
+	mShape->setScale(scale);
 }
 
 void RenderShapeBehaviour::ApplyRender()
 {
 	const Attribute<Color> col = GetAttribute<Color>(AK_Color);
 	assert(col.IsValid());
-	mShape->SetColor(col);
+	mShape->setFillColor(col);
 	
 	const Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
 	assert(origin.IsValid());
-	mShape->SetOrigin(origin);
+	mShape->setOrigin(origin);
 }
 
 }

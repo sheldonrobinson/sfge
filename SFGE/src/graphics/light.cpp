@@ -9,6 +9,10 @@
 
 #include <boost/array.hpp>
 
+#include <SFML/Graphics/ConvexShape.hpp>
+
+#include <sfge/math/circle.hpp>
+
 using namespace std;
 using namespace boost;
 using namespace sf;
@@ -48,8 +52,8 @@ void Light::addOccluders(const Shapes &occluders)
 	sort(_occluders.begin(), _occluders.end(),
 		[&] (const ShapePtr &o1, const ShapePtr &o2) -> bool
 		{
-			const float	o1d = sqrDistance(o1->GetPosition(), mLightDesc.mPos),
-						o2d = sqrDistance(o2->GetPosition(), mLightDesc.mPos);
+			const float	o1d = sqrDistance(o1->getPosition(), mLightDesc.mPos),
+						o2d = sqrDistance(o2->getPosition(), mLightDesc.mPos);
 			return o1d < o2d;
 		} );
 
@@ -64,11 +68,11 @@ bool Light::addOccluder(const Shape &occluder)
 	if (mIsInside)
 		return false;
 
-	const unsigned int ptsCount = occluder.GetPointsCount();
+	const unsigned int ptsCount = occluder.getPointCount();
 	if (ptsCount < 2)
 		return true;
 
-	const sf::Vector2f	occLocalLPos	= occluder.TransformToLocal(mLightDesc.mPos);
+	const sf::Vector2f	occLocalLPos	= occluder.getTransform().transformPoint(mLightDesc.mPos);
 	const float		scaledRadius		= mLightDesc.mRadius;
 	const float		sqrRadius			= scaledRadius * scaledRadius;
 
@@ -80,14 +84,14 @@ bool Light::addOccluder(const Shape &occluder)
 	// Generate occluder's edges & store points
 	for (unsigned int ptIdx = 0; ptIdx != ptsCount - 1; ptIdx++)
 	{
-		const Vector2f &pt1 = occluder.GetPointPosition(ptIdx);
-		const Vector2f &pt2 = occluder.GetPointPosition(ptIdx + 1);
+		const Vector2f &pt1 = occluder.getPoint(ptIdx);
+		const Vector2f &pt2 = occluder.getPoint(ptIdx + 1);
 		edges.push_back(Edge2f(pt1, pt2));
 
 		sf::Vector2f diff(occLocalLPos - pt1);
 		points.push_back(Pointf(pt1, dot(diff, diff)));
 	}
-	const Vector2f &lastPoint = occluder.GetPointPosition(ptsCount - 1);
+	const Vector2f &lastPoint = occluder.getPoint(ptsCount - 1);
 	edges.push_back(Edge2f(lastPoint, points[0].mPos, true));
 
 	sf::Vector2f diff(occLocalLPos - lastPoint);
@@ -109,7 +113,7 @@ bool Light::addOccluder(const Shape &occluder)
 	// Special case: simple line, no need to think long
 	if (edges.size() == 1)
 	{
-		Edge2f globalEdge(occluder.TransformToGlobal(edges[0].v1), occluder.TransformToGlobal(edges[0].v2));
+		Edge2f globalEdge(occluder.getInverseTransform().transformPoint(edges[0].v1), occluder.getInverseTransform().transformPoint(edges[0].v2));
 		generateShadowFromLine(edges[0]);
 		return true;
 	}
@@ -174,7 +178,7 @@ bool Light::addOccluder(const Shape &occluder)
 	const Vector2f &v2 = lightPosIt == lastIt	? (*firstIt).mPos	: (*(lightPosIt + 1)).mPos;
 	const Edge2f occludingEdge(v1, v2);
 
-	Edge2f globalEdge(occluder.TransformToGlobal(occludingEdge.v1), occluder.TransformToGlobal(occludingEdge.v2));
+	Edge2f globalEdge(occluder.getInverseTransform().transformPoint(occludingEdge.v1), occluder.getInverseTransform().transformPoint(occludingEdge.v2));
 	generateShadowFromLine(globalEdge);
 
 	return true;
@@ -185,7 +189,7 @@ void Light::DrawShadows(RenderTarget &target) const
 	if (mIsInside)
 		return;
 
-	for_each(mShadows.begin(), mShadows.end(), [&] (const ShapePtr &shadow) { target.Draw(*shadow); } );
+	for_each(mShadows.begin(), mShadows.end(), [&] (const ShapePtr &shadow) { target.draw(*shadow); } );
 }
 
 void Light::DebugDraw(RenderTarget &target) const
@@ -193,8 +197,8 @@ void Light::DebugDraw(RenderTarget &target) const
 	if (mIsInside)
 		return;
 
-	target.Draw(shapeFromCircle(mLightDesc, Color(150, 150, 30, 64)));
-	target.Draw(Shape::Circle(mLightDesc.mPos, 3, Color::Yellow));
+	target.draw(*shapeFromCircle(mLightDesc, Color(150, 150, 30, 64)));
+    target.draw(*shapeFromCircle(sfge::Circle<float>(mLightDesc.mPos, 3), Color::Yellow));
 }
 
 void Light::generateShadowFromLine(Edge2f &e)
@@ -250,18 +254,22 @@ void Light::generateShadowFromLine(Edge2f &e)
 		endPoints[i] += diff * extrudeLen;
 	}
 
-	ShapePtr shadow(new Shape);
-	shadow->AddPoint(e.v1, mShadowFill, mShadowOutline);
+    // Generate shadow SFML shape
+	std::shared_ptr<sf::ConvexShape> shadow(new sf::ConvexShape(2 + endPoints.size()));
+    shadow->setFillColor(mShadowFill);
+    shadow->setOutlineColor(mShadowOutline);
+	shadow->setOutlineThickness(1.f);
 
+    unsigned int ptIndex = 0;
+	shadow->setPoint(ptIndex++, e.v1);
 	for_each(endPoints.begin(), endPoints.end(),
 		[&] (const Vector2f &v)
 		{
 			sf::Color endShadowFill(mShadowFill);
 			endShadowFill.a = static_cast<Uint8>(endShadowFill.a * 0.25f);
-			shadow->AddPoint(v, endShadowFill, mShadowOutline);
+			shadow->setPoint(ptIndex++, v);
 		} );
-	shadow->AddPoint(e.v2, mShadowFill, mShadowOutline);
-	shadow->SetOutlineThickness(1.f);
+	shadow->setPoint(ptIndex++, e.v2);
 		
 	mShadows.push_back(shadow);
 }

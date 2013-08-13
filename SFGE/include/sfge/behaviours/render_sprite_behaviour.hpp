@@ -23,7 +23,7 @@ namespace sfge
 
 	private:
 		SpritePtr		mSprite;
-		ImagePtr		mImage;
+		TexturePtr		mTexture;
 	};
 }
 

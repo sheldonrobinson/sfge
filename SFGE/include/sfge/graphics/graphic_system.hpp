@@ -57,7 +57,6 @@ namespace sfge
 
 		void SetGame(Game *g)		{ mGame = g; }
 
-		const sf::Input& GetInput();
 		sf::RenderWindow& GetCurrentRenderWindow();
 		sf::RenderTarget& GetCurrentRenderTarget();
 

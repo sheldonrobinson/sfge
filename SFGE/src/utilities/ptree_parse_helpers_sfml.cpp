@@ -27,10 +27,10 @@ void sfge::parseTo<IntRect>(const ptree &ptree, IntRect &out)
 
 	ptree::const_assoc_iterator it = ptree.ordered_begin();
 	
-	out.Left	= it->second.get_value<int>();		++it;
-	out.Top		= it->second.get_value<int>();		++it;
-	out.Width	= it->second.get_value<int>();		++it;
-	out.Height	= it->second.get_value<int>();
+	out.left	= it->second.get_value<int>();		++it;
+	out.top		= it->second.get_value<int>();		++it;
+	out.width	= it->second.get_value<int>();		++it;
+	out.height	= it->second.get_value<int>();
 }
 
 template <>

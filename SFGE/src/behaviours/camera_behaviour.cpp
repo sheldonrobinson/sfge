@@ -40,9 +40,9 @@ void CameraBehaviour::OnAttributeChanged(const Message &msg)
 			const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 			assert(pos.IsValid());
 			
-			View view = GraphicSystem::getSingleton().GetCurrentRenderTarget().GetView();
-			view.SetCenter(pos);
-			GraphicSystem::getSingleton().GetCurrentRenderTarget().SetView(view);
+			View view = GraphicSystem::getSingleton().GetCurrentRenderTarget().getView();
+			view.setCenter(pos);
+			GraphicSystem::getSingleton().GetCurrentRenderTarget().setView(view);
 		}
 		break;
 
@@ -51,10 +51,10 @@ void CameraBehaviour::OnAttributeChanged(const Message &msg)
 			const Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
 			assert(scale.IsValid());
 			
-			View view = GraphicSystem::getSingleton().GetCurrentRenderTarget().GetView();
-			const Vector2f &currSize = view.GetSize();
-			view.SetSize(currSize.x * scale->x, currSize.y * scale->y);
-			GraphicSystem::getSingleton().GetCurrentRenderTarget().SetView(view);
+			View view = GraphicSystem::getSingleton().GetCurrentRenderTarget().getView();
+			const Vector2f &currSize = view.getSize();
+			view.setSize(currSize.x * scale->x, currSize.y * scale->y);
+			GraphicSystem::getSingleton().GetCurrentRenderTarget().setView(view);
 		}
 		break;
 	}

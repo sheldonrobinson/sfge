@@ -121,9 +121,9 @@ void Game::ProcessOneFrame()
 	gfxSys.UpdateEvents();
 	gfxSys.PreRender();
 
-	const float dt = mClock.GetElapsedTime();
+	const float dt = mClock.getElapsedTime().asSeconds();
 	for_each(mObjects.begin(), mObjects.end(), [&] (GameObjectWeakPtr go) { go.lock()->Update(dt); } );
-	mClock.Reset();
+	mClock.restart();
 
 	gfxSys.PostRender();
 }
@@ -134,7 +134,7 @@ void Game::Run()
 	
 	GraphicSystem &gfxSys = GraphicSystem::getSingleton();
 
-	mClock.Reset();
+	mClock.restart();
 
 	while(!mQuitFlag && GraphicSystem::getSingleton().IsMainWindowOpened())
 		ProcessOneFrame();

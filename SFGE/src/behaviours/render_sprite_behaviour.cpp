@@ -40,20 +40,8 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 	const std::string &src = params.get("source", "");
 	assert(!src.empty());
 		
-	mImage = ImagePtr(new Image());
-	mImage->LoadFromFile(mOwner.lock()->GetGame()->GetImagesFolder() + "/" + src);
-
-	mSprite = SpritePtr(new Sprite(*mImage));
-	
-	// Apply origin if found
-	const Parameters &origin = params.get_child("origin", defParams);
-	if (origin.size() > 0)
-		parseTo(origin, *GetAttribute<Vector2f>(AK_Origin));
-
-	// Apply smoothing
-	optional<bool> smooth = params.get_optional<bool>("smooth");
-	if (smooth)
-		mImage->SetSmooth(*smooth);
+	Image img;
+	img.loadFromFile(mOwner.lock()->GetGame()->GetImagesFolder() + "/" + src);
 
 	// Apply keycolor
 	const Parameters &keyColorParams = params.get_child("keyColor", defParams);
@@ -63,8 +51,23 @@ void RenderSpriteBehaviour::OnParamsReceived(const Parameters &params)
 		parseTo(keyColorParams, keyColor);
 		Uint8 kcoa = params.get("keyColorOutA", 0);
 
-		mImage->CreateMaskFromColor(keyColor, kcoa);
+		img.createMaskFromColor(keyColor, kcoa);
 	}
+
+    mTexture = TexturePtr(new Texture());
+    mTexture->loadFromImage(img);
+
+	mSprite = SpritePtr(new Sprite(*mTexture));
+	
+	// Apply origin if found
+	const Parameters &origin = params.get_child("origin", defParams);
+	if (origin.size() > 0)
+		parseTo(origin, *GetAttribute<Vector2f>(AK_Origin));
+
+	// Apply smoothing
+	optional<bool> smooth = params.get_optional<bool>("smooth");
+	if (smooth)
+		mTexture->setSmooth(*smooth);
 
 	// Apply anything we're interested in due to unknown initialization order
 	if (mSprite)
@@ -108,29 +111,29 @@ void RenderSpriteBehaviour::ApplyTransform()
 {
 	const Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
 	assert(pos.IsValid());
-	mSprite->SetPosition(pos);
+	mSprite->setPosition(pos);
 	
 	const Attribute<Vector2f> scale = GetAttribute<Vector2f>(AK_Scale);
 	assert(scale.IsValid());
-	mSprite->SetScale(scale);
+	mSprite->setScale(scale);
 }
 
 void RenderSpriteBehaviour::ApplyRender()
 {
 	const Attribute<Color> col = GetAttribute<Color>(AK_Color);
 	assert(col.IsValid());
-	mSprite->SetColor(col);
+	mSprite->setColor(col);
 	
 	const Attribute<Vector2f> origin = GetAttribute<Vector2f>(AK_Origin);
 	assert(origin.IsValid());
-	mSprite->SetOrigin(origin);
+	mSprite->setOrigin(origin);
 	
 	const Attribute<IntRect> region = GetAttribute<IntRect>(AK_SpriteRegion);
 	assert(region.IsValid());
-	if (region->Top != -1 && region->Left != -1 && region->Width != -1 && region->Height != -1)
-		mSprite->SetSubRect(region);
+	if (region->top != -1 && region->left != -1 && region->width != -1 && region->height != -1)
+		mSprite->setTextureRect(region);
 	else
-		mSprite->SetSubRect(IntRect(0, 0, mImage->GetWidth(), mImage->GetHeight()));
+        mSprite->setTextureRect(IntRect(0, 0, mTexture->getSize().x, mTexture->getSize().y));
 }
 
 }

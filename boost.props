@@ -4,13 +4,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>F:\libs\boost\boost_1_44;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\libs\boost\boost_1_44\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>F:\libs\boost\boost_1_44;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalLibraryDirectories>F:\libs\boost\boost_1_44\lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Lib>
     <Link>
       <AdditionalLibraryDirectories>F:\libs\boost\boost_1_44\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -8,15 +8,16 @@ namespace sfge
 	template <typename VectorStorageT>
 	struct Circle
 	{
-		typedef Circle<VectorStorageT>			self_type;
-		typedef sf::Vector2<VectorStorageT>		vector_type;
+        typedef VectorStorageT                  type_precision;
+		typedef Circle<type_precision>			self_type;
+		typedef sf::Vector2<type_precision>		vector_type;
 
 		Circle() : mRadius(0)														{ ; }
 		Circle(const vector_type &p, float r) : mPos(p), mRadius(r)					{ ; }
 		Circle(const self_type &other) : mPos(other.mPos), mRadius(other.mRadius)	{ ; }
 
 		vector_type		mPos;
-		VectorStorageT	mRadius;
+		type_precision	mRadius;
 	};
 }
 

@@ -50,30 +50,30 @@ typedef std::shared_ptr<Light> LightPtr;
 bool handleEvents(Window &wnd, LightPtr light)
 {
 	Event evt;
-	while (wnd.PollEvent(evt))
+	while (wnd.pollEvent(evt))
 	{
-		switch(evt.Type)
+		switch(evt.type)
 		{
 		case Event::Closed:
 			return true;
 			break;
 
 		case Event::KeyPressed:
-			switch(evt.Key.Code)
+			switch(evt.key.code)
 			{
-			case Key::Escape:
+			case Keyboard::Escape:
 				return true;
 				break;
 
-			case Key::F1:
+			case Keyboard::F1:
 				DemoSettings::DrawOccluders = !DemoSettings::DrawOccluders;
 				break;
 
-			case Key::F2:
+			case Keyboard::F2:
 				DemoSettings::EnableLightsDebugDraw = !DemoSettings::EnableLightsDebugDraw;
 				break;
 
-			case Key::F3:
+			case Keyboard::F3:
 				DemoSettings::EnableShadowsOutline = !DemoSettings::EnableShadowsOutline;
 				break;
 			}
@@ -81,13 +81,13 @@ bool handleEvents(Window &wnd, LightPtr light)
 
 		case Event::MouseMoved:
 			if (DemoSettings::EnableManualLight || DemoSettings::EnableOnlyManualLight)
-				light->setPosition(Vector2f(static_cast<float>(evt.MouseMove.X),
-									   static_cast<float>(evt.MouseMove.Y)));
+				light->setPosition(Vector2f(static_cast<float>(evt.mouseMove.x),
+									        static_cast<float>(evt.mouseMove.y)));
 			break;
 
 		case Event::MouseWheelMoved:
 			if (DemoSettings::EnableManualLight || DemoSettings::EnableOnlyManualLight)
-				light->getRadius() += evt.MouseWheel.Delta * DemoSettings::WheelFactorToLightRad;
+				light->getRadius() += evt.mouseWheel.delta * DemoSettings::WheelFactorToLightRad;
 			break;
 		}
 	}
@@ -99,12 +99,12 @@ int main(int argc, char **argv)
 {
 	RenderWindow wnd(VideoMode(800, 600), "Test dynamic lights");
 	if (DemoSettings::EnableFrameRateLimit)
-		wnd.SetFramerateLimit(DemoSettings::FrameRateLimit);
-	wnd.Show(true);
+		wnd.setFramerateLimit(DemoSettings::FrameRateLimit);
+	wnd.setVisible(true);
 
-	Image bgImg;
-	bgImg.LoadFromFile("data/grass.png");
-	Sprite bgSpr(bgImg);
+	Texture bgTexture;
+	bgTexture.loadFromFile("data/grass.png");
+	Sprite bgSpr(bgTexture);
 
 #pragma region Generate some occluders
 	Shapes occluders(DemoSettings::OccludersCount);
@@ -115,7 +115,10 @@ int main(int argc, char **argv)
 	auto getNextOccPos = [&] () -> Vector2f { Vector2f p(cos(t) * r, sin(t) * r); t += td; return p + center; };
 	if (DemoSettings::UseBigBugOccluder)
 	{
-		occluders[0] = ShapePtr(new Shape(Shape::Rectangle(400, 300, 250.f, 50.f, Color::Cyan)));
+        std::shared_ptr<sf::RectangleShape> s(new sf::RectangleShape(sf::Vector2f(250.0f, 50.0f)));
+        s->setPosition(400.0f, 300.0f);
+        s->setFillColor(Color::Cyan);
+		occluders[0] = s;
 		occluders.resize(1);
 	}
 	else if (DemoSettings::UseSpheresAsOccluders)
@@ -123,8 +126,9 @@ int main(int argc, char **argv)
 		generate(occluders.begin(), occluders.end(),
 			[&] () -> ShapePtr
 			{
-				ShapePtr s(new Shape(Shape::Circle(0, 0, 6.f, Color::Cyan)));
-				s->SetPosition(getNextOccPos());
+                std::shared_ptr<sf::CircleShape> s(new sf::CircleShape(6.0f));
+                s->setFillColor(Color::Cyan);
+				s->setPosition(getNextOccPos());
 				return s;
 			} );
 	}
@@ -133,8 +137,9 @@ int main(int argc, char **argv)
 		generate(occluders.begin(), occluders.end(),
 			[&] () -> ShapePtr
 			{
-				ShapePtr s(new Shape(Shape::Rectangle(0, 0, 6.f, 6.f, Color::Cyan)));
-				s->SetPosition(getNextOccPos());
+                std::shared_ptr<sf::RectangleShape> s(new sf::RectangleShape(sf::Vector2f(6.0f, 6.0f)));
+                s->setFillColor(Color::Cyan);
+				s->setPosition(getNextOccPos());
 				return s;
 			} );
 	}
@@ -155,58 +160,59 @@ int main(int argc, char **argv)
 	const float autoLightsRadius = DemoSettings::OccludersRange - DemoSettings::DefaultLightsRadius * 0.5f;
 #pragma endregion
 
-	RenderImage shadowMap;
-	shadowMap.Create(800, 600);
+	RenderTexture shadowMap;
+	shadowMap.create(800, 600);
 	Sprite shadowMapSprite;
 
 	sf::Clock timer;
 	sf::Clock clock;
-	while (wnd.IsOpened())
+	while (wnd.isOpen())
 	{
 		if (handleEvents(wnd, *lights.rbegin()))
 			break;
 		
 		if (!DemoSettings::EnableOnlyManualLight)
 		{
-			lights[0]->getPosition().x = center.x + cos(timer.GetElapsedTime()) * autoLightsRadius;
-			lights[1]->getPosition().x = center.x - cos(timer.GetElapsedTime()) * autoLightsRadius;
-			lights[2]->getPosition().y = center.y + sin(timer.GetElapsedTime()) * autoLightsRadius;
-			lights[3]->getPosition().y = center.y - sin(timer.GetElapsedTime()) * autoLightsRadius;
+            const float dt = timer.getElapsedTime().asSeconds();
+			lights[0]->getPosition().x = center.x + cos(dt) * autoLightsRadius;
+			lights[1]->getPosition().x = center.x - cos(dt) * autoLightsRadius;
+			lights[2]->getPosition().y = center.y + sin(dt) * autoLightsRadius;
+			lights[3]->getPosition().y = center.y - sin(dt) * autoLightsRadius;
 		}
 
 #pragma region Update shadows
-		clock.Reset();
+		clock.restart();
 		for_each(lights.begin(), lights.end(),
 			[&] (LightPtr l)
 			{
 				l->reset();
 				l->addOccluders(occluders);
 			} );
-		cout << "Shadows generation: " << clock.GetElapsedTime() * 1000 << endl;
+		cout << "Shadows generation: " << clock.getElapsedTime().asMilliseconds() << endl;
 #pragma endregion
 
 		// Draw normally
 #pragma region Render
-		clock.Reset();
-		wnd.Draw(bgSpr);
+		clock.restart();
+		wnd.draw(bgSpr);
 
-		shadowMap.Clear(Color(0, 0, 0, 0));
+		shadowMap.clear(Color(0, 0, 0, 0));
 		for_each(lights.begin(), lights.end(), [&] (const LightPtr l) { l->DrawShadows(shadowMap); } );
 
-		shadowMap.Display();
-		shadowMapSprite.SetImage(shadowMap.GetImage());
-		wnd.Draw(shadowMapSprite);
+		shadowMap.display();
+		shadowMapSprite.setTexture(shadowMap.getTexture());
+		wnd.draw(shadowMapSprite);
 
 		if (DemoSettings::DrawOccluders)
-			for_each(occluders.begin(), occluders.end(), [&] (const ShapePtr s) { wnd.Draw(*s); } );
+			for_each(occluders.begin(), occluders.end(), [&] (const ShapePtr s) { wnd.draw(*s); } );
 
 		if (DemoSettings::EnableLightsDebugDraw)
 			for_each(lights.begin(), lights.end(), [&] (const LightPtr l) { l->DebugDraw(wnd); } );
 
-		cout << "Rendering: " << clock.GetElapsedTime() * 1000 << endl;
+		cout << "Rendering: " << clock.getElapsedTime().asMilliseconds()  << endl;
 #pragma endregion
 
-		wnd.Display();
+		wnd.display();
 	}
 
 	return 0;

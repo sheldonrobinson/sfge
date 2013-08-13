@@ -25,22 +25,17 @@ void GraphicSystem::Init()
  void GraphicSystem::Create(const InitParams &params)
  {
 	 if (params.mHandle)
-		 mRenderWindow.Create(params.mHandle, params.mContextSettings);
+		 mRenderWindow.create(params.mHandle, params.mContextSettings);
 	 else
-		 mRenderWindow.Create(params.mMode, params.mWindowTitle, params.mStyle, params.mContextSettings);
+		 mRenderWindow.create(params.mMode, params.mWindowTitle, params.mStyle, params.mContextSettings);
 
-	 mRenderWindow.SetFramerateLimit(params.mFrameRateLimit);
-	 mRenderWindow.Show(true);
+	 mRenderWindow.setFramerateLimit(params.mFrameRateLimit);
+	 mRenderWindow.setVisible(true);
  }
 
  bool GraphicSystem::IsMainWindowOpened()
  {
-	 return mRenderWindow.IsOpened();
- }
-
- const Input& GraphicSystem::GetInput()
- {
-	 return mRenderWindow.GetInput();
+	 return mRenderWindow.isOpen();
  }
  
  sf::RenderWindow& GraphicSystem::GetCurrentRenderWindow()
@@ -56,16 +51,16 @@ void GraphicSystem::Init()
  void GraphicSystem::UpdateEvents()
  {
 	Event evt;
-	while (mRenderWindow.PollEvent(evt))
+	while (mRenderWindow.pollEvent(evt))
 	{
-		switch (evt.Type)
+		switch (evt.type)
 		{
 		case Event::Closed:
-			mRenderWindow.Close();
+			mRenderWindow.close();
 			break;
 
 		case Event::KeyReleased:
-			if (evt.Key.Code == Key::F5)
+            if (evt.key.code == Keyboard::F5)
 				mGame->ReloadWorld();
 			break;
 
@@ -73,7 +68,7 @@ void GraphicSystem::Init()
 			{
 				Message msg;
 				msg.mID		= MID_MouseWheelTurned;
-				msg.mData.SetValue<int>(evt.MouseWheel.Delta);
+                msg.mData.SetValue<int>(evt.mouseWheel.delta);
 
 				MessageManager::getSingleton().Queue(msg);
 			}
@@ -84,7 +79,7 @@ void GraphicSystem::Init()
 
  void GraphicSystem::PreRender()
  {
-	 mRenderWindow.Clear();
+	 mRenderWindow.clear();
  }
 
  void GraphicSystem::PostRender()
@@ -93,12 +88,12 @@ void GraphicSystem::Init()
 		 [&] (const LayeredDrawables::value_type &entry)
 		 {
 			 if (entry.second.mShader)
-				GetCurrentRenderTarget().Draw(*entry.second.mDrawable, *entry.second.mShader);
+				GetCurrentRenderTarget().draw(*entry.second.mDrawable, RenderStates(entry.second.mShader.get()));
 			 else
-				GetCurrentRenderTarget().Draw(*entry.second.mDrawable);
+				GetCurrentRenderTarget().draw(*entry.second.mDrawable);
 		 } );
 
-	 mRenderWindow.Display();
+	 mRenderWindow.display();
 
 	 mDrawables.clear();
  }
