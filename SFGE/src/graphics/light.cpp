@@ -197,8 +197,10 @@ void Light::DebugDraw(RenderTarget &target) const
 	if (mIsInside)
 		return;
 
-	target.draw(*shapeFromCircle(mLightDesc, Color(150, 150, 30, 64)));
-    target.draw(*shapeFromCircle(sfge::Circle<float>(mLightDesc.mPos, 3), Color::Yellow));
+    const sfge::Circle<float> influence(mLightDesc.mPos - sf::Vector2f(mLightDesc.mRadius, mLightDesc.mRadius), mLightDesc.mRadius);
+    const sfge::Circle<float> point(mLightDesc.mPos - sf::Vector2f(3, 3), 3);
+	target.draw(*shapeFromCircle(influence, Color(150, 150, 30, 64)));
+    target.draw(*shapeFromCircle(point, Color::Yellow));
 }
 
 void Light::generateShadowFromLine(Edge2f &e)
