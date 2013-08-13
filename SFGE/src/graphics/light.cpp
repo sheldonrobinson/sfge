@@ -72,7 +72,7 @@ bool Light::addOccluder(const Shape &occluder)
 	if (ptsCount < 2)
 		return true;
 
-	const sf::Vector2f	occLocalLPos	= occluder.getTransform().transformPoint(mLightDesc.mPos);
+	const sf::Vector2f	occLocalLPos	= occluder.getInverseTransform().transformPoint(mLightDesc.mPos);
 	const float		scaledRadius		= mLightDesc.mRadius;
 	const float		sqrRadius			= scaledRadius * scaledRadius;
 
@@ -113,7 +113,7 @@ bool Light::addOccluder(const Shape &occluder)
 	// Special case: simple line, no need to think long
 	if (edges.size() == 1)
 	{
-		Edge2f globalEdge(occluder.getInverseTransform().transformPoint(edges[0].v1), occluder.getInverseTransform().transformPoint(edges[0].v2));
+		Edge2f globalEdge(occluder.getTransform().transformPoint(edges[0].v1), occluder.getTransform().transformPoint(edges[0].v2));
 		generateShadowFromLine(edges[0]);
 		return true;
 	}
@@ -178,7 +178,7 @@ bool Light::addOccluder(const Shape &occluder)
 	const Vector2f &v2 = lightPosIt == lastIt	? (*firstIt).mPos	: (*(lightPosIt + 1)).mPos;
 	const Edge2f occludingEdge(v1, v2);
 
-	Edge2f globalEdge(occluder.getInverseTransform().transformPoint(occludingEdge.v1), occluder.getInverseTransform().transformPoint(occludingEdge.v2));
+	Edge2f globalEdge(occluder.getTransform().transformPoint(occludingEdge.v1), occluder.getTransform().transformPoint(occludingEdge.v2));
 	generateShadowFromLine(globalEdge);
 
 	return true;
