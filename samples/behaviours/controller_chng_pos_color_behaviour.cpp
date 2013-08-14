@@ -22,9 +22,11 @@ void ControllerBehaviour::OnUpdate(float /*dt*/)
     if (newPos != mPrevMousePos)
 	{
 		Attribute<Vector2f> pos = GetAttribute<Vector2f>(AK_Position);
-		assert(pos.IsValid());
-        pos->x = static_cast<float>(newPos.x);
-		pos->y = static_cast<float>(newPos.y);
+		if(pos.IsValid())
+        {
+            pos->x = static_cast<float>(newPos.x);
+		    pos->y = static_cast<float>(newPos.y);
+        }
 
         mPrevMousePos = newPos;
 	}
@@ -33,8 +35,8 @@ void ControllerBehaviour::OnUpdate(float /*dt*/)
 	if (!mPrevLButtonState.is_initialized() || mouseLeftPressed != mPrevLButtonState)
 	{
 		Attribute<Color> col = GetAttribute<Color>(AK_Color);
-		assert(col.IsValid());
-		col = mouseLeftPressed ? Color::Blue : Color::Red;
+		if (col.IsValid())
+		    col = mouseLeftPressed ? Color::Blue : Color::Red;
 
 		mPrevLButtonState = mouseLeftPressed;
 	}
