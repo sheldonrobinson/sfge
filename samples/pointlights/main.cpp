@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 			lights[3]->getPosition().y = center.y - sin(dt) * autoLightsRadius;
 		}
 
-#pragma region Update shadows
+#pragma region Update shadows (Note: parallelize this, trivial to get speed there; provide a light manager class to help)
 		clock.restart();
 		for_each(lights.begin(), lights.end(),
 			[&] (LightPtr l)

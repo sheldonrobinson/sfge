@@ -3,6 +3,8 @@
 
 #include <sfge/infrastructure/behaviour.hpp>
 
+#include <boost/optional.hpp>
+
 class ControllerBehaviour : public sfge::Behaviour
 {
 public:
@@ -11,8 +13,8 @@ public:
 	virtual void OnUpdate(float dt) override;
 
 private:
-	unsigned int	mPrevMouseX, mPrevMouseY;
-	bool			mPrevLButtonState;
+	sf::Vector2i	        mPrevMousePos;
+	boost::optional<bool>   mPrevLButtonState;
 };
 
 #endif

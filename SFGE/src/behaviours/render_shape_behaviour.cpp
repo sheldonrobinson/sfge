@@ -36,6 +36,7 @@ void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 	// Empty Parameters used as default return value
 	const Parameters defParams;
 
+    Vector2f defaultOrigin;
 	if (params.get("shape", "") == "circle")
 	{
 		Vector2f center;
@@ -51,12 +52,16 @@ void RenderShapeBehaviour::OnParamsReceived(const Parameters &params)
 			parseTo(colorParams, color);
 
 		mShape = shapeFromCircle(sfge::Circle<float>(center, radius), color);
+        // Since SFML 2 (release version), circle's position indicate top left; until proven that majority loves it, defaults back to mid shape.
+        defaultOrigin = Vector2f(radius, radius);
 	}
 	
 	// Apply origin if found
 	const Parameters &origin = params.get_child("origin", defParams);
 	if (origin.size() > 0)
 		parseTo(origin, *GetAttribute<Vector2f>(AK_Origin));
+    else
+        *GetAttribute<Vector2f>(AK_Origin) = defaultOrigin;
 
 	// Apply anything we're interested in due to unknown initialization order
 	if (mShape)
