@@ -4,6 +4,8 @@
 #include <sfge/infrastructure/data_store.hpp>
 #include <sfge/graphics/graphic_system.hpp>
 
+#include <SFML/Window/Keyboard.hpp>
+
 using namespace sfge;
 using namespace sf;
 using namespace std;
@@ -15,9 +17,7 @@ SorloInputBehaviour::SorloInputBehaviour(GameObjectWeakPtr owner)
 
 void SorloInputBehaviour::OnUpdate(float /*dt*/)
 {
-	const sf::Input	&input(GraphicSystem::getSingleton().GetInput());
-
-	const bool rightKeyPressed = input.IsKeyDown(Key::Right);
+    const bool rightKeyPressed = sf::Keyboard::isKeyPressed(Keyboard::Right);
 	if (rightKeyPressed != mRightKeyPressed)
 	{
 		if (rightKeyPressed)
@@ -28,7 +28,7 @@ void SorloInputBehaviour::OnUpdate(float /*dt*/)
 		mRightKeyPressed = rightKeyPressed;
 	}
 
-	const bool lctrlKeyPressed = input.IsKeyDown(Key::LControl);
+	const bool lctrlKeyPressed = sf::Keyboard::isKeyPressed(Keyboard::LControl);
 	if (lctrlKeyPressed != mLCtrlKeyPressed)
 	{
 		if (lctrlKeyPressed)
