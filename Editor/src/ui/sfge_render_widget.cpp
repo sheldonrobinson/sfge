@@ -42,8 +42,8 @@ void SFGERenderWidget::InitSFGE()
 	{
 		GraphicSystem::InitParams initParams;
 		initParams.mHandle		= winId();
-		initParams.mMode.Width	= width();
-		initParams.mMode.Height	= height();
+		initParams.mMode.width	= width();
+		initParams.mMode.height	= height();
 
 		GraphicSystem::getSingleton().Create(initParams);
 
@@ -72,7 +72,7 @@ void SFGERenderWidget::resizeEvent(QResizeEvent*)
 				h = static_cast<float>(height());
 
 	RenderWindow &renderWin = GraphicSystem::getSingleton().GetCurrentRenderWindow();
-	View view(renderWin.GetView());
-	view.SetSize(w, h);
-	renderWin.SetView(view);
+	View view(renderWin.getView());
+	view.setSize(w, h);
+	renderWin.setView(view);
 }
